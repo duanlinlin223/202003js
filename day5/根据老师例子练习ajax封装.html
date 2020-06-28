@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript">
+        // url  type   async  cache   success  data
+        function ajax(options){
+            let default_op = {
+                url :window.location.href,
+                async:true,
+                type:"get",
+                cache:true,
+                data:null,
+                success:null
+            }
+            for(let key in default_op){
+                default_op[key] = options[key]
+            }
+            if(default_op.type === 'get'){
+                let str = "?";
+                for(let key in default_op.data){
+                    str = `${key} = ${default_op.data[key]}&`
+                }
+                str = str.slice(0,str.length-1)
+                default_op.url += str;
+                default_op.data=null;
+            }
+
+            if(!default_op.cache){
+                //让get请求不走缓存
+                default_op.url=`&time${Date now()}` 
+            }
+
+            let xhr = new XMLHttpRequest();
+            xhr.open(default_op.type,default_op.url,default_op.async)
+            xhr.onreadystateChange=function(){
+                if(xhr.readyState===4&&/^2\d{2}$/.test(xhr.status)){
+                    let val = JSON.parse(xhr.responseText);
+                    default_op.success(val);
+                }
+            }
+            xhr.send(default_op.data)
+        }
+
+
+        ajax({
+            url: "js/regionData",
+            data:{
+                user:"zhufeng",
+                password:"123"
+            },
+            async:true,
+            type:"get"
+            success:function(data){
+                console.log(data)
+            }
+            cache:true;
+
+        })
+    </script>
+</body>
+</html>

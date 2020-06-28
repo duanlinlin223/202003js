@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script type="text/javascript">
+    // let p1 = new Promise(function(resolve,reject){
+    //     setTimeout(function(){
+    //         resolve(100)
+    //     },100)
+    // })
+    // let p2 = new Promise(function(resolve,reject){
+    //     setTimeout(function(){
+    //         resolve()
+    //     },200)
+    // })
+    // let p3 = new Promise(function(resolve,reject){
+    //     setTimeout(function(){
+    //         resolve(300)
+    //     },300)
+    // })
+    // let p = Promise.all([p1,p2,p3])
+    // p.then(function(data){
+    //     console.log('success')
+    //     console.log(data)
+    // },function(){
+    //     console.log('fail')
+    // })
+
+
+    let p1= new Promise(function(resolve,reject){
+        //reject(1);
+        setTimeout(function(){
+            reject(1);
+        },2000)
+        
+    })
+    let p2= new Promise(function(resolve,reject){
+        
+        setTimeout(function(){
+            resolve(2);
+        },500)
+    })
+    let p3= new Promise(function(resolve,reject){
+        
+        setTimeout(function(){
+            resolve(3);
+        },300)
+    })
+
+    let p = Promise.race([p1,p2,p3])//race赛跑的意思，谁先resolve成功就只接受这一个成功的，不
+
+    // Promise.race: 应用于多个promise实例；返回一个新的promise实例，新的promise实例受谁的状态先发生改变，那就受谁控制；同时，先改变的那个promise的实例通过resolve传参
+    
+    p.then(function(data){
+        console.log('chenggong')
+        console.log(data)
+    },function(){
+        console.log('shibai')
+    })
+    </script>
+</body>
+</html>

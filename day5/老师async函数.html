@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // function* fn(){
+        //     yield 100;
+        //     yield 200;
+        //     return 300;
+        // }
+        // let t = fn();
+        // t.next();
+        // t.next();
+
+        // async : 有内置的执行器；
+        // function fn1(){
+        //     console.log(100);
+        //     return 1;
+        // }
+        // // awair : 下面的代码是异步的
+        // async function fn(){
+        //     let res = await fn1();
+        //     console.log(res);// undefined
+        //     console.log(200);
+        // }
+        // fn();
+        // console.log(300); // 100  300  200;
+
+
+
+        // function fn1(){
+        //     console.log(100);
+        //     return new Promise(function(resolve,reject){
+        //         resolve(888);
+        //     })
+        // }
+        // // awair : 下面的代码是异步的
+        // async function fn(){
+        //     let res = await fn1();
+        //     // 1.如果fn1，返回一个promise的实例，那么await下面的代码都是fn1中返回的promise实例then的成功的回调函数中；
+        //     // 2. await函数的返回值res,是fn1中promise实例中resolve传递的实参；
+        //     console.log(res);// undefined
+        //     console.log(200);
+        // }
+        // fn();
+        // console.log(300);
+
+        // 异步的请求
+        function getData(url){
+            // 返回一个promise实例
+            return axios.get(url);
+        };
+        async function fn(){
+            let data = await getData("lyric.json");
+            // 下面的循环会等到上面的异步的请求成功之后，把请求回来的数据给了data这个变量，才会往下执行；
+            // 下面这行想着是异步成功以后，再循环；
+            for(let i=0;i<data.length;i++){
+            }
+        }
+        
+
+        
+        
+    </script>
+</body>
+</html>

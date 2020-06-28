@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <iframe src="http://127.0.0.1:8080/postMessage跨域.html" frameborder="0" id="frm"></iframe>
+    <input type="button" value="Ok" onclick="run()">
+    <script>
+        // 跨域有几种方式
+        // JSONP的原理
+        // JSONP的缺点；
+
+        // JSONP  cros  document.domain  document.iframe  window.name  postMessage    
+        // webpack proxy;
+        // 不同域之间页面的数据传递；
+        // iframe的postMessage这个方法向不同域名下的html发送数据；
+        function run(){
+            let frm = document.getElementById("frm");
+            // frm 是iframe标签的元素对象，有个属性交contentWindow 是内容窗口； 上面有个方法是postMessage(消息，域名)
+            frm.contentWindow.postMessage({name:"老纪和老魏"},"http://127.0.0.1:8080");
+        }
+    </script>
+</body>
+</html>

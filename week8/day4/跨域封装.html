@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1593153726587&di=285fc62393bceeda1b568a90d6f00b6b&imgtype=0&src=http%3A%2F%2Fpic.baike.soso.com%2Fp%2F20140523%2Fbki-20140523192937-1388881687.jpg" alt="">
+    <script>
+        // 跨域： 同源和非同源
+        // 非同源：
+        // ajax : 同源；请求访问只能访问同源的；协议相同，域名相同，端口号相同
+        // axios : 基于ajax封装 $.ajax
+        // 项目部署在8000端口上，发送请求，但是服务器的数据不是8000端口上；
+        // 公司项目不是一个； 官网 OA管理系统  CRM系统 PC端  移动端;每个都会有自己的端口；官网想请求访问OA系统的数据；
+        // jsonp  : 利用了script的非同源策略，允许从一个项目访问另一个项目，当数据请求成功之后，会默认调用跨域地址后面的callback回调函数；
+        // jsonp需要后端配合的；
+
+        // function fn(data){
+        //     // data就是数据
+        // }
+
+        // img的src也是非同源的；
+        // script的src  浏览器的地址栏 ajax  img的src  link的href 都可以向服务器发送请求
+        // script ： get 请求；
+        // res.send(fn(data))
+
+        // $.ajax({
+        //     url:"http:www.baidu.com",
+        //     dataType:"jsonp",
+        //     success:function(data){
+        //     }
+        // })
+        // jsonp
+        // jsonp({url:"/login",params:{user:666888},cb:"fn"}).then(data=>{
+        //     // data： 就是成功返回来的数据
+        // });
+        function jsonp(options){
+            return new Promise(function(resolve,reject){
+                // 给window创建一个全局的函数；
+                window[options.cb]=function(data){
+                    resolve(data);
+                    document.body.removeChild(script);
+                }
+                let script = document.createElement("script");
+                let str = `${options.url}?`;
+                //传过来的参数拼接
+                for(let key in options.params){
+                    str+=key+"="+options.params[key]+"&"
+                }
+                //请求地址拼接callback回调函数
+                str+="callback="+options.cb;
+                script.src = str;  //给创建的script标签的src放入跨域链接
+                document.body.appendChild(script);
+            })
+        }
+        // http://matchweb.sports.qq.com/kbs/calendar?columnId=100000&callback=arun
+        jsonp({url:"http://matchweb.sports.qq.com/kbs/calendar",params:{columnId:100000},cb:"fn"}).then(data=>{
+            console.log(data);
+        })
+
+
+
+        // find   filter  every some   reudce   includes   flat
+    </script>
+    <!-- <script src="http://www.baidu.com?callback=fn"></script> -->
+</body>
+</html>

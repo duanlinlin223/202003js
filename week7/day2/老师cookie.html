@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // cookie : 存在于客户端的  有过期时间；
+        // 为什么要有cookie？
+        // 1. http无状态，不知道是否当前已经登录；
+        // 2. 登录成功以后，半个小时以内没有任何操作，登录失效
+        // 3. cookie解决了每次请求传用户名的问题；
+        // 加入购物车 ：当魏威杰点击加入购物车时，肯定是魏威杰肯定是把用户名和密码传给了服务器上，把这个商品放到了魏威杰对应的数据库中；
+
+        // 只要前端存在cookie,那么每次浏览器发送请求都会携带着cookie的信息发送给服务器；ajax不需要配置任何的关于cookie参数;
+        $.ajax({
+            url:"/purchase",
+            data:{},
+            success:function(){
+
+            }
+        });
+
+        // cookie 
+        // 1. 大小限制：一般浏览器cookie最多存储8K;localstorage允许存储5M；
+        // 2. cookie能够兼容所有浏览器，但是localStorage是H5新增的，不兼容低版本的IE；
+        // 3. 稳定性：cookie有过期时间（清除浏览器缓存或历史信息，或者清理电脑垃圾，都有可能删除cookie）
+        // 4. 浏览器开启无痕模式或隐私模式，此时没有办法设置cookie,但是localStorage可以
+        // 5.cookie有过期时间，localStorage永久存储
+        // 6. cookie经常和服务器的session有关，cookie也会传给度武器，服务器也返回cookie,经常用途客户端和服务器信息传递；
+
+
+
+        // session:服务器存储数据的一个技术；
+        let  session = {};
+        let val  = Math.random()+Date.now(); // 
+        session[val]={user:"zfpx",password:"112233"};
+        session["sessionid"]={val:{user:"zfpx",password:"12344"}}
+
+        // session 服务器存储
+        // 当登录成功以后，服务器会生成一个session文件，
+        // 这个session文件会利用有一个sessionid;这个对应会对应的生成cookie值；
+        // 并且存储了该用户用户信息，然后会在客户端种一个cookie；这个cookie会有过期时间，
+        // 当客户端再次发送请求时，会携带着这个cookie，后端就可以验证这个用户信息；
+
+    
+    
+    </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script type="text/javascript">
+    // let p1 = new Promise(function(resolve,reject){
+    //     setTimeout(function(){
+    //         resolve(100)
+    //     },100)
+    // })
+    // let p2 = new Promise(function(resolve,reject){
+    //     setTimeout(function(){
+    //         resolve()
+    //     },200)
+    // })
+    // let p3 = new Promise(function(resolve,reject){
+    //     setTimeout(function(){
+    //         resolve(300)
+    //     },300)
+    // })
+    // let p = Promise.all([p1,p2,p3])
+    // p.then(function(data){
+    //     console.log('success')
+    //     console.log(data)
+    // },function(){
+    //     console.log('fail')
+    // })
+
+
+    let p1= new Promise(function(resolve,reject){
+        resolve();
+        setTimeout(function(){
+            console.log(100)
+        },100)
+        
+    })
+    let p2= new Promise(function(resolve,reject){
+        resolve();
+        setTimeout(function(){
+            console.log(200)
+        },200)
+    })
+    let p3= new Promise(function(resolve,reject){
+        resolve();
+        setTimeout(function(){
+            console.log(300)
+        },300)
+    })
+
+    let p = Promise.all([p1,p2,p3])
+    p.then(function(){
+        console.log('chenggong')
+    },function(){
+        console.log('shibai')
+    })
+    </script>
+</body>
+</html>

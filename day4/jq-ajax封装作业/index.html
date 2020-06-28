@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script src="js/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(function(){
+
+
+        function _ajax(_ajaxUrl,_type,async,_dataType,successFn,errorFn,state){
+            $.ajax({
+                url:_ajaxUrl,
+                type:_type,
+                async:async,
+                dataType:_dataType,
+                success:function(res){
+                    successFn(res)
+                    //console.log(res)
+                },
+                error:function(res){
+                    errorFn(res)
+                },
+                cache:state
+            })
+        }
+        var _ajaxUrl = "js/test.json";
+        // var _data = {
+        //     username:'hanmeimei',
+        //     possword:'1234567890'
+        // }
+
+        _ajax(_ajaxUrl,'get','true','json',function(res){
+            
+            $(res).each(function(i,items){
+                console.log(items.name)
+            })
+        },function(res){
+            console.log(res)
+        },true)
+    })
+
+
+
+    </script>
+</body>
+</html>

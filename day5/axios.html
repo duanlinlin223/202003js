@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>axios</title>
+</head>
+<body>
+    <script src="node_modules/axios/dist/axios.js"></script>
+    <script type="text/javascript">
+    //axios.get  将参数放在params 对象里
+    // axios.get('js/regionData.json',{
+    //     params:{
+    //         user:1
+    //     }
+    // }).then(function(data){
+    //     let a = data.data
+    //     console.log(a)
+    // })
+
+        //axios.post 直接将参数作为对象传入
+        // axios.post('js/regionData.json',{user:1}).then(function(data){
+        //     let a = data.data
+        //     console.log(a)
+        // })
+
+
+        //axios.all  并发请求
+        // function axios1(){
+        //     return axios.get('js/regionData.json',{user:1}).then(function(data){
+        //         let a = data.data
+        //         console.log(a)
+        //     })
+        // }
+        // function axios2(){
+        //     return axios.get('js/regionData.json',{user:1}).then(function(data){
+        //         let b = data.data
+        //         console.log(b)
+        //     })
+        // }
+        // axios.all([axios1(),axios1()]).then(axios.spread(function(a1,a2){
+
+        // }))
+
+
+
+        //axios拦截器  拦截前
+        axios.interceptors.request.use(function(config){
+            console.log("1")
+            return config
+        }, function (error) {
+            // 对请求错误做些什么
+            return Promise.reject(error);
+          })
+        //拦截响应体
+
+        // axios.interceptors.response.use(function(res){
+        //     console.log(res)
+        //     return res.data;
+        // })
+
+        axios.post('js/regionData.json',{user:1}).then(function(data){
+            // let a = data.data
+            console.log(data)
+        })
+
+    </script>
+</body>
+</html>

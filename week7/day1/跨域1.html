@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+</head>
+<body>
+    <script type="text/javascript">
+        //跨域例子
+        // $.ajax({
+        //     url:'http://matchweb.sports.qq.com/kbs/calendar?columnId=100000&callback=fn',
+        //     type:'get',
+        //      dataType:'jsonp',
+        //      jsonp: "jsonpCallback",
+        //     success:function(data){
+        //         console.log(data)
+        //     }
+        // })
+
+        //解决跨域的方案有很多：cros  window.name  postmessage websocket  document.domain ngix
+        //目前跨越一般采用 cros
+
+        // JSONP原理： 利用了script的src属性是非同源侧类的，那么就可以获取非同源的数据，当数据请求成功以后，再调用callBack的回调函数，会把请求回来的数据传递给这个回调函数的第一个参数；
+
+
+        //script的标签上的src是非同源策略，可以支持跨域请求，callback后面等号上的函数名和上面的函数名必须保持一致
+
+        //JSONP 解决跨域   缺点 ：只能发送get请求，不能发送post请求
+        function fn(data){
+            console.log(data)
+        }
+    </script>
+    <script src="http://matchweb.sports.qq.com/kbs/calendar?columnId=100000&callback=fn"></script>
+</body>
+</html>

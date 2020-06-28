@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //重写promise,利用js来实现和promise一样的功能
+        //Promise源码  PromiseA+规范
+
+        class MyPromise{
+            constructor(excutor){//当new promise时 constructor会执行
+                //this==>MyPromise
+                //pending fulfilled rejected  三个状态
+                this.state = 'pending';//创建实例的时候，promise的状态是 pending状态
+                this.fulfiledEvent = [];
+                this.rejectedEvent = [];
+                let resolve = (result)=>{
+                    if(this.state!=='pending')return;
+                    this.state = 'fulfilled';
+                    //防止定时器累加
+                    clearTimeout(this.timer)
+                    this.timer = setTimeout(() => {
+                        this.fulfiledEvent.forEach(item=>{
+                            if(typeof item ==='function'){
+                                item()
+                            }
+                        })
+                    }, 0);
+                }
+                let reject = (result)=>{
+                    if(this.state!=='pending')return;
+                    this.state = 'rejected';
+                    //防止定时器累加
+                    clearTimeout(this.timer)
+                    this.timer = setTimeout(() => {
+                        this.rejectedEvent.forEach(item=>{
+                            if(typeof item ==='function'){
+                                item()
+                            }
+                        })
+                    }, 0);
+                }
+                //函数执行的位置是实参，定义的位置是实参
+                try{
+                    excutor(resolve,reject) //两个参数应该是两个函数
+                }catch(e){
+                    reject(e)
+                }
+                
+            }
+            //then仅仅是订阅，把resolve和reject放在事件池中，并不是让他俩运行
+            then(resolveFn,rejectFn){
+                this.fulfiledEvent.push(resolveFn)
+                this.rejectedEvent.push(rejectFn)
+            }
+
+        }
+
+        //then是promise原型上的方法
+        let p1 = new MyPromise(function(resolve,reject){
+            reject()
+        });
+        p1.then(function(){
+            console.log('成功')
+        },function(){
+            console.log('失败')
+        })
+        console.log(p1);
+        
+        
+
+
+    </script>
+</body>
+</html>

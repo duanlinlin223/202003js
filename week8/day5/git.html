@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //git pull 拉取代码
+        //git是一个分布式的管理代码
+        //git init 初始化一个git仓库；这个仓库就分为工作区  暂存区 历史区
+        //git status 查看项目文件的状态；在哪个区 代码 红色 代表工作区  绿色代表暂存区
+        //git add . 把工作区的文件代码复制一份到暂存区
+        //git rm --cached  文件名   把暂存区的代码删除 
+
+
+        //历史区
+        //git commit -m'注释'   把暂存区的代码提交到历史区
+        // git 每次向历史区提交一次，就会默认生成一个id；这个id就是提交的版本号，可以根据版本号回退到相应的版本上
+        //git log  查看历史提交的版本号
+        //git reset --hard  版本号
+
+        
+        //远程仓库  gitLab gitHub   公司自己的服务器
+        //一个本地仓库可以绑定多个远程仓库
+        //git remote -v  查看远程仓库的关联情况
+        //git remote add  仓库名 +远程仓库地址  
+        //git push 仓库名 master(主干)
+        //git pull 仓库  master 
+        //git clone 仓库地址
+
+        //git branch dev  创建dev分支
+        //git branch  查看分支  命令后面什么都不跟
+        //git config   --global user.email""   绑定邮箱
+
+        //git checkout 分支名 切换分支
+        //把代码提交到了dev的分支的历史区;每个分支都有自己的独立的暂存区 历史区
+
+        //当改变分支的文件内容时，主干的代码不发生任何变化；
+
+        //在master主干下  git merge dev(分支名)  将分支的代码合并到主干上
+
+        //代码冲突  当两个人同时改了同一行代码，第一个人把代码改了55行并且提交了，第二个人也改了55行 ，第二个人提交就会有冲突了 ，因为两个人同时改了一个地方
+        //给你一个地址；
+        //git clone 地址 克隆下来之后 切换到分支上在修改  尽量不在主干上操作
+    </script>
+</body>
+</html>

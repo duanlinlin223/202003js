@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // ajax： 是前端和后端交互的一种技术；
+        // readState    status    请求方式 get post  
+        // jquery的ajax  参数
+        // promise 的ajax  
+        // axios  fetch 
+        // 从浏览器输入url开始到页面渲染，发生了什么？
+        //
+        function foo(){
+            console.log(100);
+            return new Promise(function(resolve,reject){
+                resolve(888);
+            });
+        }
+        //async 会返回一个promise函数
+        async function fn(){
+            let res  = await foo();
+            // 如果return不是promise的实例，那么返回值就是return的结果
+            // 如果return一个promise实例，那么await下面的代码就收返回的promise实例的影响；会把await下面的代码作为promise实例成功的回调中；
+            // await下面的代码是异步的；
+            console.log(300)
+            console.log(res);  
+        } ;
+        fn();
+        console.log(200);
+        
+
+
+    
+    
+    
+    </script>
+</body>
+</html>

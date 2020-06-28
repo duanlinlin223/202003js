@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 生产环境： 线上的环境，没有bug，经过反复测试过的代码；所有人都可以访问；
+        // 开发环境： 正在编写的代码的这个环境
+        // 测试环境： 把项目部署到测试环境，生成一个链接，给了测试人员进行测试；
+
+        // 项目：放在远程仓库上；项目A==> 远程仓库地址；主干
+        // 从主干打出一个分支来；开发的过程向分支提交代码，主干不变；
+        // 项目100个页面；项目进行到30个页面就要上线；
+        // 小明和小鹏 ： 30-40个页面
+        // 小刚和小王 ： 41-50个页面
+
+        // git init : 初始化一个git仓库
+        // git add .
+        // git commit -m"a";
+        // git branch  dev(自定义) : 创建一个dev的分支
+        // git branch ： 查看分支；dev master
+        // 一个主干可以开出多个分支来
+        // git checkout dev: 切换分支 
+        // 把代码提交到了dev这个分支的历史区；每个分支都有自己独立的暂存区 历史区；
+
+        // 当改变分支的文件内容时，主干的代码不发生任何变化；
+        // 在master下，执行命令git merge  分支名称；将分支的代码合并到主干上；
+
+        // 代码冲突：当两个人同时改了同一行代码第一个人把代码改了55行并且提交了，第二个人也改了55行，第二个提交就会有冲突，因为两个人同时改了一个地方；
+        // 55行代码： 珠峰培训1   珠峰培训2  珠峰培训1    珠峰培训1 珠峰培训2
+
+        // 给你一个地址；
+        // git clone  地址;
+        // git checkout  dev;
+
+    
+    
+    </script>
+</body>
+</html>

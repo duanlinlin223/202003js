@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // class   Promise
+        class MyPromise{
+            constructor(excutor){
+                // 有状态
+                this.state = "pending";
+                this.fulfilledEvent=[];
+                this.rejectedEvent=[];
+                let  resolve=()=>{
+                    if(this.state!=="pending")return;
+                    this.state="fulfilled";
+                    clearTimeout(this.timer);
+                    this.timer  = setTimeout(()=>{
+                        this.fulfilledEvent.forEach(item=>{
+                            if(typeof item==="function"){
+                                item();
+                            }
+                        })
+                    },0)
+                };
+                let  reject=()=>{
+                    if(this.state!=="pending")return;
+                    this.state="rejected";
+                    // 防止定时器
+                    clearTimeout(this.timer);
+                    this.timer=setTimeout(()=>{
+                        this.rejectedEvent.forEach(item=>{
+                            if(typeof item==="function"){
+                                item();
+                            }
+                        });
+                    },0)
+                }
+               try{
+                   // excutor如果报错，那么通过try执行catch中的reject；
+                    excutor(resolve,reject);
+               }catch(e){
+                   // 错误信息
+                    reject(e);
+               }
+            }
+            // 订阅： then放在Promise的原型上，是往成功的事件池或失败的事件池中放入回调函数的
+            then(resolveFn,rejectFn){
+                // 当then不传回调，给两个新参赋默认值
+                if(resolveFn===undefined){
+                    resolveFn=()=>{};
+                }
+                if(rejectFn===undefined){
+                    resolveFn = ()=>{}
+                }
+                // this ==> 谁调用.then，this指向谁
+                // 两次this，两次this分别指向谁？
+                // 第一次this： p1  第二次：是第一次then中返回的promise实例
+                return new MyPromise((resolve,reject)=>{
+                    // 对resolveFn的执行结果是否返回一个promise实例，需要进行判断了     
+                    this.fulfilledEvent.push(()=>{
+                        let x = resolveFn();
+                        x instanceof MyPromise?x.then(resolve,reject):resolve();
+                    });
+                    this.rejectedEvent.push(rejectFn);
+                })
+            }
+        }
+
+        let  p1 = new MyPromise(function(resolve,reject){
+            // 当new Promise时，这个函数立即执行了；
+            // resolve();
+            console.log(a)
+        });
+        // then方法执行本身是同步的，是then里面的方法作为了异步的任务来执行
+        p1.then(function(){
+            console.log("成功");
+            // 如果这个函数返回一个promise的实例，那么下一个then绑定的方法就会受到这个promise实例的影响
+            return  new MyPromise(function(resolve,reject){
+                reject()
+            })
+        },function(){
+            console.log("失败")
+        }).then(function(){
+            console.log("1")
+        },function(){
+            console.log("2")
+        });
+
+
+        // 下面是内置的promise 
+        // 一旦状态发生变化，就会凝固；
+        let  p2 = new Promise(function(resolve,reject){
+            // 当new Promise时，这个函数立即执行了；
+            // resolve();
+            console.log(a)
+        });
+        // then方法执行本身是同步的，是then里面的方法作为了异步的任务来执行
+        // p2调用了then,then 的返回值又调用了then，说明then需要返回一个promise的实例；
+    //    var  a =  [].push(100,80).pop();
+       console.log(a);  
+        p2.then().then(function(){
+            console.log(3)
+        },function(){
+            console.log(4)
+        });
+        // console.log(100);
+    </script>
+</body>
+</html>

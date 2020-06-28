@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // get  post  delete  head  put 
+        // 
+        let xhr = new XMLHttpRequest();
+        // open 的第一个参数的决定了决定方式；
+        // get ： 获取 ： 一般用于从服务器获取数据
+        // post : 发送 ： 一般用于客户端向服务器发送数据
+
+        // 请求传参： 前端把关键字传给服务器，服务器根据传递过来的参数对数据库进行查询搜索
+        // 后端根据前端的需求从数据库中查找返回前端想要的内容；后端通过获取前端传过来的参数的值，进行数据搜索和查询；
+        // get请求是通过在地址栏后面?拼接数据 ?字段=val&size=val;
+        // 字段：这个字段在接口文档中定好的；前后端都按这个来
+        // doget  dopost
+        // xhr.open("get","json/lyric.json?keyword=iphone11&size=64",true);
+        xhr.open("post","json/lyric.json",true);
+        xhr.onreadystatechange=function(){
+            if(xhr.readyState===4&&/^2\d{2}$/.test(xhr.status)){
+            
+            }
+            console.log(xhr);
+        }  
+        xhr.send({keyword:"iphone11",size:64}); 
+        // 前端： 请求头 请求体
+        // 后端： 响应头 响应体
+        // 向服务器传送数据一般都是对象
+        
+        // get和post请求区别
+        // 1. get请求
+        //   1) : get 请求传参通过url地址栏传参，把参数拼接到url的后面
+        //   2) ： 各个浏览器对地址栏大小有要求的，不可以无限传参IE的地址栏不能大于4Kb;
+        //   3) 直接将数据暴露在地址栏上，安全性较低；
+        //   4) get请求会走缓存，如果不想走缓存，可以在地址栏后面拼接一个随机的时间戳；
+
+        // 2. post请求；一般用于向服务器发送数据（登录、注册、提交订单）
+        //    1) : post传参把数据放在请求体中传给服务器后端    
+        //    2) 数据大小没有要求
+        //    3) 存放在请求体中，安全系数的高；
+        //    4) post请求不会走缓存
+
+        $.ajax({
+            url:"json/lyric.json",
+            data:{// data属性是写参数的地方
+                keyword:"iphone11",
+                size:128
+            },
+            // type:"post",// 默认get请求
+            // async:true,//默认是异步
+            success:function(data){
+                // data : 就是请求回来的数据
+            },
+            error:function(){
+
+            }
+        })
+        
+        
+    </script>
+</body>
+</html>

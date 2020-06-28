@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script type="text/javascript">
+        //同步代码先执行  
+            console.log('1'); //
+            //宏任务1 放在等待队列
+            setTimeout(function () {
+                console.log('2');//宏任务1执行   
+                new Promise(function (resolve) {
+                    console.log('4');
+                    resolve();
+                }).then(function () {
+                    console.log('5');
+                });
+            });
+            //同步代码第二执行 
+            new Promise(function (resolve) {
+                console.log('7');
+                resolve();
+            }).then(function () {
+                console.log('8');//异步代码 第三执行
+            });
+
+            //宏任务2 第二个放在等待队列
+            setTimeout(function () {
+                console.log('9');
+                new Promise(function (resolve) {
+                    console.log('11');
+                    resolve();
+                }).then(function () {
+                    console.log('12');
+                });
+            });
+
+            //1-->7-->8-->2-->4-->5-->9-->11-->12
+    </script>
+</body>
+</html>

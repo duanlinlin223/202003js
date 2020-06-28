@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        
+    </style>
+</head>
+<body>
+    <div id="app">
+       <!-- <input type="text" v-model="msg">
+       
+       <input type="radio" v-model='sex' value="1">女
+       <input type="radio" v-model='sex' value="2">男
+       <input type="radio" v-model='food' value="3">水饺 -->
+       <input type="checkbox" v-model="hobby" value="登山">登山
+       <input type="checkbox" v-model="hobby" value="健身">健身
+       <input type="checkbox" v-model="hobby" value="游泳">游泳
+       <input type="checkbox" v-model="hobby" value="读书">读书
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        //单选框中被选中的那一项会把input框的value值给sex；v-model的值如果在单选框中相同他们就会互斥
+        //单选框中 如果选中会把value值给 对应的v-model的值
+
+        //v-model 如果绑定一个数组，那么当该项选中时，会把input框的value值放到数组里；如果多选框v-model绑定的不是数组，那么默认会把该值转成布尔值，控制所有复选框的选中状态
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                msg:'aa',
+                sex:'1',
+                food:1,
+                hobby:[]
+            },
+            created(){
+
+            },
+            methods:{
+                
+            },
+            filters:{
+                
+            }
+        })
+    </script>
+</body>
+</html>

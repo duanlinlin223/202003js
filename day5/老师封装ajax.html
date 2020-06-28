@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+     // url  type   async  cache   success  data
+     function jQuery(){}
+     window.$=window.jQuery=jQuery;
+     $.ajax=function (options){
+         // 准备一个默认的对象
+         // window.location.href : 浏览器页面的url;
+        let default_op={
+            url:window.location.href,
+            type:"get",
+            async:true,
+            cache:true,// 只能让get不走缓存
+            success:null,
+            data:null
+        }
+        // data : 如果是get 请求，把参数拼接到url上，如果是post请求，把参数放到send的参数里；
+        // 循环options,给default_op的属性名重新赋值；如果options中没有，那么就走默认的值default_op;如果有options就会把默认的覆盖；
+        for(let key in options){
+            default_op[key]=options[key];
+        }
+        if(default_op.type==="get"){
+            // get请求的话，参数拼接到url的后面
+            let str=`?`;// ?user=zhufeng&word=peixun;
+            for(let key in default_op.data){
+                str+=`${key}=${default_op.data[key]}&`
+            }
+            str = str.slice(0,str.length-1);
+            default_op.url+=str;
+            // 如果是get请求，对data赋值为null;
+            default_op.data=null;
+            if(!default_op.cache){
+                // 让get 不走缓存进到这个条件里面
+                // 在url的后面拼接一个随机的参数
+                default_op.url+=`&time=${Date.now()}`;
+            }
+        }
+        let xhr = new XMLHttpRequest;// 类可以不加小括号
+        xhr.open(default_op.type,default_op.url,default_op.async);// 解决默认的参数问题
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState ===4&&/^2\d{2}$/.test(xhr.status)){
+                // 如果数据请求成功，把数据传给success
+                let val = JSON.parse(xhr.responseText)
+                default_op.success(val);
+            }
+        }
+        xhr.send(default_op.data);
+    }
+    $.ajax({
+        url:"js/regionData.json",
+        type:"post",
+        data:{
+            user:"zhufeng",
+            word:"peixun"
+        },
+        success:function(data){
+
+        }
+    })
+    
+    
+    </script>
+</body>
+</html>

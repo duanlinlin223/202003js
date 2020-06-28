@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script src="node_modules/axios/dist/axios.js"></script>
+    <script>
+    // axios : 是一款基于promise的http库；用来做前后端数据交互的；咱们后期的项目都要用到axios;
+
+    // axios.get请求: 返回一个promise实例；当请求成功以后，会执行then中的第一个回调函数，并且把请求的数据传给了这个回调；把获取的数据包装后才能一个新的对象传给回调；
+    // 把数据放在了data.data上；
+    // axios.get的传参；
+    // axios.get("lyric.json?user=1").then(function(res){
+    //     console.log(res.data);
+    // })
+    // API: 记住；$().addClass()
+    // axios.get("lyric.json",{
+    //     params:{
+    //         user:1
+    //     }
+    // }).then(function(res){
+    //     console.log(res.data);
+    // });
+
+    // axios.post
+    // axios.post；直接将传入的对象作为参数；
+    // axios.post("lyric.json",{user:1}).then(function(res){
+    //     console.log(res.data);
+    // });
+
+    // 支持并发请求
+
+    // function getUserAccount() {
+    //     return axios.get('lyric.json');
+    // }
+    // function getUserPermissions() {
+    //     return axios.get('package.json');
+    // }
+    // axios.all([getUserAccount(), getUserPermissions()])
+    // .then(function (acct, perms) {
+    //     // 两个请求现在都执行完成
+    //     // 第一个参数是第一个请求的数据，第二个参数是第二个请求的数据
+    //     console.log(acct,perms);
+    // });
+
+    // 
+    // axios({
+    //     url:"lyric.json",
+    //     method:"post",
+    //     data:{
+    //         user:1
+    //     }
+    // }).then(function(){
+
+    // })
+
+    // 在项目中，一般会先创建一个公共的axios实例，然后对其进行配置；
+    // 全局配置
+    
+    // let http = axios.create({
+    //     // axios的配置选项
+    //     baseURL: 'https://some-domain.com/api/',// 请求的基础路径
+    //     // timeout: 1000,// 请求的超时时间
+    //     params: {
+    //         ID: 12345
+    //     },
+    // }) 
+    // // axios.baseURL会和get中的字符串拼接到一起
+    // http.get("aaa").then(function(data){
+
+    // });
+    // http.get("bbb").then(function(data){
+        
+    // });
+
+
+    axios.defaults_baseURL = "https://some-domain.com/api/";
+    // 拦截器；
+    // 请求拦截器和响应拦截器
+    axios.interceptors.request.use(function(request){
+        // 在发送请求之前会执行这个函数；
+        // 发请求之前会执行这个函数；
+    });
+    axios.interceptors.respones.use(function(res){
+        // 所有的请求回来都会执行这个函数
+        // 所有的请求回来之后都会先执行这个函数，把请求回来的数据传给这个res;
+        return res.data;
+    });
+    axios.get("lyric.json").then(function(data){
+        console.log(data);
+    });
+
+
+
+    
+    
+    
+    </script>
+</body>
+</html>

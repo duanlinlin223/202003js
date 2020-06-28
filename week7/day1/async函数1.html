@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script type="text/javascript">
+
+    function foo(){
+        console.log(100)
+        return new Promise(function(resolve,reject){
+            resolve(999)
+        })
+    }
+    async function fn(){
+        let res = await foo()
+        console.log(200)
+        console.log(res)
+    }
+    fn()
+
+
+    
+    </script>
+</body>
+</html>

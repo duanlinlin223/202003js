@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let data;
+        let xhr = new XMLHttpRequest();
+        xhr.open("get","json/lyric.json",true);// true 就是异步，false是同步
+        xhr.onreadystatechange=function(){
+            if(xhr.readyState===4&&/^2\d{2}$/.test(xhr.status)){
+                // console.log(100)
+                data=xhr.responseText;
+            }
+        }  
+        // console.log(200)
+        xhr.send(); 
+        // 同步：去服务器请求数据这个任务，这个任务如果不完成，浏览器时不能向下解析；
+        // 异步： 浏览器请求数据是个异步任务，那么浏览器就会让代码继续向下走；而是把下面所有的同步代码执行完，才能执行这个任务；
+        // console.log(data);
+        
+        // JS 单线程的，同一时间只能做一个事情；必须等待该任务执行完成才能往下执行的
+        // 异步： 如果遇到异步，不会等待这个任务，而是直接向下执行
+        // 同步：
+
+        // 能用异步就不要同步；
+        
+        
+        $.ajax({
+            url:"json/lyric.json",
+            async:false,
+            success:function(){
+                
+            }
+        });
+        $.ajax({
+            url:"json/lyric.json",
+            async:false,
+            success:function(){
+
+            }
+        });
+        // 请求1返回数据作为请求2请求的参数，那么请求写成同步；
+        
+        $.ajax({
+            url:"json/lyric.json",
+            async:false,
+            success:function(){
+
+            }
+        });
+        // 1s  2s   3s ==> 同步 6s
+        // 1s  2s   3s ==> 异步 3s;
+
+        // 打开首页，有十几个请求，如果这个请求跟其他请求没有任何关系，那么就用异步；
+        // JS的单线程和浏览器多线程；可以同时执行多个任务；
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 从浏览器输入url，到页面渲染发生了什么？
+       //  1. 输入url回车，浏览器先解析域名，然后判断是否之前访问过，寻找浏览器的缓存，如果自身缓存没有，那么再找本地的硬盘，如果如果本地也没有，浏览器发送DNS请求。如果本地DNS服务器先找缓存，如果DNS缓存中没有，就会向DNS服务器进行查找，直到找到，会把这个域名和IP缓存到本地，方便下次访问
+
+       //2.浏览器得到服务器的IP地址后，需要根据iP找到对应的服务器，然后和服务器建立TCP连接(三次握手，四次挥手)
+
+       // 3. 握手成功以后，客户端发起真正的http请求，请求的参数、请求头，请求正文
+
+       // 4. 服务器根据请求信息进行数据查找，数据的整合，最后把处理的数据返回给客户端；
+
+       // 5. 关闭TCP连接(四次挥手)，客户端和服务器相互确认，关闭数据传输通道
+
+       // 6. 当浏览器接收到html,css,js;浏览器对其进行解析和加载，先形成DOM树---> CSS树---> render树--->对其进行描绘 
+        
+        
+        
+    </script>
+</body>
+</html>

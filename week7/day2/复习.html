@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    // 事件循环机制  event Loop
+    // 执行栈  event queue  微任务  宏任务
+    // async  await  
+    function fn1(){
+        // return new Promise(function(resolve,reject){
+        //     resolve({code:0});
+        // })
+        return axios.get("/list.json")
+    }
+    async function fn(){
+        let res = await fn1();
+        // promise 中的resolve传的参数是res;
+        for(let i=0;i<res.length;i++){
+
+        }
+    }
+    // axios.get方法中如果请求成功会默认调用resolve,并且把数据传给了resolve；
+    axios.get("/list.json").then(function(data){
+        console.log(data);
+    })
+
+    function getData(data){
+        // data: 就可以接受到数据
+    }
+
+    // JSONP : 跨域  script的src的非同源  ；后端要进行特殊的处理的；
+    // 只能发送get请求；
+
+    // iframe   页面嵌套
+    //  强缓存协商缓存
+    //  cookie  
+    </script>
+    <script src="http://www.baidu.com?callback=getData"></script>
+    // getData([{},{}]) 后台处理返回的数据样式
+</body>
+</html>

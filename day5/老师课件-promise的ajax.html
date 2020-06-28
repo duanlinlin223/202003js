@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // Promise 是解决异步回调地狱的一种方案；如果第二个请求需要等到第一个请求成功以后才能执行，这种无限嵌套的请求就是回调地狱
+         // Promise是es6的一类，将异步的代码以同步的方式展示出来
+        //  console.log(Promise);
+        // 登陆 ==> 先登录成功
+        // 登录是一个请求，订单信息也是一个请求；
+
+        // $.ajax({
+        //     url:"",
+        //     async:true,
+        //     success:function(){
+        //         $.ajax({
+        //             url:"",
+        //             async:function(){
+
+        //             }
+        //         })
+        //     }
+        // })
+        // pending   fulfilled  rejected 
+        // let  p = new Promise(function(resolve,reject){
+        //     // 这个函数是同步的
+        //     console.log(100);
+        //     // setTimeout(()=>{
+        //         console.log(300);
+        //         resolve(666);// 可以让promise实例从pending状态到fulfilled
+        //         // 状态会凝固；一旦发生改变以后，状态就会凝固；
+        //         reject(888);
+        //     // },1000)
+        //     console.log(400) 
+        // });
+        // 一个then可以绑定两个函数，第一个函数是成功执行的回调，第二个函数是失败执行的回调；
+        // then里面的代码是异步的；
+        // p.then(function(a){
+        //     console.log(a);
+        // },function(b){   
+        //     console.log(b);
+        // })
+        // console.log(500)
+        // console.log(p);
+
+
+        // axios  : 用法; promise 封装的ajax;
+        // promise就是解决异步回调；
+        function getJSON(str){
+            let promise = new Promise(function(resolve,reject){
+                let  xhr = new XMLHttpRequest();
+                xhr.open("get",str,false);
+                xhr.onreadystatechange = function(){
+                    if(xhr.readyState===4&&/^2\d{2}$/.test(xhr.status)){
+                        let val = JSON.parse(xhr.responseText);
+                        resolve(val);  
+                    }else{
+                        reject();
+                    }
+                }
+            });
+            // 返回一个promise的实例
+            return  promise;
+        } 
+        // 想封装一个getJSON方法，通过解决异步的ajax问题
+        getJSON("json/1.json").then(function(data){
+            console.log(data);
+            // 如果第一个then没有返回promise实例，那么第二个then默认是成功的，如果then中的回调返回了promise实例，那么受这个promise实例的影响；
+            // return getJSON("json/2.json")
+        },function(){
+
+        }).then(function(data){
+            console.log(data);
+        },function(){
+            console.log(1);
+            
+        });
+        
+          
+        
+        
+    </script>
+</body>
+</html>

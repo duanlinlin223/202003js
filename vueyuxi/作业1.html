@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="box" id="box">
+       <div v-if="show" style="height:100px;width:100px;background:red;"></div>
+       <button @click="fn">点击切换</button><br/>
+        <input type="text" @keyup.enter='add' v-model='val'>
+       <ul>
+           <li v-for="(item,index) in arr"><span>{{item}}</span> <a @click="deleteFn(index)" href="javascript:;">delete</a></li>
+       </ul>
+
+       <div v-html="aa"></div>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el:'.box',
+            data:{
+                show:true,
+                arr:[],
+                val:'',
+                aa:'<span>啊哈哈哈哈</span>'
+            },
+            methods:{
+                fn(){
+                    // if(this.show){
+                    //     this.show=false
+                    // }else{
+                    //     this.show=true;
+                    // }
+                    this.show=!this.show;
+                },
+                add(event){
+                    if(this.val==''){
+                        alert('请输入内容')
+                        return;
+                    }
+                    this.arr.push(this.val)
+                    this.val=''
+                },
+                deleteFn(ind){
+                    this.arr=this.arr.filter((item,index)=>index!==ind)
+                }
+            }
+        })
+
+
+        // let arrM = [{name:'dll',age:19},{name:'aa',age:1}]
+        // let arrP = [{name:'bb',age:119},{name:'cc',age:99}]
+
+        // let newArr = arrM.map(item=>{
+        //     return {
+        //         ...arrM,
+        //         ...arrP
+        //     }
+        // })
+        // console.log(newArr);
+        function sum(){
+            console.log(arguments.__proto__)
+        }
+        // sum(1,2,3,4,5,6,7,8,9)
+        // console.log(Array.prototype);
+        var array = [100,10,50,800,320,34,53];
+        // array.sort(function(a,b){
+        //     //a-b升序，b-a降序
+        //     return a-b;
+        // });
+        // console.log(array);
+        console.log(eval(array.join('+')))
+        
+    </script>
+</body>
+</html>

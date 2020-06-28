@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script type="text/javascript">
+
+    //设置cookie   
+      //   var setCookie = function (name, value, day) {
+      //      if(day !== 0){     
+      //           var expires = day * 24 * 60 * 60 * 1000;
+      //           var date = new Date(+new Date()+expires);
+      //           document.cookie = name + "=" + escape(value) + ";expires=" + date.toUTCString();
+      //       }else{
+      //        document.cookie = name + "=" + escape(value);
+      //      }
+      // };
+
+
+      document.cookie= 'name=eee;expires=Mon,11Jun201805:47:25GMT'
+      var millisecond = new Date().getTime();
+      var expiresTime = new Date(millisecond + 60 * 1000 * 15);
+      console.log(expiresTime)
+
+      
+      
+    </script>
+</body>
+</html>

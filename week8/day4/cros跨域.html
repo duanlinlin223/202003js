@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="node_modules/axios/dist/axios.js"></script>
+    <script>
+        //cros跨域   后台设置一下 允许跨越的地址就行
+        
+        axios.get('http://127.0.0.1:8080/getData').then(data=>{
+            console.log(data);
+            
+        })
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // class  Fn{
+        //     constructor(b){
+        //         b()
+        //     }
+        // }
+        // let a = new Fn(function(){})
+
+        // 重写Promise  利用js来实现和Promise一样的功能 Promise源码 PromiseA+规范
+        // console.log(Promise);
+        // 封装： 回调函数   传参；
+        class MyPromise {
+            constructor(excutor){ // 当new MyPromise时候，这个constructor要执行
+                // this--> MyPromise的实例
+                // pending  fulfilled  rejected
+                this.state = "pending";// 创建的实例的时候，promise的状态pending
+                // 实例上准备两个事件池
+                this.fulfilledEvent = [];
+                this.rejectedEvent=[];
+                let  resolve=(result)=>{
+                    // 执行resolve,让promise的实例从pending状态变成了成功状态；
+                    // 状态只能是从pending到成功;
+                    if(this.state!=="pending")return;
+                    this.state ="fulfilled";
+                    this.timer = setTimeout(()=>{
+                        this.fulfilledEvent.forEach(item=>{
+                            if(typeof item==="function"){
+                                item();
+                            }
+                        })
+                    },0)
+                }
+                let  reject =(result)=>{
+                    // 状态只能是从pending到失败
+                    if(this.state!=="pending")return;
+                    this.state ="rejected";
+                    this.timer = setTimeout(()=>{
+                        this.rejectedEvent.forEach(item=>{
+                            if(typeof item==="function"){
+                                item();
+                            }
+                        })
+                    },0)
+
+                }
+                // 函数执行的位置是实参，定义的位置是形参；
+                excutor(resolve,reject)// 两个实参应该是两个函数
+            }
+            // then 相当于订阅，仅仅是把resolveFn和rejectFn放在事件池中，而不是让这个两个方法运行
+            then(resolveFn,rejectFn){ // 要把这些传过来的函数放在事件池中，让resolve去执行成功的事件池，reject去触发失败的事件池中的方法
+                 // 把resolveFn放在this.fulfulledEvent中
+                 // 把rejectFn 放在this.rejectedEvent中
+                this.fulfilledEvent.push(resolveFn);
+                this.rejectedEvent.push(rejectFn);
+            }
+        }
+        let p1 = new MyPromise(function(resolve,reject){
+            resolve();
+        });
+        // then是MyPromise原型中的方法
+        p1.then(function(){
+
+        },function(){
+
+        })
+        // console.log(p1);
+
+        // 下面是内置的promise
+        let p2 = new Promise(function(resolve,reject){
+            // resolve();
+        });
+        p2.then(function(){
+            console.log("成功")
+        },function(){
+            console.log("失败")
+        })
+        // console.log(p2);
+        
+        
+    </script>
+</body>
+</html>

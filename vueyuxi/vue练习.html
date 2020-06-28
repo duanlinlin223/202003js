@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="box" id="box">
+       <ul @click="fn">
+           <li v-for="(a,index) in arr">
+               {{index+1}}{{a.name}}
+               <ol>
+                   <li v-for="color in a.color">
+                       {{color}}
+                   </li>
+               </ol>
+           </li>
+       </ul>
+    </div>
+    <script src="js/vue.js"></script>
+
+    <script>
+        let vm = new Vue({
+            el:'.box',
+            data:{
+                arr:[
+                    {name:'apple',color:['red','green','white']},
+                    {name:'banana',color:['yellow','green','red']}
+                ]
+            },
+            methods:{
+                fn(){
+                    console.log(10000);
+                    
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+    <script src="fastclick.js"></script>
+    <script>
+        // 能够向服务器发送请求的
+        // ajax  浏览器的地址栏   link  img的src   script的src
+        // 如何在浏览器中查看当前页面的网络请求
+        // 1. 创建一个ajax的实例
+        // XMLHttpRequest是内置类
+        let xhr = new XMLHttpRequest();
+        // open执行 这是给这个请求配置好了一些基本的属性；没发请求
+        xhr.open("get","demo.css",false);
+        // 当readState发生改变，就会触发这个函数
+        xhr.onreadystatechange=function(){
+            // readState ： 代表不同的请求阶段
+            if(xhr.readyState===4&&/^2\d{2}/.test(xhr.status)){
+                // 满足该条件，那么数据就请求成功了
+            }
+        }
+        // 上面代码在做请求的准备工作；
+        xhr.send();// 发送请求
+        
+        
+        
+    </script>
+</body>
+</html>

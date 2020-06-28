@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //   ajax XMLHttpRequest
+        //   fetch  : 是window新增的API 
+        // console.log(fetch);
+
+
+        // fetch : 缺点
+        // 1. 低版本的浏览器不兼容
+        // 2. fetch不接受跨域的cookie
+        // 3. fetch 不能发送cookie;
+        // fetch至少需要两个then才能拿到数据；
+        fetch("lyric.json",{
+            method:"get",
+            // body:JSON.stringify({user:"zfpx"})
+        }).then(function(res){
+            // console.log(data);
+             return res.json();
+        }).then(function(data){
+            console.log(data);
+        })
+        
+
+        
+        
+        
+    </script>
+</body>
+</html>

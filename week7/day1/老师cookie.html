@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        //   // localStorage :本地存储
+        // 1.本地存储是受浏览器限制
+        // 2. 受源的限制，比如都在谷歌浏览器，京东下存储了数据，百度访问不了；
+
+        // 在工作为什么要用cookie？
+        // 比如登录了A网站，假如半小时以内没有去刷新或者去操作这个页面，那么再次刷新时，刚才登录状态已经失效了，需要重新登录；
+
+        // http : 是无状态的；不能表示当前用户是否是登录状态的；谁来保证这个登录状态时过期了呢==> 靠cookie来处理的；
+
+        // cookie: 用于前端存储的；
+        // 1. cookie是有过期时间的；
+        // expires : 期望时间； 
+        // document.cookie ="name=abc"
+        var setCookie = function (name, value, day) {
+           if(day !== 0){     
+                var expires = day * 24 * 60 * 60 * 1000;
+                var date = new Date(+new Date()+expires);
+                console.log( date.toUTCString());
+                
+                document.cookie = name + "=" + escape(value) + ";expires=" +             date.toUTCString();
+            }else{
+             document.cookie = name + "=" + escape(value);
+           }
+      };
+      setCookie("abc","100",1)
+    document.cookie ="name=ddd";
+    // 如果当前页面存在cookie,这个页面发送的任何一个请求，都会携带着cookie;但是如果cookie过期了，不能携带cookie了；
+    document.cookie ="mmmn=ddd";
+    setCookie("a",100,2);
+    
+        
+        
+    </script>
+</body>
+</html>

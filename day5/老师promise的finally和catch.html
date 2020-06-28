@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 将不是promise的实例，转成了promise的实例；并且传的参数会传给then的回调函数；
+        // let p = Promise.resolve("foo");
+        // p.then(function(data){
+        //     console.log(data);
+        // });
+        // new Promise(function(resolve,reject){
+        //     resolve("foo")
+        // }).then(function(data){
+        //     console.log(data);
+        // })
+
+
+        // Promise.finally  最后;不管成功还是失败，都会执行的回调函数
+        // catch ： 捕获错误的；
+        let  p = new Promise(function(resolve,reject){
+            // Promise : reject   代码报错一样可以让当前promise的实例从pending==> rejected ;
+            // console.log(a)
+            // reject();
+            resolve();
+        })
+        p.then(function(){
+            console.log(1);
+        }).catch(function(){
+            console.log(2); 
+        }).finally(function(){
+            // 这是个异步的，会等到promise实例状态改变以后，触发这个finally;
+            console.log(1000);
+        })
+        console.log(999);
+        
+        
+    </script>
+</body>
+</html>

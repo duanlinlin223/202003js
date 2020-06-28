@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script src='jquery-1.11.3.js'></script>
+    <script>
+        // 
+        // 跨域 ： 前端代码和后端代码都是在一台服务器上；如果前端需要访问另一台服务器的数据，那么就会涉及到跨域；
+        // 在公司项目大多数请求都不需要跨域的；但是有个别请求需要跨域；
+        // 同域 ： 要求协议相同  域名相同  端口号相同；
+        // 从3000端口访问8000端口，那么就会跨域；
+        // 公司有两个项目，PC端一个移动端；pC项目部署到了3000端口下，移动端部署到8000端口下；需要从3000这个端口下，向8000端口发送请求；那么就会跨域了；
+
+        // 同源策略： 协议相同 域名相同  端口号相同 只要其中一个不相同，就是跨域
+    
+       // 浏览器为了安全限制，不允许执行其他网站的脚本；
+       // 项目1的代码只能访问当前项目下的数据或者文件；浏览器会阻止一个域下的脚本去请求另一个域下的脚本；
+    //    $.ajax({
+    //        url:"http://matchweb.sports.qq.com/kbs/calendar?columnId=100000&callback=fn",
+    //        type:"get",
+    //        success:function(data){
+    //             console.log(data);
+    //        }
+    //    });
+
+    // JSONP : 
+    function a(data){
+        console.log(data);
+    }
+    // script 的标签中的src属性是非同源的；可以支持跨域请求；callback后面等号的函数名和上面的函数名必须保持一致；
+
+    // JSONP原理： 利用了script的src属性是非同源侧类的，那么就可以获取非同源的数据，当数据请求成功以后，再调用callBack的回调函数，会把请求回来的数据传递给这个回调函数的第一个参数；
+    
+
+    // JSONP需要后端配合；
+    // 缺点
+    // JSONP :只能发送get请求，不能发送post请求
+    // 解决跨域： cros  window.name  postMessage  webSocket  document.domain ngix ;
+    // 目前跨域一般采用cros解决；
+    </script>
+    <script src="http://matchweb.sports.qq.com/kbs/calendar?columnId=100000&callback=a"></script>
+</body>
+</html>

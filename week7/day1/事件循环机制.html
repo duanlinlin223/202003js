@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script type="text/javascript">
+
+    //微任务和宏任务
+    //微任务的执行顺序是 谁先放在队列中  先执行谁
+    
+     // function fn1(){console.log(666)}
+     //    // setTimeout(function(){
+     //    //     console.log(800)
+     //    // },0);
+     //    console.log(900);
+     //    async function fn(){
+     //        console.log(999);
+     //        await fn1();
+     //        console.log(888);
+     //    }
+     //    let p = new Promise(function(resolve,reject){
+     //        console.log(200);
+     //        resolve();
+     //        console.log(300)
+     //    });
+     //    p.then(function(){
+     //        console.log(100)
+     //    });
+     //    fn()
+       // 900 200 300    999  666 100 888 800
+
+
+       async function async1(){
+            console.log("async1 start");
+            await async2();
+            console.log("async1 end");
+        }
+        async function  async2(){
+            console.log("async2")
+        }
+        console.log("script start"); 
+        setTimeout(()=>{
+            console.log("setTimeout")
+        },0);
+        async1();
+        new Promise((resolve)=>{
+            console.log("promise1");
+            resolve();
+        }).then(()=>{
+            console.log('promise2')
+        });
+        console.log("script end")
+
+
+        //scriptstart>async1start>async2>promise1>scriptend>async1end>promise2>setTimeout
+
+
+        [
+        {
+            "id":1,"name":"珠峰培训1",
+            "password":"8376ac810bb9f231d28fcf1f",
+            "sex":"1","email":"1144709265@qq.com",
+            "phone":"18310612838",
+            "departmentId":"1",
+            "jobId":"1",
+            "desc":"珠峰培训最高管理员账户",
+            "time":1568640222269,
+            "state":0
+        },
+        {"id":2,"name":"周啸天","password":"8376ac810bb9f231d28fcf1f","sex":0,"email":"zhouxiaotian@qq.com","phone":"13041086186","departmentId":1,"jobId":5,"desc":"","time":1568640222269,"state":0},
+        {"id":3,"name":"程亚光","password":"8376ac810bb9f231d28fcf1f","sex":"0","email":"chengyanguang@126.com","phone":"12356985478","departmentId":"2","jobId":"3","desc":"我是程亚光，来自于星星的你","time":1568955194924,"state":0},
+        {"id":4,"name":"王金光","password":"8376ac810bb9f231d28fcf1f","sex":"1","email":"wangjinguang@qq.com","phone":"18569565656","departmentId":"4","jobId":"6","desc":"我是一名出色的CV工程师","time":1568956399054,"state":0},
+        {"id":7,"name":"魏威杰","password":"8376ac810bb9f231d28fcf1f","sex":"0","email":"8809990@qq.com","phone":"19337676723","departmentId":"1","jobId":"1","desc":"我很帅","time":1592206830048,"state":0,"userId":"null"}
+        ]
+
+
+
+
+    </script>
+</body>
+</html>

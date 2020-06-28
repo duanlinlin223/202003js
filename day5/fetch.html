@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script type="text/javascript">
+    //fetch   是window新增的api
+    //缺点:  低版本的浏览器不兼容，不接受跨域的cookie，也不能发送cookie
+
+    fetch('js/regionData.json',{
+        method:'get',
+        //body:JSON.stringify({user:"zfpx"})
+    }).then(function(res){
+        return res.json()
+    }).then(function(data){
+        console.log(data)
+    })
+    </script>
+</body>
+</html>

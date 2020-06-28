@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script type="text/javascript">
+
+
+        let  p = new Promise(function(resolve,reject){
+            reject();
+        })
+
+        p.then(function(){
+            console.log('chenggong')
+        }).catch(function(){
+            console.log('捕获错误')
+        }).finally(function(){
+            //finally 这是个异步的，会等到promise实例状态改变以后，触发这个finally;
+            console.log(100000)
+        })
+        setTimeout(function(){
+            console.log(10)
+        },100)
+        
+    </script>
+</body>
+</html>

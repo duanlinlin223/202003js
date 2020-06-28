@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+         // push  pop  shift unshift  slice  splice  sort  reverse  indexOf lastIndexOf  concat  join forEach map  tostring 
+        
+        // filter  : 过滤
+        // 1. filter传一个回调函数；item是数组成员，index 该成员对应的索引
+        // 2. 返回一个过滤之后的数组，原数组不发生改变；
+        // 3. 如果回调函数中return true，那么该项留下，如果返回false，那该项不留下；
+        // let arr = [82,76,36,27,99,100,50];
+        // let newArr = arr.filter(function(item,index){
+        //     // 这个函数有多少项，执行多少次
+        //     return item > 50;
+        // });
+        // console.log(newArr);// [82, 76, 99, 100]
+
+        // 2.find  : 找；找到符合条件的第一个数组成员；
+        // 1. 传一个回调函数，找到符合条件的就不再向下查找了
+        // 2. 如果没有满足条件的，那么返回undefined；
+        // let arr = [82,76,36,27,99,100,50];
+        // let  newArr = arr.find(function(item,index){
+        //     console.log(1); 
+        //     return item > 800;
+        // });
+        // console.log(newArr);
+
+        //3.every :找false
+        //1.返回一个布尔值
+        //只要找到有一个返回false，那么不再执行函数，every的返回值是false
+        // let arr = [82,76,36,27,99,100,50];
+        // let bol = arr.every(function(item,index){
+        //     return item>50;
+        // })
+        // console.log(bol);
+
+        //4.some  找true
+        //只要找到符合条件的，立即不再执行下面的循环了，直接把true返回；
+        // let arr = [82,76,36,27,99,100,50];
+        // let a = arr.some(function(item,index){
+        //     return item>50;
+        // })
+        // console.log(a);
+        
+        //5 includes  返回的是一个布尔值，有就是true，没有就是false
+        // let arr = [82,76,36,27,99,100,50];
+        // let b= arr.includes(76);
+        //     console.log(b);  //true  
+        
+        //6 reduce
+        //经常用于求和；返回一个求和结果
+        //第二个参数相当于给第一次执行的函数传给prev
+        //let arr = [82,76,36,27,99,100,50];
+        // let sum = arr.reduce(function(prev,next){
+        //     // console.log(prev,next);
+        //     console.log((prev,next));
+        //     //prev代表了上次一回调函数的返回值；盖茨回调的返回值会成为下一次回调执行的prev
+        //     return prev+next;
+            
+        // },0)//如果有第二个参数这个0 值会成为第一次的prev
+        // console.log(sum);
+        // let  fruit = [{name:"苹果",price:5,count:3},{name:"香蕉",price:2,count:2},{name:"西瓜",price:1,count:16}];
+
+        // let totle= fruit.reduce(function(prev,next){
+        //     return prev+next.price*next.count
+        // },0)
+        // console.log(totle);
+        
+        //flat ：扁平化  把二维数组扁平化（铺平合成一个数组）
+        let arr = [12,9,[78,89],28,[46,89,76,55,66]];
+
+        let newary = arr.flat()
+        console.log(newary);
+        
+
+
+
+        // git init    初始化一个Git仓库
+        // git add . 将工作区的代码都提交到了暂存区
+        // git status  查看当前工作区的代码
+        // $ git rm --cached 加文件名     删除暂存区的代码
+        // git restore 文件名  还原工作区的代码，
+        // git commit -m'注释' 
+    </script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .app{
+            background-color: red;
+            height:100px;
+            width:100px;
+        }
+        .f{
+            font-size:40px;
+        }
+        .c{
+            color:blueviolet;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" :class="{app:flag}">
+        <!-- toFixed这个参数会传给filters的第二个参数 -->
+        {{a | toFixed(2)}}
+        {{b | toFixed(3)}}
+        {{c | addZero}}
+        <img :src="imgsrc"/>
+        <!-- 如果是数组的话，是去获取data中属性名对应的属性值就是class对应的名称 -->
+        <div :class='[f,c]'>北京</div>
+        <ul>
+            <li v-for="(a,index) in arr" :class="{c:index%2}">{{a}}</li>
+        </ul>
+        <div :style="{fontSize:num+'px'}">啊啊啊</div>
+        <div :style="[z]">一样一样</div>
+        <ul>
+            <li v-for="a in product">{{a}}</li>
+        </ul>
+    </div>
+    <script src="js/vue.js"></script>
+    <script src="node_modules/axios/dist/axios.js"></script>
+    <script>
+
+        //v-bind 可以将普通的属性转成动态属性，可以去获取data中的数据
+        //v-bind:class 属性是可以是对象，里面的属性名是class，属性值是true时 class样式有效，是false是class样式无效
+        //v-bind:style
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                a:10.6789,
+                b:1.23456,
+                c:1,
+                imgsrc:'./red.png',
+                flag:true,
+                f:'f',
+                c:'c',
+                arr:[1,2,3,4,5,6],
+                num:50,
+                z:{color:'purple'},
+                product:[]
+            },
+            created(){//这是个钩子函数，vue初始化时，会默认调用的一个回调函数
+                //一般情况下都是在created中请求数据
+                // console.log(100);
+
+                //当new vue时，没有渲染真实的dom之前，会执行这个钩子函数created；请求到数据立即对data中的数据赋值 ，那么当编译dom结构时采用最新的数据编译，减少dom渲染
+                
+                this.getData()//钩子函数中this都指向vue实例；
+            },
+            methods:{
+                getData(){
+                    axios.get('./carts.json').then(data=>{
+                    this.product=data.data;
+                })
+                }
+            },
+            filters:{
+                toFixed(val,w){  //形参   形参的值  就是管道符前面的值 | 竖杠就是管道符
+                    // console.log(val);
+                    return val.toFixed(w);//这个w代表保留小数的位数   //返回什么页面就展示什么
+                },
+                addZero(num){
+                    return num<10?'0'+num:num
+                }
+            }
+        })
+    </script>
+</body>
+</html>

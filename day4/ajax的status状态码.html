@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let xhr = new XMLHttpRequest();
+    
+        xhr.open("get","json1/lyric.json",true);
+        xhr.onreadystatechange=function(){
+            if(xhr.readyState===4&&/^2\d{2}$/.test(xhr.status)){
+               
+            }
+            console.log(xhr);
+        }  
+    
+        xhr.send();
+
+        // readyState : 请求的不同的阶段
+        // status : 代表请求的结果；
+        // xhr.status : 根据请求的结果得到不同的值；status是xhr这个实例的一个属性名，当请求回来以后，这个请求就会更改这个status;来表示请求的结果;默认值是0；
+        // 200 : 数据请求成功 
+        // 201 : 也是成功
+        // 3开头： 也代表成功，在中间做了一些事情
+        // 301 : 永久重定向（将域名重定向一个新的域名上） 360buy.com=>jd.com
+        // 304 : 走浏览器的缓存
+        // 307 : 临时重定向 ; 负载均衡；node 中间层
+        // 400 ： 请求参数错误
+        // 401 : 请求需要验证
+        // 403 : 无权限访问
+        // 404 : 路径错误 找不到资源
+        // 5开头： 服务器出错
+        // 500  ： 服务器的未知错误
+        // 503 ： 超负荷； 当用户集中访问服务器时，超出了服务器能承载的最大用户量，就会报593；  
+        
+        
+        
+    </script>
+</body>
+</html>

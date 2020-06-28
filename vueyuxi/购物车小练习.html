@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input type="checkbox" v-model='val'>全选<br/>
+        <ul>
+            <li v-for="a in arr">
+                <input type="checkbox" v-model="a.isSelected">{{a.name}}
+            </li>
+        </ul>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                arr:[{isSelected:false,name:'手机'},{isSelected:true,name:'电脑'}]
+            },
+            computed:{//计算属性
+                //computed中的属性不能喝data中重名，也不能和methods的重名
+                val:{
+                    //计算属性：当一个属性依赖多个属性改变时，一般采用computed；当依赖的属性发生改变时，会立即执行get方法，并且重新计算当前最新val的属性，最后重新渲染页面
+                    //computed 会默认走缓存，节省性能
+                    get(){
+                        //当获取val时默认会把get的返回值给val
+                        //当arr中的isSelected发生改变时，会默认触发一次get方法；当依赖的属性发生改变时，会执行get方法
+                        return this.arr.every(item=>item.isSelected)
+                    },
+                    set(b){
+                        //当设置更改val值时，会默认执行computed的这个set方法
+                        //b代表最新的属性值
+                        this.arr.forEach(item=>{
+                            item.isSelected=b;
+                        })
+                        
+                    },
+                    sum(){
+                        //如果computed中的属性是函数，默认就是个get
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>

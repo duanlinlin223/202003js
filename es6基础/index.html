@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="box" style="width:300px;height:300px;background:red;font-size:30px;color:#fff;text-align:center;"></div>
+    <script type="text/javascript">
+
+        
+        
+        // var num = 100;
+        // console.log(window)
+
+
+        // var id = 2;
+        // let json = {
+        //      id: 1,
+        //      show:function(){
+        //          setTimeout(function(){
+        //            console.log(this.id);
+        //         },2000)
+        //     }
+        // }
+        // json.show();
+
+        
+        // let [a,b,c] = [1,2,3]
+        // console.log(a,b,c)
+        // let [x,y] =[1,[2]]
+        // console.log(y)
+
+        // let [...b] = [2,3,4,5,6,7]
+        // console.log( b)
+
+        //对象的解构赋值,会根据属性名匹配，前面声明的属性名和后面的键值对的属性名要一样
+        // let {age,...name}={name:'zhufeng',age:'11',skill:"web"}
+        // console.log(age,name)
+
+        //块级作用域
+        //在块级作用域的声明函数，作用域上面只声明不定义，一旦进入块级作用域，立马对函数进行定义
+        // console.log(fn) //undefined
+        // if(true){
+        //     console.log(fn)  //fn
+        //     function fn(){}
+        // }
+        // console.log(fn) //fn
+
+
+        //数组的扩展
+        // let ary = [1,2,3,4,5]
+        // console.log(...ary)
+
+        //展开运算符   用于合并数组
+        // let a = [1,2,3]
+        // let b = [4,5,6]
+        // console.log([...a,...b])
+
+        //扩展运算符合并对象  如果对象的属性名重复，那么合并时后面的对象属性总会覆盖前面对象的属性名
+        // let obj = {name:"duan"}
+        // let obj1 = {name:"dll",age:20}
+        // console.log({...obj,...obj1})
+
+
+        //apply 传参 
+        // let array = [1,2,3]
+        // function fn(x,y,z){
+        //     console.log(x,y,z)
+        // }
+        // fn.apply(null,array)
+
+        //深拷贝，浅拷贝
+        // let aaa = [1,2,3]
+        // let bbb = aaa;  //a和b的存储空间地址一样，一个改变另一个也会改变(浅拷贝)
+        
+        // let c =[...aaa]
+        // c[0]=5;
+        // //console.log(aaa)
+        // console.log(aaa)
+        // console.log(c)
+
+
+
+        //Array.from  可以直接将类数组转为 数组
+        //类数组 目前有   arguments   和元素集合
+        // let argu = [1,2,3,4,5,6]
+        // function fn(){
+        //     //Array.from  可以直接将类数组转为 数组
+        //     // es5 类数组转为数组方式为     Array.prototype.slice.call(arguments);
+        //     let ab = Array.from(arguments)
+        //     console.log(ab)
+        // }
+        // //fn(...argu)
+        // fn(1,2,3,4,5)
+
+        //Array.of   将一组数或者字符串转换为数组 
+        // let of = Array.of('www','rrr','ttt')
+        // console.log(of)   //[www,rrr,ttt]
+
+
+        // console.log(Math.min(...[14, 3, 77]))   //求一个数组内最大值
+
+
+        //函数的扩展
+        //es5函数传值
+        // function es5(x,y){
+        //     y = y || "word"
+        //     console.log(y)
+        // }
+        // es5(1,2)
+
+        //es6传值
+        // function fn(x=10,y=10){
+        //     console.log(x,y)
+        // }
+        // fn("",2)
+
+        //形参传值 结合解构赋值
+         // function xcAndJg({x,y=100}){
+         //    //console.log(typeof(y))
+         //    console.log(y)
+         // }
+         // xcAndJg({x:1,y:""})
+
+         // function aaa ({a=10,b=100}={}){
+         //    console.log(a,b)
+         // }
+         // aaa()
+         // //剩余运算符 rest
+         // function restFn(b,...a){
+         //    console.log(a)
+         //    console.log(b)
+         // }
+         // restFn(1,2,3,4,5,6)
+
+
+         //函数解构赋值
+        //  function m1({x = 0, y = 0} = {}) {
+        //   return [x, y];
+        // }
+        // console.log(m1())
+        // // 写法二
+        // function m2({x, y} = { x: 0, y: 0 }) {
+        //   return [x, y];
+        // }
+        // console.log(m2())
+
+
+        //箭头函数  
+        //箭头函数省去了function ，在()和{}中间增加了 =>
+        //如果只有一个参数则小括号可以省略   let fn = a=>a
+        //当函数内只有一个返回值时  return 和外面的大括号可以省去，
+        //如果返回一个对象，并且没有 return，则需要在对象外面加小括号，如果不加小括号只写一个大括号，浏览器不能分辨大括号是函数的还是对象的
+
+
+
+        // function(){
+
+        // }
+        // let eee = (val)=>{
+        //     console.log(val)
+        // }
+        // eee(3333)
+        // let eee = val =>{
+        //     console.log(val)
+        // }
+        // eee(3333);
+        //  let a = res =>{
+        //     console.log(res)
+        //  }
+        //  a(9999)
+
+        //  let re = val =>val
+        //  console.log(re(100000))
+        
+        // let fn = a=>a
+        // console.log( fn(8))
+
+        // let fn = ()=>({a:1})
+        // console.log(fn())
+
+        // function fn(a){
+        //     return function(b){
+        //         return function(c){
+        //         }
+        //     }
+        // }
+        //let fn = a=>b=>c=> a+b+c
+
+        //箭头函数中没有this,this指向箭头函数上一级作用域中的this
+        //箭头函数中没有arguments
+        //箭头函数不能被new，不能作为构造函数
+
+        // let fn = ()=>{
+        //     console.log(this)
+        // }
+        // fn()
+        // let obj = {
+        //     name:'aaa',
+        //     fn:function(){
+        //         //console.log(this.name)
+        //         let f =()=>{
+        //             console.log(this)
+        //         }
+        //         f();
+        //     }
+        // }
+        // obj.fn();
+
+        //arguments
+        // let fn =(...a)=>{
+        //     //console.log(arguments)  //arguments is not defined
+
+        //     //可以用剩余运算符
+        //     console.log(a)
+        // }
+        // fn(1,2,3,4)
+
+
+        //对象的扩展
+        //for in 循环对象
+        //Object.keys()  将一个对象的key拿出 放在一个数组中
+        //Object.values() 将一个对象的value值拿出 放在一个数组中
+        //Object.assign(target,obj1,obj2) 将对象合并到目标(target)对象中,会把obj1、obj2都合并到target中，他的返回值和obj相同
+        // let obj = {
+        //     a:1,
+        //     b:2,
+        //     c:3,
+        //     d:4
+        // }
+        //console.log(Object.keys(obj))
+        // console.log(Object.values(obj))
+        // for(let i in obj){
+        //     console.log(obj[i])
+            
+        // }
+
+        //在对象中 如果属性名和属性值相同，可以省略一个
+        // let num = 100;
+        // let obj = {num}
+        // console.log(obj)
+        //Object.entries()方法返回一个数组，成员是参数对象自身的（不含继承的）所有可遍历（enumerable）属性的键值对数组。
+        // let objNum = {num:1,a:2,b:3}
+        // console.log(Object.entries(objNum))
+          // let a = Symbol("foo")
+          // console.log(a)
+
+
+          //js中的数据类型   number string 布尔值   null  undefined  和 新增的 symbol 
+          // 原始数据类型 有  number string 布尔值   null  undefined  和 新增的 symbol
+          // 引用数据类型是  函数 对象 数组
+
+          //set  通过add 向set中新增成员 delete删除某一项  clear清楚所有数据   set的数据成员不允许重复
+          // let s = new Set();
+          // s.add(1000)
+          // s.add(900)
+          // console.log(s)
+
+          //let arr = [1,2,3,4,5,4,3,2,1]
+          //let nSet = new Set(arr)
+          //console.log([...new Set(arr)])
+          //Array.from()也可以将set 数据转为数组
+          //nSet.size   //表示set数据的个数
+          //delete  删除数据   clear  清楚所有成员   has判断是否有这一项
+          //console.log(Array.from(nSet))
+         //  let obj = {
+         //    a:1,
+         //    b:2
+         //  }
+         //  let s = Symbol()
+         // obj[s] = 3
+         // for(let i in obj){
+         //    console.log(obj[i])
+         // }
+
+         //generetor 函数 要用next方法调用generator函数，每次yield 都会打断函数一下，yield后面的内容代表这一次next的返回值
+         //done 代表函数是否执行完毕   true执行完毕   false未执行完毕
+         // function* fn(){
+         //    console.log(1)
+         //    yield  'hellow'
+         //    console.log(2)
+         //    yield  'hellow'
+         //    return 100
+         // }
+         // let f = fn();
+         // var str = f.next()
+         // console.log(str)   //{value: "hellow", done: false}
+
+         // var str1 = f.next()
+         // console.log(str1)  //{value: "hellow", done: false}
+
+         // var str2 = f.next()
+         // console.log(str2)  //{value: undefined, done: true}
+
+
+         //class 类
+        //  function fn(){
+        //     this.x=1;
+        //     this.y=2
+        //  }
+        //  let f = new fn;
+        //  console.log(f)
+        //  //给fn这个原型新增方法
+        //  fn.prototype.getx=function(){
+
+        //  }
+
+        // class Fn{
+        //     //class类中的代码必须写在constructor中
+        //     constructor(){
+        //         var t = 0;
+        //         this.a=3;
+        //         this.b=4
+        //     }
+        //     //这个地方就是原型
+        //     getX(){
+        //         console.log(this.num)  //3
+        //     }   
+        //     getY(){
+
+        //     }
+        //     //static  给Fn这个类新增私有属性 
+        //     //Fn的实例不能调用私有属性
+        //     static num=22222;
+        // }
+        // let f1 = new Fn;
+        // console.log(f1)
+        // console.dir(Fn)
+        // f1.getX()  //方法前面是谁  他里面的this就指向谁
+        
+        //es5类的实现 和实例的创建
+        // function Cat (name, age, color) {
+        //   this.name = name
+        //   this.age = age
+        //   this.color = color
+        // }
+        // Cat.prototype.foot = 4 
+        // Cat.prototype.makeSound = function () {
+        //   alert("喵喵")
+        // }
+        // Cat.prototype.sayName = function () {
+        //   alert(this.name)
+        // }
+
+        // var cat1 = new Cat('Tom', 3, 'black')   //创建实例
+        // console.log(cat1)
+
+
+        //类的继承
+        // class A {
+        //     constructor(){
+        //         this.a=100;
+        //         this.b=200
+        //     }
+        //     getX(){
+
+        //     }
+        //     static num=500;
+        // }
+        // let a= new A;
+        // //让类B继承类A，让leiB不仅继承了类A的私有属性，而且还继承了类A原型上的共有属性
+        // class B extends A{
+        //     constructor(){ //constructor可以接收参数
+        //         //必须在super执行完以后才能执行后面的代码，也就是执行完super之后才能调用this，把类A的this拿到了类B 实现了继承
+        //         super(); 
+        //     }
+
+        // }
+        // let b=new B;
+        // console.log(b)
+        console.log(setTimeout(()=>{},2000))
+        //防抖和节流
+        let box = document.getElementById("box")
+        let num = 1;
+        function count(){
+            //alert()
+            box.innerHTML = num++
+        }
+        // function debounce(fn,time){
+        //     let timer;
+        //     return function(){
+        //         clearTimeout(timer)
+        //         timer = setTimeout(function(){
+        //             fn.call(this)
+        //         },time)
+        //     }
+        // }
+        // box.onmousemove = debounce(count,1000)
+
+        //节流   时间戳版
+        function trottle(fn,time){
+            let previous = 0;
+            return function(){
+                let now = Date.now();
+                if(now - previous>=1000){
+                    fn.call(this)
+                    previous= now
+                }
+            }
+        }
+        box.onmousemove = trottle(count,1000)
+    </script>
+</body>
+</html>

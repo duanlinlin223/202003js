@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // Npm : 跟随安装Node时，一并下载了npm ;下载完node,大家就可以使用npm下载模块；
+        
+        // npm : 是一个开源的网站，这个网站存储了大量模块（包）;npm install 就会默认从这个网站下载模块；
+
+        // 通过npm 下载需要一些模块；
+        // npm init -y : 初始化一个配置文件package.json; 这个小本本用来记录安装了哪些模块；
+        // npm install jquery  --save 或 npm install jquery ; 这个就是生产依赖[dependencies]
+        // npm install  bootstrap@3.3.4 --save-dev : 开发依赖[devDependencies]
+
+        // 下载的模块未必都是上线有用的模块；axios 开发要用，线上也要用；axios生产依赖；vue 
+        // less-loader : 解析less文件，会把less文件编译成css文件；仅仅是开发依赖；
+
+        // npm install : 默认安装的都是最新的模块。可以通过@版本下载特定的模块；都是下载到当前目录的node_modules 
+        // npm i 和npm install是等价的
+
+        // 卸载
+        // npm  uninstall jquery : 卸载模块；
+        // 在vsCode选中文件右键在终端中打开，和通过cmd打开命令行窗口是一样的；
+
+        // npm run + script中的属性名：把这个属性名对应的属性值拿到窗口执行一次；
+
+
+        // npm install  jquery -g ; 全局的模块；
+        // 安装node时，会默认提供全局的node_modules; 
+        // npm root -g : 查看全局的node_modules;
+
+
+        // npm ：默认是从npm源下载模块；
+        // nrm ls : 查看源
+        // nrm test : 检测哪个源最快
+        // nrm use 源名字： 使用哪个源
+
+        
+        // npm install yarn  -g
+
+       //  yarn add jquery 或 yarn add jquery  -S;生产依赖
+       //  yarn add vue -D
+       //  yarn remove jquery 
+
+        // 生产环境: 上线的环境
+        // 开发环境： 写代码的环境
+        // 测试环境: 测试代码的环境
+        
+        
+        
+        
+    </script>
+</body>
+</html>

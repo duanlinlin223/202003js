@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        // 三种模块规范
+        // AMD :require.js
+        // CMD : sea.js
+        // Common.js : node.js
+        // 什么是模块，在Node中，一个js文件就是一个模块；node中规定了js的模块如何创建，如何导入，以及如何导出；
+
+        // 1.在node环境中，我们创建一个js文件，就相当于创建了一个新的模块；这个模块中的方法都是私有方法，不同的模块之间同名方法是不会冲突的；
+
+        // 2.如果该模块中的方法外界需要调用，那么需要将该方法导出；node提供了一个模块的出口
+
+        // 3. 如果A模块需要引用B模块，那么需要在A模块准备入口；reqire,导入某个模块；require导入文件时，会让文件中的所有的代码从上带下执行一遍；如果导入没有完成，不会执行后面的代码；
+
+        // 模块分为三类
+        // 1. 内置模块（核心模块 fs http url）;当安装node时，就已经安装好了；
+
+        // 2. 第三方模块 ：通过npm install 后期下载的模块 axios webpack  jquery  require("模块")；不需要加上./
+
+
+        // 3. 自定义模块： 自己创建的js; 如果调用自定义模块，需要加上相对路径； ./    /   ../ 
+
+
+
+        
+        
+    </script>
+</body>
+</html>

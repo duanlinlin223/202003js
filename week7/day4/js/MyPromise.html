@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        class MyPromise {
+            constructor(excutor){
+                this.state = "pending";
+                this.fulfilledEvent = [];
+                this.rejectEvent = [];
+                let resolve= ()=>{
+                    if(this.state!=="pending")return;
+                    this.state='fulfilled';
+                    let timer = setTimeout(() => {
+                        this.fulfilledEvent.forEach(item=>{
+                            if(typeof item !=='function')return;
+                            item();
+                        })
+                    }, 0);
+                }
+                let reject = ()=>{
+                    if(this.state!=="pending")return;
+                    this.state="reject";
+                    let timer = setTimeout(() => {
+                        this.rejectEvent.forEach(item=>{
+                            if(typeof item !=='function')return;
+                            item();
+                        })
+                    }, 0);
+                }
+                excutor(resolve,reject)
+            }
+            then(fulfilledFn,rejectFn){
+                this.fulfilledEvent.push(fulfilledFn);
+                this.rejectEvent.push(rejectFn)
+            }
+        }
+        let p1 = new MyPromise(function(resolve,reject){
+            resolve()
+        });
+        p1.then(function(resolve){
+            console.log('成功')
+        },function(reject){
+
+        })
+
+    </script>
+</body>
+</html>
