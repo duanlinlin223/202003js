@@ -27,10 +27,16 @@
                 lastName:'',
                 fullName:''
             },
+            //computed会默认走缓存，性能高
+            //computed不支持异步
+            //当一个属性依赖多个属性变化时，这个属性适合computed 多对一
             computed:{
                 
             },
             
+            //watch不走缓存，性能开销大
+            //watch支持异步
+            //当这个属性发生改变会影响其他属性时，这个属性用watch  一对多
             watch:{
                 firstName(val){//监听现有属性；当属性发生改变以后，会做的事情；
                      this.fullName=val+this.lastName;
