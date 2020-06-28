@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+    <style>
+        .table tr td{
+            vertical-align: middle!important;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        {{a}}
+    </div>
+    <script src="vue.js"></script>
+    <script src="node_modules/axios/dist/axios.js"></script>
+    <script>
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                
+            },
+            computed:{
+                a(){
+                    //computed中不支持异步，
+                    //如果a的依赖数据是通过异步被更新的，那么a监听不到最新数据的变化
+                    let b=10;
+                    setTimeout(() => {
+                        b=100;
+                    }, 2000);
+                    return b;
+                }
+            }
+        })
+    </script>
+</body>
+</html>

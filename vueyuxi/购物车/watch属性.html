@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+    <style>
+        .table tr td{
+            vertical-align: middle!important;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        姓：<input type="text" v-model="firstName"><br/>
+        名：<input type="text" v-model="lastName"><br/>
+        姓名：<input type="text" v-model="fullName">
+    </div>
+    <script src="vue.js"></script>
+    <script src="node_modules/axios/dist/axios.js"></script>
+    <script>
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                firstName:'',
+                lastName:'',
+                fullName:''
+            },
+            computed:{
+                
+            },
+            
+            watch:{
+                firstName(val){//监听现有属性；当属性发生改变以后，会做的事情；
+                     this.fullName=val+this.lastName;
+                    console.log(this.lastName);
+                    
+                },
+                lastName(newval){
+                     this.fullName =this.firstName+newval;
+                        console.log(this.firstName);
+                        
+                }
+                // firstName: function (val) {
+                // this.fullName = val + ' ' + this.lastName
+                // },
+                // lastName: function (val) {
+                // this.fullName = this.firstName + ' ' + val
+                // }
+            }
+        })
+    </script>
+</body>
+</html>
