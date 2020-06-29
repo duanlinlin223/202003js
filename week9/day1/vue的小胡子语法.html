@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        {{msg}}
+    </div>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+        //vue是一个构建用户界面的渐进式框架
+        //小胡子可以直接从data中取值
+        //vue 是一个类，传入一个对象
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                msg:'hellow'
+            }
+        })
+
+    </script>
+</body>
+</html>
