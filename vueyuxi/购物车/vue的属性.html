@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- ref不能重名；后面的会把前面的覆盖掉 -->
+        <span ref="a"></span>
+        <div ref="b"></div>
+        <div>{{msg.a}}</div>
+        <button @click="fn">click</button>
+    </div>
+    <script src="vue.js"></script>
+    <script>
+        //$options ：当前实例的一些方法
+        //$refs 获取元素 不能重名；后面的会把前面的覆盖掉
+        //$set 给data中的对象新增键值对
+        //$delete 删除属性
+        //$el 获取到当前vue实例的挂载元素对象
+        // $destroy 销毁实例
+        //$mount //挂载
+        //$on 订阅
+        //$emit 发布
+        //$off 移除
+        //$nextTick 用于dom的异步更新
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                msg:{
+
+                }
+            },
+            methods:{
+                fn(){
+                    // this.msg.a=200 //给对象新增属性值 视图不会刷新
+                    //$set 给data中的对象新增键值对
+                    this.$set(this.msg,'a',300)
+                }
+            }
+        })
+        console.log(vm.$options);
+        
+    </script>
+</body>
+</html>

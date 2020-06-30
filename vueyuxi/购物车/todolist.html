@@ -33,7 +33,7 @@
                         </div>
                         <div class="panel-body">
                             <ul class="list-group">
-                                <li class="list-group-item" v-for="item in task" @dblclick="remember(item)">
+                                <li class="list-group-item" v-for="item in todo" @dblclick="remember(item)">
                                     <span v-show="cur!==item">
                                         <input type="checkbox" v-model="item.isSelected">
                                         <span :class="{del:item.isSelected}">{{item.title}}</span>
@@ -46,9 +46,9 @@
                         </div>
                         <div class="panel-footer">
                             <ul class="nav nav-pills">
-                                <li role="presentation" class="active"><a href="#">全部任务</a></li>
-                                <li role="presentation"><a href="#">已完成</a></li>
-                                <li role="presentation"><a href="#">未完成</a></li>
+                                <li role="presentation" :class="{active:hash==='#all'}"><a href="#all">全部任务</a></li>
+                                <li role="presentation" :class="{active:hash==='#finish'}"><a href="#finish">已完成</a></li>
+                                <li role="presentation" :class="{active:hash==='#unfinish'}"><a href="#unfinish">未完成</a></li>
                               </ul>
                         </div>
                     </div>
@@ -58,8 +58,5 @@
     </div>
     <script src="vue.js"></script>
     <script src="todo.js"></script>
-    <script>
-        
-    </script>
 </body>
 </html>

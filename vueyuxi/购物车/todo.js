@@ -6,12 +6,18 @@ let vm = new Vue({
             {isSelected:false,title:'去吃饭'}
         ],
         val:'',
-        cur:""
+        cur:"",
+        hash:'#all'
     },
     directives:{
         focus(el){
             el.focus()
         }
+    },
+    created(){
+        window.addEventListener('hashchange',()=>{
+            this.hash = window.location.hash;
+        })
     },
     methods:{
         addTodo(){
@@ -30,6 +36,15 @@ let vm = new Vue({
         }
     },
     computed:{
+        todo(){
+            if(this.hash==="#all"){
+                return this.task;
+            }else if(this.hash==="#finish"){
+                return this.task.filter(item=>item.isSelected)
+            }else if(this.hash==="#unfinish"){
+                return this.task.filter(item=>!item.isSelected)
+            }
+        },
         count(){
             return this.task.filter(item=>item.isSelected).length;
         }
