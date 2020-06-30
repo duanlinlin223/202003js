@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" id="box">
+    </div>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+        let box = document.getElementById("box");
+        // 数据 model==> 影响视图 view ： 数据绑定
+        // 视图 view  ==> 数据 model    : DOM监听
+        let  obj = {};
+        Object.defineProperty(obj,"val",{
+            get(){
+                return box.value;
+            },
+            set(newVal){// newVal 就是等号右边的值
+                // 设置obj的数据时，还要改变box的value；
+
+                box.value = newVal; //数据改变视图
+                
+            }
+        });
+        // 当input输入内容时，应该影响了数据 视图==> 数据
+        //input 元素都有一个oninput事件  监听输入框
+        box.addEventListener("input",function(){
+            // this ==> input的元素 value值对obj的val属性赋值
+            obj.val = this.value;
+        });
+      
+        
+
+        
+        
+    </script>
+</body>
+</html>

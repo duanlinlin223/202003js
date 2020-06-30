@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <button @click="fn($event,100)">click</button>
+    </div>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+       
+        let vm = new Vue({
+            el:'#app',
+            data:{
+               
+            },
+            methods:{
+                //1.给元素绑定事件 可以加小括号也可以不加；都是点击的时候才执行
+                //2.如果事件绑定没有小括号e就是事件对象；但是如果有小括号，那么就是undefined
+                //3.如果有小括号那么e接收第一个实参，如果没有就是undefined
+                //4.既需要传参有需要事件对象；传参需要传入$event站位；是个固定的名字，不能改名
+
+                fn(e,a){//e就是事件对象
+                    console.log(e,a);
+                }
+            }
+        })
+
+        
+    </script>
+</body>
+</html>

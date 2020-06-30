@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div @click.self="fn1" style="height:200px;width:200px;background:gray">
+            grandParent
+            <div @click="fn2" style="height:100px;width:100px;background:red">
+                parent
+                <div @click="fn3" style="height:50px;width:50px;background:black">child</div>
+            </div>
+        </div>
+        <input type="text" @keyup="fnUp">
+    </div>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+       //vue的事件修饰符:用来修饰事件的
+        //.stop阻止事件冒泡传播；
+        //.prevent 阻止事件的默认行为；a标签的跳转，滚动条的滚动，form表单submit的提交
+        //.capture 控制事件在捕获的阶段执行
+       //事件存在冒泡传播
+       //.once只执行一次 ；只有第一次执行后面不再执行
+       //.self 只有点击自己的时候才会执行
+       //.passive:修饰onscroll事件，不会等到onscroll事件的方法执行完就会立即执行下一次；提高代码性能
+
+       //键盘修饰符 
+       //.enter .tab .delete .esc .space .
+        let vm = new Vue({
+            el:'#app',
+            data:{
+               
+            },
+            methods:{
+                fn1(){
+                    console.log('grandParent');
+                    
+                },
+                fn2(){
+                    console.log('parent');
+                    
+                },
+                fn3(){
+                    console.log('child');
+                    
+                },
+                fnUp(){
+                    console.log(00);
+                    
+                }
+            }
+        })
+
+        
+    </script>
+</body>
+</html>

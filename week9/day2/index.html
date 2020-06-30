@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        {{msg}}
+        {{9-9}}
+        {{arr}}
+        {{obj}}
+    </div>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+        //Vue是个类  是个函数
+        //vm  是vue的一个实例
+        //如果要更改视图，请更改数据
+        //小胡子语法：{{val}};val会自动去vue的data中去找属性名是msg的属性值，放到div中
+        //小胡子语法里面可以进行运算；语法里面支持四则运算；也支持三元运算符；
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                //data中的数据最重都会放在vm的实例上
+                msg:'hello',
+                arr:[1,2,3],
+                obj:{
+                    name:'zf',
+                    age:20,
+                    skill:'js高级'
+                }
+            }
+        });
+        //vue实例
+        //data中的数据直接放在了vm的实例上
+        //console.log(vm);
+        // vm.msg='北京'
+        vm.obj.place='北京'
+        vm.arr[0]=200;
+        //数据更新==》DOM更新
+        //MVVM原理：
+        //当更改了data中的数据时，会触发data属性的set方法；data会改变虚拟的dom元素（存在于作用域下的js对象）；然后让虚拟的dom元素和真实的dom元素进行对比；把更改的那部分直接替换；大大提高了页面的性能
+    </script>
+</body>
+</html>

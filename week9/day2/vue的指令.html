@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model='name'>
+        <span v-text="age"></span>
+        <div v-html="str"></div>
+        <div v-show="1">1000</div>
+        <div v-show="arr.length">啊哈</div>
+        <div v-if='0'>故宫</div>
+        <div v-else-if='0'>故宫2</div>
+        <div v-else='1'>故宫3</div>
+    </div>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+        //v-开头 放在行间属性的一些特殊指令，有特殊意义
+        //v-指令 后面的值 要么是data的属性名要么是数据类型的一种
+        //v-text :把data中的文本放在元素中
+        //v-html :识别标签 ,把标签放在元素中
+        //v-show :通过设置布尔值来控制元素的显示隐藏 true显示  false不显示;如果不是布尔值，会将这个值默认转成布尔值，v-show通过控制元素的css样式display来让元素显示隐藏
+        //v-if : 控制的是元素的DOM节点，直接删除了DOM元素
+        //v-else 条件语句 
+        let vm = new Vue({//vue实例里面不能套v-指令 不会被解析
+            el:'#app',
+            data:{
+                name:'zfpx',
+                age:20,
+                str:'<span>中国</span>',
+                arr:[1,2]
+            }
+        })
+    </script>
+</body>
+</html>

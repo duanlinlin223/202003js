@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div id="a">{{str}}</div>
+        <input type="text" v-model="str">
+    </div>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                // Object.defineProperty 给data中每一个属性新增set和get方法；
+                str:"学好vue"
+            }
+        });
+        vm.str="走遍天下";// 数据影响视图；数据==>视图
+        // 视图也可以影响数据；从而影响视图；
+        // 如果这个元素时通过data中的数据渲染的，{{}}；当通过innerHTML改变里面内容时，并不能改变数据；
+        // 能够和视图直接交互的，只有表单元素；input  label  checkbox  select  textarea
+        // VUE是一款MVVM框架；
+        // M: model(数据)  V ： VIEW(视图)  VM ： 数据视图对象
+        // MVVM 原理；
+        // 双向数据绑定：model==>view 将数据转成前端的页面 ，数据绑定 view=>model 将视图转成数据，DOM监听，这两个方向都实现的，就是双向绑定；
+
+        // 在MVVM下，model和view不能直接通信，必须通过vm(view-model)来进行信息传递，vm实现了一个观察者，当数据变化以后，能够引发视图的更新，当视图更新后，能够引发数据的更新；
+
+
+        // MVVM原理
+        // 把一个普通的js对象传给了vue的data，那么通过Object.defineProperty这个方法给每一个属性新增了set和get方法,当data中属性被访问时，会默认调用get方法，当设置时，会默认调用set方法，compile指令解析器，带有元素指令的节点进行，替换掉原来的模板数据，并且给这些元素绑定更新函数；watcher能够收到每隔属性的变动通知，然后执行响应的回调函数；Dep维护了一个订阅消息的数组，数据变动会触发notify函数，让更新DOM函数执行；4
+
+        // compile : 指令解析器；
+        // <input type="text" v-model="str"> ==> <input type="text" value="学好vue" >
+
+        // 当执行 new Vue() 时，Vue 就进入了初始化阶段，一方面Vue 会遍历 data 选项中的属性，并用 Object.defineProperty 将它们转为 getter/setter，实现数据变化监听功能；另一方面，Vue 的指令编译器Compile 对元素节点的指令进行解析，初始化视图，并订阅Watcher 来更新视图， 此时Wather 会将自己添加到消息订阅器中(Dep),初始化完毕。当数据发生变化时，Observer 中的 setter 方法被触发，setter 会立即调用Dep.notify()，Dep 开始遍历所有的订阅者，并调用订阅者的 update 方法，订阅者收到通知后对视图进行相应的更新
+
+        // let  obj = {name:"zfpx",age:10};
+       
+        
+        // Object.defineProperty(obj,"name",{
+        //     get(){
+        //         console.log(999)
+        //         return 1;
+        //     },
+        //     set(newVal){
+        //         // 当设置对象属性名的属性值时，会默认调用此方法
+        //         console.log(newVal);
+        //     }
+        // });
+        // 当获取obj.name属性值时，会默认调用get方法；会把get返回值作为obj的name的属性值；
+        // var r = obj.name;// 获取obj的name属性名对应的属性值
+        // var  e= obj.name;
+        // console.log(r);// undefined
+        // obj.name="回龙观";
+        // console.log(obj.name);
+        // console.log(obj);
+        
+        
+        
+    
+    
+    
+    </script>
+</body>
+</html>

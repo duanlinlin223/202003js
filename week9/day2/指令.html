@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        {{msg}}
+        <input type="text" v-model='name'>
+        <input type="radio" v-model="sex" value="1">男
+        <input type="radio" v-model="sex" value="2">女
+    </div>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+        //vue提供了一些内置的指令；以v-开头，放在行间属性上，有着特殊的意义的一些词；就是执行
+        //v-model   指令会从data中去找到属性名相同的值
+        //框架  利用新编译的dom结构替换掉原有的dom
+        //v-model双向绑定  视图能影响数据 了数据也能影响视图
+        //v-model 只能放在表单元素上 ; 
+        let vm = new Vue({
+            el:'#app',
+            // data:{
+            //     msg:'hello',
+            //     name:'用户名',
+            //     sex:'2'
+            // }
+            //data可以是函数，但是必须return一个对象出去
+            data:function(){
+                console.log(this);
+                
+                //this 指向vue实例
+                return {
+                    msg:'hello',
+                    name:'用户名',
+                    sex:'2'
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <ul>
+            <!-- 这个小胡子取得是for中的item，先用自己的，自己没有再去data中找 -->
+            <!-- <li v-for="(item,index) in arr">
+                {{item}}{{index}}
+            </li> -->
+            <!-- 第一个是属性值，第二个是属性名 -->
+            <li v-for="(item,val) in obj">
+                {{item}}{{val}}
+            </li>
+        </ul>
+    </div>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+        //v-开头 放在行间属性的一些特殊指令，有特殊意义
+        //v-for 可以循环数组 数字[从1开始循环]，字符串[拆分成一个个字母]
+        let vm = new Vue({//vue实例里面不能套v-指令 不会被解析
+            el:'#app',
+            data:{
+                arr:['香蕉','苹果','西瓜'],
+                obj:{
+                    a:1,b:2,c:3
+                }
+            }
+        })
+
+        
+    </script>
+</body>
+</html>

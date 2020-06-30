@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;padding: 0;
+        }
+        li{
+            list-style:none;
+            margin:10px;
+            font-size:16px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model='val' @keyup.enter="addList" @blur="searchFn">
+        <ul>
+            <li v-for="item in arr">{{item}} <button @click="deleteFn(item)"> delete</button></li>
+        </ul>
+    </div>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                val:'',
+               arr:[]
+            },
+            methods:{
+                addList(){
+                    if(this.val==''){
+                        return;
+                    }
+                    this.arr.push(this.val);
+                    this.val=''
+                },
+                deleteFn(t){
+                    this.arr=this.arr.filter(item=>item!==t)
+                },
+                searchFn(){
+                    this.arr=this.arr.filter(item=>{
+                        return item.includes(this.val)
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+</html>

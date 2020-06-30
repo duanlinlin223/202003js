@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+
+       <button @click="fn">提交</button>
+       <input type="text" @keyup.13="fn">
+    </div>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+       //给元素绑定的方法都放在了methods这个对象中
+        let vm = new Vue({
+            el:'#app',
+            data:{
+               
+            },
+            methods:{
+                //methods 
+                //.给元素绑定的方法都放在了methods这个对象中
+                //2.methods 方法中的属性和data属性, 还有computed中不能重名
+                //3.这里方法中的this指向vue实例
+                fn(){
+                    console.log(this);
+                }
+            }
+        })
+
+        
+    </script>
+</body>
+</html>
