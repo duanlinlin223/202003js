@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 会把toFixed的返回值放在这里 -->
+        {{a | toFixed(2)}}
+        {{b|toFixed(3) }}
+        {{c | zero}}
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //el元素
+        //data存储数据
+        //methods事件方法
+        //filters 过滤器 
+
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                a:10.8876,
+                b:1.23456,
+                c:2
+            },
+            methods:{
+
+            },
+            filters:{//格式化数据 
+                //toFixed 传参 默认传给第二个参数
+                // 当vue进行编译的时候，就会执行这个方法；把方法的返回值放在{{}}中
+                toFixed(val,a){
+                    //val就是 | 竖杠前面的值
+                    // console.log(val);会把这个函数的返回值 放在小胡子中
+                    return val.toFixed(a)
+                },
+                zero(val){
+                    return val<10?"0"+val:val
+                }
+            }
+        })
+    </script>
+</body>
+</html>

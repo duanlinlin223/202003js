@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        {{msg}}
+        {{arr}}
+        {{obj.name}}
+        <!-- <div v-model="msg"></div> -->
+        <input type="text" v-model="msg">
+        <input type="text" v-model="msg">
+        <button @click="fn">点击</button>
+    </div>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+        // 数据影响视图： 数据影响视图；
+        // 每一个属性都有一个自己的事件池Dep;用到了几次，就有几个watcher;都会放到Dep的事件池中；当更新数据时，会触发Dep.notify;就会让自己Dep的订阅事件触发；那么watcher执行就会调用自己的update更新视图；
+        let  vm = new  Vue({
+            el:"#app",
+            // data可以是对象也可以是函数
+            data:function() {
+                return {
+                    // data
+                    // 1. 双向绑定的特点，当初始化vue实例时，会把这里面的键值对通过Object.defineProperty新增get和set
+                    // 2. 会把data中键值对挂载到VUE实例上；
+                    msg:"hello",
+                    arr:[1,3,2,4],
+                    obj:{name:18},
+                   
+                }
+            },
+            methods:{
+                fn(e){
+                    // this==>  vm   vue的实例
+                    this.msg=100;
+                }
+            }
+        });
+        // 通过实例.msg可以直接更改数据，数据变视图就会变；
+        // vm.msg="wolrd";
+        // vm.arr[0]=100;
+        // vm.arr=[100,2,3,4];
+        // vm.arr.reverse();
+        // vm.obj.name=99;
+        // data中的数组不能直接通过索引去改变其中某一项；监听不到这种更新的方式
+        // 1.直接修改空间地址
+        // pop push  shift  unshift  splice sort reverse
+        // 2.能够引发原数组发生改变的方法都可以让视图更新
+        // 3.$set
+
+        // vue的双向数据绑定原理
+        // Object.defineProperty({},"name",{
+        //     get(){
+
+        //     },
+        //     set(){
+
+        //     }
+        // });
+
+        // 指令以v-开头，放在行间的一些特殊的行间属性就是指令
+        // v-model  : 用于表单元素
+        // v-for ： 循环绑定数据
+        // v-html : 能识别标签
+        // v-text : 识别文本
+        // v-if : 显示隐藏
+        // v-else  v-else-if
+        // v-show: 如果频繁操作元素显示隐藏，那么需要用v-show
+        // v-on : 绑定事件 @；
+
+        // vue的事件； methods：methods属性名和data中属性名不能重名；
+        // v-on:click==>@click
+
+        // 事件对象
+        // 1. 绑定时不带小括号,默认就是事件对象
+        // 2. 带小括号需要用到$event来占位；
+
+        // 事件修饰符
+        // .stop  .prevent  .capture  .once  .self  .passive
+        // .enter .space  .delete .esc .up .down  .left .right 
+
+
+
+    
+    
+    
+    </script>
+</body>
+</html>

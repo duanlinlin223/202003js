@@ -30,18 +30,20 @@
             el:'#app',
             data:{
                 msg:{
-
+                    
                 }
             },
             methods:{
                 fn(){
                     // this.msg.a=200 //给对象新增属性值 视图不会刷新
                     //$set 给data中的对象新增键值对
-                    this.$set(this.msg,'a',300)
+                     //this.$set(this.msg,'b',900)
+                    //this.msg.a=300;
+                    this.msg.a=300;
                 }
             }
         })
-        console.log(vm.$options);
+        // vm.msg.b=900;
         
     </script>
 </body>

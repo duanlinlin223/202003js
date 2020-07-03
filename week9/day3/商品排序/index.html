@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/reset.min.css">
+</head> 
+
+<body>
+<div id="app">
+    <div id="box">
+        <div class="header">
+            <span>排序</span>
+            <a href="#" v-for="(a ,index) in aList" @click="sortFn(index)">
+                {{a.title}}
+                <i :class="a.up"></i>
+                <i :class="a.down"></i>
+            </a>
+        </div>
+        <ul id="list">
+            <li v-for="item in list">
+                <img :src="item.img" alt="">
+                <span>{{item.title}} </span>
+                <span>{{item.time}}</span>
+                <span>{{item.hot}}</span>
+                <span>{{item.price}}</span>
+            </li> 
+        </ul>
+    </div>
+</div>
+<script src="../../node_modules/vue/dist/vue.js"></script>
+<script src="../../node_modules/axios/dist/axios.js"></script>
+<script src="js/utils.js"></script>
+<script>
+    let vm = new Vue({
+        el:"#app",
+        data:{
+            aList:[],
+            list:[],
+            price:[],
+            ary:[1,1,1]
+        },
+        created(){
+            this.getList();
+            this.getA();
+        },
+        methods:{
+            getList(){
+                axios.get('./json/product.json').then(data=>{
+                    this.list = data.data;
+                })
+            },
+            getA(){
+                axios.get('./json/a.json').then(data=>{
+                    this.aList = data.data;
+                })
+            },
+            sortFn(ind){
+                this.ary[ind] *= -1
+                this.list.sort((a,b)=>{
+                    let cur,next;
+                    if(ind==0){
+                        cur = parseFloat(a.time.split('-').join(""));
+                        next = parseFloat(b.time.split('-').join(""));
+                    };
+                    if(ind == 1){
+                        cur=a.hot;
+                        next = b.hot;
+                    }
+                    if(ind==2){
+                        cur=a.price;
+                        next = b.price;
+                    }
+                    
+                    return (next - cur)*this.ary[ind]*-1;
+                    //console.log(cur,next);
+                })
+            }
+        }
+    })
+</script>
+</body>
+
+</html>

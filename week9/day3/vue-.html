@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="item in products">
+                {{item.productName}}
+            </li>
+        </ul>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/axios/dist/axios.js"></script>
+    <script>
+        //vue 先初始化数据 在初始化方法
+        //使用axios发送请求
+        //axios请求回来的数据以后 需要对data中的属性赋值
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                products:[]//请求回来的数据对product赋值
+            },
+            created(){//钩子函数
+                // 在真实的项目中，一般会在created中发送请求；
+                // 在执行created时，vue还没有把真实的DOM挂载到App中；此时立即请求数据，然后把data中的数据改掉；生成一个新的DOM；最后返回到APP元素中；减少DOM的操作次数；提高了性能
+                console.log(this);//钩子函数中的this指向vue实例
+                this.getData();
+                
+            },
+            methods:{//methods中的方法也会挂载到实例上
+                getData(){
+                        axios.get('./carts.json').then(data=>{
+                        this.products=data.data;
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+</html>

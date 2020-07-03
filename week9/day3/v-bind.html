@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .x{
+            height:100px;
+            width:100px;
+            background-color: red;
+        }
+        .y{
+            width:200px;
+            height:100px;
+            background: chartreuse;
+        }
+        /* .z{
+            width:200px;
+            height:100px;
+            background:black;
+        } */
+    </style>
+</head>
+<body>
+    <div id="app">
+        <span v-bind:data="a"></span>
+        <img :src="imgSrc" alt="">
+        <div :class='{x:true}'></div>
+        <div v-bind:class='[a,b]'></div>
+        <div v-bind:style="{width:'50px'}"></div>
+        <div v-bind:style="[z]">1</div>
+        <div v-bind:style="{width:w+'px',height:'200px'}">2</div>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //1.v-bind 可以将普通的属性转成动态属性；可以去data中取值
+        //2.v-bind:class 后面属性值可以是一个对象；其中的属性名是样式类名，如果样式类名的属性值是true  该样式生效，如果是false该样式无效
+        //3.v-bind:可以放数组，数组的值是从data中找到对应的，然后在根据data中的属性值 找到style样式表里的对应的样式名
+        //v-bind:style 属性值需要放一个对象
+        //v-bind:style 放数组
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                //data中的数据只能通过小胡子或者是在html中用内置的指令获取这个data中的值
+                a:'zfpx',
+                imgSrc:'/1/1.jpg',
+                a:'x',
+                b:'y',
+                z:{width:'100px',height:'50px',background:'red'},
+                w:100
+            },
+            methods:{
+
+            },
+            computed:{
+
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .del{
+            width:100px;
+            height:100px;
+            background-color: blueviolet;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div :class="{del:true}"></div>
+       <ul>
+           <li v-for="a in arr">
+               {{a}}
+           </li>
+       </ul>
+    </div>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                arr:[1,2,3,4]
+            },
+            created(){
+                //如果能在created改变数据，那么编译进行一次；如果在mounted中改变数据会再次编译模板，性能低
+                // this.arr=[1,2,3,4,5]
+                
+            },
+            //编译模板
+
+            boforeMount(){
+                console.log('boforeMount');
+                //开始编译原有的数据来编译，存在内存中，当数据更新之后，立即将内存中的模板编译成4个li；最后挂载到真实的dom上，不会引发beforeUpdate函数的调用
+            },
+            //编译模板是在created之后 beforeMount之前 会编译模板
+            //在mounted之前能改变数据最好性能最高；
+            //在mounted之前改变数据，不会调用beforeUpdate这个函数
+            //挂载完成
+            mounted(){
+                this.arr=[1,2,3,4,5]
+                //如果在mounted中更改数据的话 ，是挂载完之后 再次将最新的挂载到真实dom中，会引发beforeUpdate函数调用
+
+
+                //vue中dom的更新是异步的；
+                // let oLi = document.getElementsByTagName('li')
+                // console.log(oLi);
+
+                //如果在mounted中操作最新的dom？
+                //nextTick 需要传入一个回调函数，会当真实的dom更新完成之后立即调用这个回调函数
+                this.$nextTick(()=>{
+                    let oLi = document.getElementsByTagName('li')
+                console.log(oLi);
+                })
+            },
+            beforeUpdate(){
+                //当会引发真实DOM改变的时候；页面渲染的时候才会触发这个函数
+                //监听页面变化
+                
+                console.log('beforeUpdate');
+                
+            }
+        });
+
+        //computed 特点  
+        //1,多对一
+        //2,走缓存
+        //3,不支持异步
+        // watch 特点
+        //1,一对多
+    </script>
+</body>
+</html>
