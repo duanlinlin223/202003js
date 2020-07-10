@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue-router</title>
+</head>
+<body>
+    <div id="app">
+        <router-link to="/home" class="a">首页</router-link>
+        <router-link to="/list">登录页</router-link>
+        <router-view></router-view>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vue-router/dist/vue-router.js"></script>
+<script>
+    //当组件切换时，当前组件被销毁；当显示该组件时，又会重新生成该组件，要进行初始化beforeCreate created beforeMount mounted
+    //当现显示组件，又会生成该组件并初始化生命周期前四个钩子函数
+    //home和list 是由router渲染的一个组件,那么这个组件实例就会有一个$router属性，这个属性原型生有一些操作路由的方法
+
+    //方法：
+    //1.push：参数[路径字符串]直接从当前路由跳转url到对应的组件上
+    //2.back:回退上一次的路由上,一般不用传参直接退回到上一次的路由
+    //3.go:go(number) : 让路由前进或者向后退几次
+    let home={
+        // created(){
+        //     // console.log('组件生成');
+        //     console.log(this);
+        // },
+        // beforeDestroy(){
+            
+        //     console.log('销毁');
+        // },
+        methods:{
+            goList(){
+                //this==指向home组件的实例;push('路径')
+                // this.$router.push('/list')
+                this.$router.go(1)
+            }
+        },
+        template:`<div>首页内容<button @click='goList'>去列表页</button></div>`
+    }
+    let list={
+        methods:{
+            goBack(){
+                this.$router.back();
+            }
+        },
+        template:`<div>列表页内容<button @click="goBack">返回首页</button></div>`
+    }
+    let routes=[{path:'/home',component:home},{path:'/list',component:list}];
+    let router = new VueRouter({
+        routes
+    })
+    let vm = new Vue({
+        el:"#app",
+        data:{
+           
+        },
+        components:{
+           
+        },
+        router
+    })
+</script>
+</body>
+</html>

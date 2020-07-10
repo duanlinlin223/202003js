@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue的template</title>
+</head>
+<body>
+    <div id="app">
+        
+    </div>
+    <div id="app1">
+       
+    </div>
+    <template id="first">
+        <div>我是template组件
+            <div @click="fn">{{msg}}</div>
+            <div v-for="a in arr">{{a}}</div>
+        </div>
+    </template>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        // template是原本就有的标签不是vue里面的
+        //template:模板
+        //1.template属性属性值是个字符串，当初始化实例时，会把template属性值编译成dom元素替换掉整个id为app的元素
+        //2.template中只能有一个根元素，如果有多个那么会默认将第一个作为根元素；
+        //3.template元素中可以取到data或者methods中的数据和方法
+        //4.可以用字符串模板
+
+        //template可以复用，两个vue实例共用一段代码结构(template)，但是解析出不同的数据来
+        let  vm = new Vue({
+            el:"#app",
+            data:{
+                msg:'zfpx',
+                arr:[1,2,3,4]
+            },
+            methods:{
+                fn(){
+                    console.log(111);
+                    
+                }
+            },
+            template:'#first'
+            //template:`<div>我是template组件<div @click="fn">{{msg}}</div><div v-for="a in arr">{{a}}</div></div>`
+        })
+        let  vm1 = new Vue({
+            el:"#app1",
+            data:{
+                msg:'立水桥',
+                arr:[1,2]
+            },
+            methods:{
+                fn(){
+                    console.log(333);
+                }
+            },
+            template:'#first'
+            //template:`<div>我是template组件<div @click="fn">{{msg}}</div><div v-for="a in arr">{{a}}</div></div>`
+        })
+    </script>
+</body>
+</html>

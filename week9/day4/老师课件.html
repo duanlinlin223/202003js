@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 凡是指令最后也不会放到行间元素中 -->
+        <div @click="fn($event)" f="abc">{{msg|toFixed}}</div>
+        <div v-html="name"></div>
+        <img :src="url" alt="">
+    </div>
+
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+        // Vue : Vue中每一个vue实例都会有一个自己唯一的id;
+        // 写法变了
+        // 指令  ： v-
+        // v-model : 用于表单元素；
+        // v-for ： 循环；要想创建多个li，那么v-for就放到li上
+        // v-on:==>@ 绑定事件
+        // v-bind : 将普通的属性转成取动态属性
+        // v-if  : 
+        // v-else-if:
+        // v-else
+        // v-show 
+        // v-html 
+        // v-text
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                // data中的数据最后都会放到vm的实例上
+                // 具有响应式
+                msg:"hello",
+                name:"zfpx",
+                arr:[1,2,3],
+                url:"/img/1.png"
+            },
+            methods:{
+                // 事件和方法都放到methods中
+                // 1. 和data中的属性不能重名；
+                // 2.this指向vm这个实例
+                fn(e){
+                    // 箭头函数帮助了咱们更好的用vue;
+                    // 在vue方法中经常以vm实例作为数据的载体；尽可能地让this指向vm实例
+                     this.arr.filter((item)=>{
+                         // window 
+                        //  console.log(this);
+                     })
+                }
+            },
+            filters:{
+                // 过滤器
+                toFixed(val){
+                    // 把这个函数的返回值给了整体的小胡子
+                }
+            },
+            created(){
+                // 用来发送请求，是生命周期钩子函数的一个；
+            }
+        });
+        // console.log(vm);
+        
+        // function Vue1(options){
+        //     // vue的实例
+        //     this.$el=document.querySelector(options.el);
+        //     for(let key in options.data){
+        //         this._data[key] = options.data[key];
+        //     }
+        // };
+
+      
+        function A(B){
+            let obj= {};
+            obj.B =B;
+            obj.B();
+        }
+        A(function(){
+            console.log(this);
+        });
+        
+        
+    </script>
+</body>
+</html>

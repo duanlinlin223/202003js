@@ -8,17 +8,29 @@
 </head>
 <body>
     <div id="app">
-        
+        <input type="checkbox" @change="changeAll">全选<br>
+        <input type="checkbox" v-for="item in arr" v-model="item.isT"> 
     </div>
     <script src="./node_modules/vue/dist/vue.js"></script>
     <script>
         let vm = new Vue({
             el:'#app',
             data:{
-                
+                arr:[{isT:false},{isT:false}],
+                checkAll:false
+            },
+            methods:{
+                changeAll(){
+                    this.arr.forEach(item=>{
+                        item.isT = this.changeAll
+                    })
+                }
             }
         });
 
+        //复习
+        //vue双向绑定原理，想改变视图就直接操作数据；
+        //双向绑定针对的是input表单元素；对于普通元素来说只能是数据影响视图，没有视图影像数据一说；
     </script>
 </body>
 </html>

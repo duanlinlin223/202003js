@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 自定义事件changeMoney -->
+        {{money}}
+        <!-- 给子组件订阅方法 -->
+        <son :m="money" @change-money="fn"></son>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //父传子、兄弟之间数据传递、子传父
+        //子传父
+        
+        let son={
+            props:['m'],
+            methods:{
+                add(){
+
+                    //发布订阅===》自定义事件
+                    //发布让订阅的方法执行
+                    //$emit()是vue实例的一个方法；发布自定义事件的一个方法
+                    
+                    //子组件订阅了父组件的方法，在子组件中触发了父组件的方法，让父组件改变自己的数据
+                    //自定义事件-不支持驼峰写法，可以小写和中杠
+                    this.$emit('change-money')
+                }
+            },
+            template:`<div>{{m}}<button @click="add">click</button></div>`
+        }
+        new Vue({
+            el:"#app",
+            data:{
+                money:666
+            },
+            methods:{
+                fn(){
+                    this.money=888;
+                }
+            },
+            components:{
+                son
+            }
+        })
+    </script>
+</body>
+</html>

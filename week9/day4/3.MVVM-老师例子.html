@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        {{name}}
+        <div>{{name}}</div>
+        <div>
+            <input type="text" v-model="name">
+        </div>
+    </div>
+    <!-- <script src="node_modules/vue/dist/vue.js"></script> -->
+    <script>
+        // getAttribute("v-for"); "a in arr"
+        // compile 【解析指令】 :1. 初始化视图  2. 订阅数据绑定更新函数
+        // observer【劫持数据】 : 通知变化==> Dep【事件池】==> 存储了Watcher ==> watcher会更新视图
+        // 数据劫持的方法
+        function observe(data){// data是个对象
+            // 如果不是对象，直接停掉；
+            if(typeof data!=="object")return;
+            // 把data中的属性名放到数组里；
+            let keys = Object.keys(data);
+            keys.forEach(key=>{// key 是data的属性名
+                defineReactive(data,key,data[key]);
+            })
+
+        }
+        // 封装代码： 分的清实参和形参是啥；
+        function defineReactive(obj,key,value){
+            observe(value);
+            // data中一个属性对应一个dep事件池
+            let dep = new Dep;
+            Object.defineProperty(obj,key,{
+                get(){
+                    // 将watcher的实例订阅到dep的事件池中
+                    if(Dep.curWatcher){
+                        dep.addDep(Dep.curWatcher);
+                    }
+                    return value;
+                },
+                set(newVal){
+                    // newVal 是最新的值；赋值给value;
+                    // 不相等的时候，要进行赋值
+                    if(newVal!==value){
+                        value = newVal;
+                        observe(value);
+                        dep.notify();
+                    } 
+                }
+            });
+        }
+        // 实现模板的编译；把带有v-model或者{{}}这种模板编译成真实的DOMd
+        function nodeToFragment(node,vm){
+            // 把app里面的元素都放到文档碎片中；
+            // frament是一个js容器，如果放到这个容易中，那么这个页面就没有了这个元素
+            let frament = document.createDocumentFragment();
+            let child=node.firstChild;// 第一个子节点
+            while(child){
+                // 当把第一个子节点放到frament中以后，第二个子节点就成为了第一个子节点，依次类推；
+                console.log(child);
+                frament.appendChild(child);
+                compile(child,vm);
+                child = node.firstChild;
+            }
+            // 把文档碎片放回app元素中；
+            node.appendChild(frament);
+        }
+        // 把每一个节点编译成真实的DOM
+        function compile(node,vm){
+            if(node.nodeType===1){
+                // 如果nodeType是1，说明这个节点是一个元素节点;就要处理其行间属性
+                // 这是元素所有的行间属性、
+                // 类数组集合
+                let attrs = node.attributes;
+                [...attrs].forEach(item=>{
+                    // item.nodeName :行间属性名
+                    // item.value : 行间的属性值
+                    if(/^v\-/.test(item.nodeName)){
+                        // 如果符合这个正则说明是v-开头的；
+                        let valname  = item.nodeValue;// 获取带了v-model后面的属性值 name;
+                        let  val = vm._data[valname];// 获取vmdata中的name对应的属性值；
+                        node.value = val;// 把name的属性值赋值给input;
+                        // 视图影响数据；DOM监听；
+                        // 更新DOM的一个实例；而且还需要把最新的值传给node;还需要把vm实例和这个属性传给watcher,获取最新的vm上的数据
+                        new Watcher(node,vm,valname)
+                        node.addEventListener("input",(e)=>{
+                            // 把input框的value值赋值给vm的_data中属性名是valname的属性值；
+                            vm._data[valname]=e.target.value;
+                        });
+                    }
+                });
+                // node : 对node所有的子孙节点进行行间的处理；利用了递归；
+                [...node.childNodes].forEach(item=>{
+                    // 如果该元素有子节点，那么要对子节点进行编译；
+                    compile(item,vm);
+                });
+            }else{
+                // 文本节点
+                // console.dir(node);
+                let str = node.nodeValue;// 获取到文本节点的内容
+                node.str = str;// 把这个带有{{}}的字符串存储起来
+                // 处理文本节点带着{{}}这种文本；
+                // 判断有{{}}的文本;把{{name}}整体换成zfpx
+                if(/\{\{(.+?)\}\}/.test(str)){
+                    str= str.replace(/\{\{(.+?)\}\}/g,(a,b)=>{
+                        // a:整个大正则捕获的内容   b: 第一个小括号捕获的内容
+                        // b===name
+                        b = b.trim();
+                        new Watcher(node,vm,b);
+                        return vm._data[b];
+                    });
+                    // 把从vm的data中取到的name对应的属性值赋值给node这个节点的nodeValue;
+                    node.nodeValue = str;
+                }  
+            }
+        }
+        // 发布--订阅模式；
+        // 创建一个watcher : 页面中用一次数据创建一个watcher；这个watcher对数据进行监听，并且每一个watcher都有一个update方法；
+        // 提供了一个Dep的事件池；存储了watcher;当数据改变以后，调用Dep这个事件池中的notify；让Dep订阅的事件挨个执行
+        class  Dep{
+            constructor(){
+                this.subs = [];
+            }
+            addDep(sub){// 这个方法是订阅用的 sub是watcher的实例
+                this.subs.push(sub);
+            }
+            notify(){// 让dep的事件池中订阅 的方法执行
+                // item 就是sub
+                this.subs.forEach(item=>{// item 也是watcher的实例
+                    item.update();
+                });
+            }
+        }
+        // update： 更新DOM的函数;页面中使用一次，需要创建一个wacther的实例
+        class Watcher{
+            // 每new一次，都会执行一次constructor
+            constructor(node,vm,key){
+                // 把watcher的实例赋值给Dep.curWatcher的属性上；
+                Dep.curWatcher = this;// this ==> watcher的实例
+                this.node = node;
+                this.vm = vm;
+                this.key = key;
+                this.getData();
+                // 在赋值null之前，一定要重新执行一次get方法；
+                Dep.curWatcher=null;
+            }
+            // update是要更新node;通过实例取获取这个节点和最新的值
+            update(){
+                this.getData();// 获取最新的data中的值；
+                if(this.node.nodeType===1){
+                    this.node.value = this.value;
+                }else{
+                    // console.log(100)
+                    let  str = this.node.str;
+                    // console.log(str);//{{name}}
+                    str  = str.replace(/\{\{(.+?)\}\}/g,(a,b)=>{
+                        // b = name
+                        b = b.trim();
+                        return this.vm._data[b];
+                    });
+                    this.node.nodeValue = str;
+                }
+            }
+            getData(){
+                // 重新获取一次_data中这个属性的属性值，那么会触发get方法，
+                this.value = this.vm._data[this.key];
+            }
+        }
+
+        function Vue(options){
+            // 往实例上新增$el属性，属性值是id是app的原生的DOM对象
+            this.$el = document.querySelector(options.el);
+            for(let key in options.data){
+                // 把data中的数据放在vm的实例上;直接将键值对放在vm上；
+                this[key]=options.data[key];
+            };
+            // 判断data的属性值是否是函数，如果是函数把函数的返回值给this._data;如果不是函数直接将这个属性值给它;
+            this._data =typeof options.data==="function"?options.data():options.data;
+            // 数据劫持
+            observe(this._data);
+            // this.$el: app元素  this 指的是vue的实例
+            nodeToFragment(this.$el,this);//
+        }
+
+
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                name:"zfpx",
+                age:{
+                    a:1
+                }
+            }
+        });
+        console.log(vm);
+        // let obj = {a:100,b:300,c:8};
+        // console.log(Object.keys(obj)); 
+        
+    
+    </script>
+</body>
+</html>

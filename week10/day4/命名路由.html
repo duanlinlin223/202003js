@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 将to改成动态属性 :to={name:'组件的名字'}-->
+        <router-link :to="{name:'first'}">首页</router-link>
+        <router-view></router-view>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vue-router/dist/vue-router.js"></script>
+    <script>
+        //url:根据path和to中的路径进行匹配
+        //还有一种是名字匹配
+        //命名路由：给路由起个名字
+        let home={
+            template:`<div>首页</div>`
+        }
+        //name:给该路由起一个名字
+        let routes=[{path:'/home',component:home,name:'first'}]
+        let router = new VueRouter({
+            routes
+        })
+        let vm = new Vue({
+            el:"#app",
+            router
+        })
+    </script>
+</body>
+</html>

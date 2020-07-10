@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>computed的特点</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="a">
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/axios/dist/axios.js">
+    </script>
+    <script>
+        //data methods computed 不能重名
+        //watch的特点  监听属性监听的data中的属性,要和data中的监听的属性名字一致
+        //1.没有缓存
+        //2.支持异步
+        let vm = new Vue({
+            el:'#app',
+            data:{//直接放在vm身上具有双向的特点
+                a:100
+            },
+            methods:{
+                
+            },
+            watch:{
+                a(newVal,oldVal){//newVal最新的值oldVal上一次的值
+                    //当a发生改变之后会触发a这个方法
+                    //监听data中已经存在的属性，当这个数据发生改变之后要做的事情
+                    console.log(newVal,oldVal);
+                }
+            }
+        })
+    </script>
+</body>
+</html>

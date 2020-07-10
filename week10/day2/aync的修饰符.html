@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 自定义事件changeMoney -->
+        {{money}}
+        <!-- 给子组件订阅方法 -->
+        <!-- <son v-bind:m="money" @upda:m="money=$event"></son> -->
+        <son :m.sync="money" ></son>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+       //sync语法糖
+       //为了实现在子组件中更改父组件的数据
+        let son={
+            props:['m'],
+            methods:{
+                add(){
+                    //update:m：这就是自定义事件的名字
+                    //999传给了$event
+                    //如果用.sync修饰符$emit触发的事件必须是update:m(m为接受的传参的属性，名字和props一致)
+                    this.$emit('update:m',999)
+                }
+            },
+            template:`<div>{{m}}<button @click="add">click</button></div>`
+        }
+        new Vue({
+            el:"#app",
+            data:{
+                money:666
+            },
+            methods:{
+            },
+            components:{
+                son
+            }
+        })
+    </script>
+</body>
+</html>

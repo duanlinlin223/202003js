@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue的组件</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 在子组件的行间属性上通过动态去取值，那么获取的是父组件中的数据 -->
+        <!-- <child v-bind:a="msg"></child> -->
+        <!-- <child :a="word" :b="msg"></child>
+        <child :a="c" ></child> -->
+        <child :f="obj" ></child>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //组件和组件之间的通信
+        //1.数据传递
+        //1.先把父组件的数据通过动态属性传递到子组件的行间属性
+        //2.需要在子组件中用props进行接收这个属性
+        //3.在子组件中使用行间属性名取值
+        let child={
+            data(){
+                return {
+                    // msg:'child-msg',
+                    // name:"child"
+                }
+            },
+            props:['a','b','f'],//props的值和动态属性的属性名保持一致
+            computed:{
+                // world(){
+                //     return 100
+                // }
+            },
+            methods:{
+                // world(){
+                //     return 100
+                // }
+            },
+            //子组件获取数据时，如果自己没有[自己组件实例中没有methods,computed,data]，也不能直接使用父组件中的数据；
+            //子组件只能在template中使用自己的数据
+            template:`<div>{{b}}{{a}}{{f.age}}{{f.cur}}</div>`
+        }
+        let  vm = new Vue({
+            el:"#app",
+            data:{
+                msg:'vue-组件',
+                word:'vue-china',
+                c:'ccccc',
+                obj:{
+                    age:'obj',
+                    cur:'obt'
+                }
+            },
+            components:{
+                child
+            }
+        })
+    </script>
+</body>
+</html>

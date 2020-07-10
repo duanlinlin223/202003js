@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue的组件</title>
+</head>
+<body>
+    <div id="app">
+        <parent></parent>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //created 是从外向内 父亲先输出 mounted是儿子先输出 从里向外
+        //当vue实例解析html时，先遇到parent组件，所以先执行parent的声明周期，在解析p过程中，编译parent的dom模板时，遇到了child组件，马上去解析child组件，child的parent的子组件，child的dom挂载到parent的dom上以后才会执行parent的mounted；所以先执行child的mounted，然后在执行parent的mounted；
+        let child={
+            data(){
+                return {
+                    a:"child"
+                }
+            },
+            // updated(){
+            //     console.log('child-created');
+            // },
+            // beforeUpdate(){
+            //     console.log('child');
+            // },
+            mounted(){
+                // console.log('child');
+            },
+            methods:{
+                fn(){
+                     this.$destroy()
+                },
+            },
+            destroyed(){
+                console.log('child-destroy');
+            },
+            template:`<span @click.stop="fn">{{a}}</span>`
+        }
+        
+        //child的父组件是parent ；parent的父组件是vue
+
+        //当父组件销毁时也会先销毁子组件，再触发自己的销毁
+        //当父组件的数据更新时只更新自己的数据不影响子组件的数据
+        let parent={
+            data(){
+                return {
+                    name:"parent"
+                }
+            },
+            components:{
+                child
+            },
+            // created(){
+            //     console.log('parent');
+                
+            // },
+            // beforeMount(){
+            //     console.log('parent');
+            // },
+            methods:{
+                fn(){
+                     this.$destroy()
+                    // console.log('pp');
+                }
+            },
+            updated(){
+                console.log('parent-created');
+            },
+            beforeUpdate(){
+                console.log('parent');
+            },
+            destroyed(){
+                console.log('parent-destroy');
+            },
+            // mounted(){
+            //     console.log('parent');
+            // },
+            //父子组件嵌套的执行顺序
+            //beforeCreat (父亲)-->created(父亲)-->beforeMount(父亲)--beforeCreat (儿子)-->created(儿子)-->beforeMount(儿子)-->mounted(儿子)-->mounted(父亲)
+            template:`<div @click="fn">{{name}}<child></child></div>`
+        }
+        //vm的uid是0  parent的uid是1，child的uid是2
+        let  vm = new Vue({
+            el:"#app",
+            data:{
+                msg:'hello'
+            },
+            components:{
+                parent
+            }
+        })
+    </script>
+</body>
+</html>

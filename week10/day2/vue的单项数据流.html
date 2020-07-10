@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        {{obj.a}}
+        <span>vue好不好</span>
+        <button @click="add">click</button>{{num}}
+        <child :m="num" :o="obj"></child>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //vue中的单项数据流
+        //当父组件通过方法改变自己的数据时，如果子组件也用到了这个数据，那么子组件也会跟着更新发生改变；也就是说父组件的数据流动到了子组件，子组件更新，这就是vue数据传递的单向数据流
+        let child={
+            // data(){
+            //     return{//1.data为函数，2.必须return一个对象，3.data可以不写
+
+            //     }
+            // },
+            methods:{
+                min(){
+                    //this.m--;//this指向子组件
+                    this.o.a=9//如果是引用类型，只要不该空间地址就可以
+                    //如果传过来的是一个对象或者数组，子组件里可以改变里面的值，空间地址不变，可以更改里面的值
+                }
+            },
+            created(){
+                console.log(this);
+            },
+            beforeUpdate(){
+                console.log('子组件beforeUpdate');
+                
+            },
+            updated(){
+                console.log('子组件updated');
+            },
+            props:['m','o'],//props把父组件接受过来之后，也会放在该子组件中
+            template:`<div>{{m}}<button @click="min">son</button>{{o.a}}</div>`
+        }
+        //父组件数据更改时：父组件beforeUpdate==>子组件的beforeUpdate==》子组件的updated===》父组件的updated
+        //如果更改子组件的数据，不会触发父组件的updated方法
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                num:100,
+                obj:{
+                    a:10,
+                }
+            },
+            methods:{
+                add(){
+                    this.num++
+                }
+            },
+            beforeUpdate(){
+                console.log("父组件beforeUpdate")
+            },
+            updated(){
+                console.log("父组件updated")
+            },
+            components:{
+                child
+            },
+            mounted(){
+                
+            }
+        })
+    </script>
+</body>
+</html>

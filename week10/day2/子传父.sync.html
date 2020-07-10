@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 自定义事件：自己起的名字 -->
+        {{money}}
+        <!-- 订阅 -->
+        <!-- <son v-bind:m="money"  @update:m="money=$event"></son> -->
+        <son :m.sync="money"></son>
+    </div>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+        // 为了实现在子组件中更改父组件的数据
+        let son = {
+            data(){
+                return {}
+            },
+            methods:{
+                add(){
+                    // update:m:这就是自定义事件的名字
+                    // 888 传给了$event
+                    // 如果用.sync,$emit 触发的事件必须是update:m
+                    this.$emit("update:m",888);// 后面这个值就是最新的值
+                }   
+            },
+            props:["m"],
+            template:"<div>{{m}}<button  @click='add'>多要点</button></div>"
+        }
+        new Vue({
+            el:"#app",
+            data:{
+                money:666
+            },
+            methods:{ 
+            },
+            components:{
+                son
+            },
+            mounted(){
+               
+            }
+        });
+
+        
+        
+    </script>
+</body>
+</html>

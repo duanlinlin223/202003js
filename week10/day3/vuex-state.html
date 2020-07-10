@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vuex</title>
+</head>
+<body>
+    <div id="app">
+       <!-- {{count}} -->
+       <!-- {{$store.state.count}} -->
+       <first></first>
+       <second></second>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vuex/dist/vuex.min.js"></script>
+    <script>
+        //多组数据共享state ==>就是数据
+        //store是一个实例
+        //在vuex中规定：要想该state的数据，必须通过commit来提交一个mutation
+        //当共享的数据发生改变以后，那么依赖这个数据的组件都会高效的更新
+        let store = new Vuex.Store({
+            state:{
+                count:100,//这是公共数据，多组件共享数据
+                str:'aaaa'
+            },
+            mutations:{//改变
+                add(state,payload){//这个state默认就是store中的state;传的参数默认就是state，参数可以改变
+                //console.log('下雨');
+                // console.log(state);
+                //payload载荷-->传参；参数
+                    state.count+=payload;
+                }
+            }
+        })
+        let first={
+            data(){
+                return{
+                    msg:'中华'
+                }
+            },
+            beforeCreate(){
+                //store可以在任何一个钩子函数中使用
+                //console.log(this.$store.state.count);
+            },
+            // created(){
+            //     console.log(this.$store.state.count);//每一个组件也会新增一个$store
+            // },
+            methods:{
+                addCount(val){
+                    //this.$store.state.count++//this不能省略
+                    //commit(提交)是$store上的一个方法；能够让store中mutations中的方法执行
+                    this.$store.commit('add',val)//这个名字需要和mutations中的方法名字保持一致
+                }
+            },
+            //first组件就拿到了store中count的值
+            //vuex.mapState:可以将vuex中的store中的state的数据，映射到当前组件的计算属性上
+            computed:{//store中的数据是响应式的，如果公共数据放入computed中则不能和data中的属性重名
+                //vuex.mapState返回值是一个对象(需要放到computed中);自己组件的计算属性依赖store中的数据变化
+                ...Vuex.mapState(['count','str'])//需要什么取什么
+            },
+            template:`<div>{{count}}<button @click="addCount(2)">加加</button>{{str}}</div>`//这里的this可以省掉，小胡子会自动调this
+        }
+        let child={
+            data(){
+                return{
+
+                }
+            },
+            template:`<div>{{$store.state.count}}</div>`
+        }
+        let second={
+            data(){
+                return{
+
+                }
+            },
+            components:{
+                child
+            },
+            template:`<div>{{$store.state.count}}</div>`
+        }
+
+        //first second作为vm的子组件可以通过$store获取到公共的数据；如果child的组件是second的子组件，同样可以获取到store中的公共数据--》只要是vm的子孙组件就可以用
+
+        //真是的项目中只有一个new vue；这个vm实例是所有组件的祖先组件
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                // count:0
+            },
+            methods:{
+                
+            },
+            components:{
+                first,
+                second
+            },
+            store//当把store注入到实例时，vm实例上会新增一个$store;属性值是个对象；在vuex源码将store注入到这个vm实例的同时，同时也注入到了他的子孙组件的实例上
+        })
+        console.log(vm);
+        
+    </script>
+</body>
+</html>

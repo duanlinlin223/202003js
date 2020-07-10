@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* *{
+            margin:0;padding:0;
+        } */
+        ul{
+            cursor:pointer
+        }
+        .box span.close:before{
+            content:"+";
+            font-size:20px;
+            font-weight:bold;
+            color:red;
+        }
+        .box span.open:before{
+            content:"-";
+            font-size:30px;
+            font-weight:bold;
+            color:red;
+        }
+    </style>
+</head>
+<body>
+    <ul class="box" id="box">
+        <li>
+            <span>第一级菜单</span>
+            <ul>
+                <li>
+                    <span>第二级菜单</span>
+                    <ul>
+                        <li>
+                            <span>第三级菜单</span>
+                            <ul>
+                                <li><span>第四级菜单</span></li>
+                                <li><span>第四级菜单</span></li>
+                            </ul>
+                        </li>
+                        <li><span>第三级菜单</span></li>
+                    </ul>
+                </li>
+                <li>
+                    <span>第二级菜单</span>
+                    <ul>
+                        <li>
+                            <span>第三级菜单</span>
+                            <ul>
+                                <li><span>第四级菜单</span></li>
+                                <li><span>第四级菜单</span></li>
+                            </ul>
+                        </li>
+                        <li><span>第三级菜单</span></li>
+                    </ul>
+                </li>
+                <li><span>第二级菜单</span></li>
+                <li><span>第二级菜单</span></li>
+            </ul>
+        </li>
+        <li><span>第一级菜单</span></li>
+        <li><span>第一级菜单</span></li>
+    </ul>
+    <script>
+        let spans = document.getElementsByTagName('span');
+        let box = document.getElementById('box')
+        for(var i = 0;i<spans.length;i++){
+             let cur = spans[i];
+             if(cur.nextElementSibling){
+                 cur.classList.add('close');
+                 cur.nextElementSibling.style.display="none"
+             }else{
+                cur.classList.add('open')
+             }
+        }
+        box.onclick=function(e){
+            let cur = e.target;
+            let next = cur.nextElementSibling;
+            // console.log(next);
+            if(next){
+                if(cur.className==='close'){
+                    cur.className='open';
+                    next.style.display="block";
+                }
+                else{
+                    let uls = next.getElementsByTagName('ul');
+                    for(var i = 0;i<uls.length;i++){
+                        uls[i].style.display="none";
+                        uls[i].previousElementSibling.className="close"
+                    }
+                    cur.className='close';
+                    next.style.display="none";
+                }
+            }
+            
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <bro1></bro1></br></br>
+        <bro2></bro2>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        // 兄弟组件数据传递
+        //让bro2 的事件方法 和bro1建立联系；
+        //事件车
+        let eventBus = new Vue;//这个就是个容器，能够把两个兄弟进行关联
+        let bro1 = {
+            data(){
+                return {
+                    color:"红色"
+                }
+            },
+            created(){
+                eventBus.$on('changeRedBro2',this.changeRed)
+            },
+            methods:{
+                changeBro1(){
+                    eventBus.$emit('changebor1Green')
+                },
+                changeRed(){
+                    this.color="绿色"
+                }
+            },
+            template:"<div>{{color}}<button @click='changeBro1'>变红色bro1</button></div>"
+        };
+        let bro2= {
+            data(){
+                return {
+                    color:"绿色"
+                }
+            },
+            created(){
+                //created中可以拿到methods
+                //$on 订阅；把bor2的事件放到了eventBus的事件池中
+                eventBus.$on('changebor1Green',this.changeGreen)
+            },
+            methods:{
+                changeGreen(){
+                    this.color='红色'
+                },
+                changeBro2(){
+                    eventBus.$emit('changeRedBro2')
+                }
+            },
+            template:"<div>{{color}}<button @click='changeBro2'>变绿色bro2</button></div>"
+        }
+        new Vue({
+            el:"#app",
+            data:{
+                
+            },
+            methods:{
+
+            },
+            components:{
+                bro1,
+                bro2
+            },
+            mounted(){
+               
+            }
+        })
+    </script>
+</body>
+</html>

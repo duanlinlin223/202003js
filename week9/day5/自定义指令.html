@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>computed的特点</title>
+    <style>
+        *{
+            margin:0;padding:0;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div v-drag style="width:100px;height:100px;background:red;position:absolute;left:0px;top:0px;"></div>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/axios/dist/axios.js">
+    </script>
+    <script>
+        //指令：放到行间具有特殊的意义
+        //自定义指令，自己命名的指令
+        //全局指令 局部指令
+        //全局指令 可以给所有的vue实例使用
+        // Vue.directive('drag',{
+        //     inserted:function(ele){
+        //     }
+        // })
+        let vm = new Vue({
+            el:'#app',
+            data:{
+            },
+            directives:{//指令放在directives中
+                drag(ele){//函数名就是v-后面的名字
+                    //ele代表的是给加上v-drag的那个元素，可以给多个元素添加指令
+                    //console.log(ele);
+                    ele.onmousedown= function(e){
+                        //记录鼠标点击的位置
+                        //this指向ele
+                        //把鼠标按下的初始位置记录哎元素上
+                        this.l=e.clientX;
+                        this.t=e.clientY;
+                        this.startX = parseFloat(this.style.left);
+                        this.startY = parseFloat(this.style.top);
+                        document.onmousemove=function(e){
+                            ele.style.left=e.clientX-ele.l+ele.startX+'px';
+                            ele.style.top=e.clientY-ele.t+ele.startY+'px'
+                        };
+                        document.onmouseup=function(){
+                            document.onmousemove=null;
+                            document.onmouseup=null;
+                        }
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>

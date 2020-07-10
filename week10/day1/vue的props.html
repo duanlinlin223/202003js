@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue的组件</title>
+</head>
+<body>
+    <div id="app">
+      <son :b="msg"></son>
+      <son :b="book"></son>
+      <son :b="arr"></son>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //父传子  props传值['a','b'] 
+        //局部组件
+        let son = {
+            data(){
+                return {
+                }
+            },
+            created(){
+                console.log(this);
+            },
+            props:['b'],
+            template:'<div>{{b}}</div>'
+        }
+        let  vm = new Vue({
+            el:"#app",
+            data:{
+                msg:'hello',
+                arr:[1,2,3],
+                book:"book.js"
+            },
+            created(){
+                console.log(this);
+            },
+            components:{
+                son
+            }
+        })
+        
+    </script>
+</body>
+</html>

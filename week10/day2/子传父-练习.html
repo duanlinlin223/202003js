@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue的组件</title>
+</head>
+<body>
+    <div id="app">
+        <!-- <parent :m.sync = "msg"></parent> -->
+        <parent :m = "msg" @changemoney='changemoney'></parent>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        let parent={
+            props:['m'],
+            methods:{
+                add(){
+                    //this.$emit('update:m',999)
+                    this.$emit('changemoney')
+                }
+            },
+            template:`<div @click="add">{{m}}</div>`
+        }
+        //vm的uid是0  parent的uid是1，child的uid是2
+        let  vm = new Vue({
+            el:"#app",
+            data:{
+                msg:1000
+            },
+            methods:{
+                changemoney(){
+                    this.msg="9090909090"
+                }
+                
+            },
+            components:{
+                parent
+            }
+        })
+    </script>
+</body>
+</html>

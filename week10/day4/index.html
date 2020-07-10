@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vuex</title>
+</head>
+<body>
+    <div id="app">
+      <first></first>
+      <second></second>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vuex/dist/vuex.min.js"></script>
+    <script>
+       //如果各个组件的数据都放在store的state中，由于数据太多，不利于模块化；
+       //模块化：让每一个组件都有自己独立的htmlcssjs 还有数据；
+       //Vuex允许将store分割成模块；
+       //每一个moudle都可以有自己独立的getters mutations actions；这几个方法会注册到全局上，可以直接用Vuex.map...拿到自己的方法中使用；而state是模块私有的，只能用$store.state.moduleA.num这种方法拿到
+
+       //state是私有的；action mutation getter 是公共的，可以用Vue.map...拿过来用；而state不可以
+       //如果私有和公有模块都有这个方法，那么会把这个方法整合到一起
+       let moduleA={
+            state:{
+                num:6
+            },
+            getters:{
+                str(state){//state对应的是局部的state
+                    return state.num
+                }
+            },
+            mutations:{
+                add(state){
+                    state.num++;
+                }
+            }
+       }
+       let moduleB={
+        state:{
+                num:222
+            }
+        }
+        const store = new Vuex.Store({
+            state:{
+                count:100
+            },
+            mutations:{
+                
+            },
+            modules:{
+                moduleA,
+                moduleB
+            }
+        })
+        let first={
+            methods:{
+                ...Vuex.mapMutations(['add'])
+            },
+            computed:{
+                //state是私有的；action mutation getter 是公共的，可以用Vue.map...拿过来用；而state不可以
+                //...Vuex.mapState(['num'])--》拿不到只能这样拿$store.state.moduleA.num模块中的数据
+            },
+            template:`<div >{{$store.state.moduleA.num}}<button @click="add"></button>+++</div>`
+        }
+        let second={
+            methods:{
+            },
+            template:`<div ></div>`
+        }
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                // count:0
+            },
+            methods:{
+                
+            },
+            components:{
+                first,
+                second
+            },
+            store
+        })
+        console.log(vm);
+        
+    </script>
+</body>
+</html>

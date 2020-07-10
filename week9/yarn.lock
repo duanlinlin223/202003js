@@ -9,6 +9,11 @@ axios@^0.19.2:
   dependencies:
     follow-redirects "1.5.10"
 
+bootstrap@3.3.7:
+  version "3.3.7"
+  resolved "https://registry.npm.taobao.org/bootstrap/download/bootstrap-3.3.7.tgz#5a389394549f23330875a3b150656574f8a9eb71"
+  integrity sha1-WjiTlFSfIzMIdaOxUGVldPip63E=
+
 debug@=3.1.0:
   version "3.1.0"
   resolved "https://registry.npm.taobao.org/debug/download/debug-3.1.0.tgz#5bb5a0672628b64149566ba16819e61518c67261"

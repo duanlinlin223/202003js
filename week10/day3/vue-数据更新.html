@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <first></first>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vuex/dist/vuex.min.js"></script>
+    <script>
+        const store = new Vuex.Store({
+            state:{
+                count:0
+            },
+            mutations:{
+                addCount(state,payload){
+                    state.count+=payload;
+                }
+            }
+        })
+        let first={
+            created(){
+                console.log(this);
+            },
+            methods:{
+                changeC(val){
+                    this.$store.commit('addCount',val)
+                }
+            },
+            template:`<div>{{$store.state.count}}<button @click="changeC(20)">++</button></div>`
+        }
+        let vm = new Vue({
+            el:'#app',
+            data:{
+
+            },
+            components:{
+                first
+            },
+            store
+        })
+    </script>
+</body>
+</html>

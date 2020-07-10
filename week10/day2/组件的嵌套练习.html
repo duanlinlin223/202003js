@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <parent></parent>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        let son1={
+            data(){
+                return{
+                    msg:'son'
+                }
+            },
+            // beforeCreate(){
+            //     console.log('beforeCreate-son1');
+            // },
+            // created(){
+            //     console.log('created-son1');
+            // },
+            // beforeMount(){
+            //     console.log('son-beforemount');
+            // },
+            // mounted(){
+            //     console.log('son-mounted');
+            // },
+            methods:{
+                fn1(){
+                    this.msg="sonsonsonson";
+                }
+            },
+            beforeUpdate(){
+                console.log('son-beforeUpdate');
+            },
+            updated(){
+                console.log('son-updated');
+            },
+            template:`<div @click="fn1">{{msg}}</div>`
+        }
+        let parent={
+            data(){
+                return{
+                    msg:'父组件-f'
+                }
+            },
+            methods:{
+                fn(){
+                    this.msg="parentparentparent"
+                }
+            },
+            // beforeCreate(){
+            //     console.log('beforeCreate-parent');
+                
+            // },
+            // created(){
+            //     console.log('created-parent');
+                
+            // },
+            // beforeMount(){
+            //     console.log('parent-beforemount');
+                
+            // },
+            // mounted(){
+            //     console.log('parent-mounted');
+                
+            // },
+            beforeUpdate(){
+                console.log('parent-beforeUpdate');
+            },
+            updated(){
+                console.log('parent-updated');
+            },
+            components:{
+                son1
+            },
+            template:`<div @click="fn">{{msg}}<son1></son1></div>`
+        }
+        let vm =new Vue({
+            el:'#app',
+            data:{
+
+            },
+            components:{
+                parent
+            }
+        })
+    </script>
+</body>
+</html>

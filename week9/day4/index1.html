@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+       {{msg}}
+       <div @click="fn">{{msg}}</div>
+       <span>{{aaaa |toFixed(2)}}</span>
+    </div>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+       //凡是指令最后也不会放到行间元素中
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                //1.放在实例上2 具有响应式
+               msg:'aa',
+               arr:[1,2,3],
+               aaaa:10.98789
+            },
+            methods:{
+                fn(){
+                    //在vue方法中经常以vm实例作为数据的载体，尽可能的让this指向vm的实例
+                    this.arr.filter(function(item){
+                    console.log(this);
+                    
+                    })
+                }
+            },
+            filters:{
+                toFixed(val,num){
+                    return val.toFixed(num);
+                }
+            }
+        });
+       console.log(vm);
+       //methods 放事件和方法
+       //1和data中的属性不能重名
+       //2里面的this都是指向vm实例
+    </script>
+</body>
+</html>

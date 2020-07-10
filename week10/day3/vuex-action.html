@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        {{$store.state.str}}
+        <first></first>
+        <second></second>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vuex/dist/vuex.js"></script>
+    <script>
+       //action 提交的是mutation 不直接更改状态
+       //action 可以有异步操作
+        let state = {
+            count:100,// 这是公共数据 多组件共享数据
+        };
+        let getters={
+            str(state){
+                    return state.count%2===0?"偶数":"奇数";
+                    console.log(state);
+            }
+        };
+        let  store = new Vuex.Store({
+            state,
+            getters,
+            mutations:{ 
+                add(state,payload){
+                    state.count+=payload;
+                }
+            },
+            actions:{//actions中支持异步
+                //解构赋值{commit}  取出conext里面的commit
+                increase({commit},val){
+                    //context 是个对象
+                    //context ==>相当于store
+                    //console.log(context);
+                    setTimeout(() => {
+                        commit('add',val)
+                    }, 2000);
+                    
+                }
+            }
+        })
+        let  first={
+            data(){
+                return {
+                    msg:"我爱你中华",
+                }
+            },
+            methods:{
+                //mutations中的方法是commit提交；actions中的方法是dispatch派发
+                // addCount(){
+                //     this.$store.dispatch('increase')
+                // }
+                ...Vuex.mapActions(['increase']),
+            },
+            computed:{
+                ...Vuex.mapState(["count"]),//{count:function(){}}
+                ...Vuex.mapGetters(["str"])// {str:function(){}}
+            },
+            template:"<div>{{count}}<button @click='increase(2)'>累加</button>{{str}}</div>"
+        }
+        let  child={};
+        let  second={
+            data(){
+                return {}
+            },
+            components:{
+                child
+            },
+            template:"<div></div>"
+        }
+      
+        let vm = new Vue({
+            el:"#app",
+            components:{
+                first,
+                second
+            },
+            store:store// 当把store注入到实例时，vm实例上会新增一个$store;属性值是一个对象；在VUEX源码将store注入到这个vm实例的同时，同时也注入到它的子孙组件的实例上；
+        });
+
+        
+    
+    
+    </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div id="box">{{msg}}</div>
+        <!-- <input type="text" v-model="msg"> -->
+        <!-- <input type="checkbox" v-model="checkAll" @change="changeAll">全选<br>
+        <input type="checkbox" v-for="a in arr" v-model="a.isSelected" @change="checkone"> -->
+    </div>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+        // every  
+        // let  arr = [10,200,399,49,78,289];
+        // every : 遇到返回false就停下；如果都返回true，那么整体返回true
+        // let  a = arr.every((item,index)=>{// item : 数组每一项
+        //     console.log(item);
+        //     // return false; 函数没有return，那么返回值就是undefined；转布尔就是false；只循环一轮就停下了;
+        //     return item>1;
+        // });
+        // console.log(a);
+        // Array.prototype.myEvery = function(fn){
+        //     // this ==> arr
+        //     for(let i=0;i<arr.length;i++){
+        //         if(!fn(arr[i],i)){
+        //             return false;
+        //         }else{
+        //             return true;
+        //         }
+        //     }
+        // }
+        // VUE中的双向数据绑定原理；
+        // 数据影响视图；
+        // let vm = new Vue({
+        //     el:"#app",
+        //     data:{
+        //         arr:[{isSelected:false},{isSelected:false}],
+        //         checkAll:false
+        //     },
+        //     methods:{
+        //         changeAll(){
+        //             // for(let i=0;i<arr.length;i++){
+        //             //     arr[i].isSelected = this.checkAll;
+        //             // }
+        //             // 通过this去获取data中的值；
+        //             this.arr.forEach(item=>{
+        //                 item.isSelected = this.checkAll;
+        //             });
+        //         },
+        //         checkone(){
+        //             this.checkAll = this.arr.every(item=>item.isSelected);
+        //         }
+        //     }
+        // });
+
+        let  vm = new Vue({
+            el:"#app",
+            data:{
+                msg:"hello"
+            }
+        });
+        // 针对的是input表单元素；对于普通元素，那么只能是数据影响视图，没有视图影响数据这一说；
+        // vue的双向数据绑定原理；想改变视图不要直接操作DOM；
+
+
+        
+        
+    </script>
+</body>
+</html>

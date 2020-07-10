@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        {{$store.state.str}}
+        <first></first>
+        <second></second>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vuex/dist/vuex.js"></script>
+    <script>
+        let state={
+            count:100,// 这是公共数据 多组件共享数据
+        }
+        //getters相当于computed属性，根据依赖的数据进行计算，也有缓存机制
+        let getters={
+             // 相当于vuex的计算属性
+             str(state){//str执行时默认会传递进来一个state
+                //依赖于state中的count来取值，如果是偶数那么str就是偶数；如果是奇数，那么str就是奇数
+                    return state.count%2===0?"偶数":"奇数"
+                    //console.log(state);
+                }
+        }
+        let  store = new Vuex.Store({
+            state,
+            //公共数据的计算属性；有缓存
+            getters,
+            mutations:{ // 改变
+                add(state,payload){
+                    state.count+=payload;
+                }
+            }
+        })
+        let  first={
+            data(){
+                return {
+                    msg:"我爱你中华",
+                }
+            },
+            created(){
+
+            },
+            methods:{
+                addCount(val){
+                    this.$store.commit("add",val);
+                }
+            },
+            //Vuex.mapState  Vuex.mapGetters Vuex.mapmutations;可以将store中的state、getters、mutations都映射到当前实例上
+            computed:{
+                //...展开运算符；把mapState返回的对象，把键值对都展开
+                ...Vuex.mapState(["count"]),//返回一个对象{count:function(){}}
+                ...Vuex.mapGetters(['str'])
+            },
+            template:"<div>{{count}}<button @click='addCount(1)'>累加</button>{{str}}</div>"
+        }
+        let  child={};
+        let  second={
+            data(){
+                return {}
+            },
+            components:{
+                child
+            },
+            template:"<div></div>"
+        }
+      
+        let vm = new Vue({
+            el:"#app",
+            components:{
+                first,
+                second
+            },
+            store:store// 当把store注入到实例时，vm实例上会新增一个$store;属性值是一个对象；在VUEX源码将store注入到这个vm实例的同时，同时也注入到它的子孙组件的实例上；
+        });
+    </script>
+</body>
+</html>

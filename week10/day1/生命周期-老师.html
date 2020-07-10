@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="a in arr">{{a}}</li>
+        </ul>
+        <button @click="fn">点我</button>
+    </div>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+        // 生命周期：Vue就是一个钩子函数，当执行new Vue时，相当于初始化vue的实例；在创建实例的过程中，需要设置数据监听，编译模板，将vue实例挂载到DOM上，在这个初始化过程中，vue给我们提供了一些让咱们参与的函数，这些函数就是钩子函数； 8个钩子函数；
+        // 生命周期中的钩子函数执行vue的实例
+        // beforeCreate    created 
+        // beforeMount     mounted 
+
+        // beforeUpdate   updated
+        // VUE初始化过程中的回调函数；
+
+        // function Vue(options){
+        //     //.....
+        //     options.beforeCreate();
+        //     //.....
+        //     options.created();
+        // }
+        let vm =new Vue({
+            el:"#app",
+            // template:"",
+            data:{
+                msg:100,
+                arr:[1,2,3]
+            },
+            // 初始化一些事件和生命周期
+            beforeCreate(){
+                console.log(0);
+                // 1. 这个钩子函数不能获取data中的数据；
+                // console.log(this.msg,"beforeCreate");
+                // 2. 这个函数中不能操作DOM；
+                // debugger// 当代码解析到这一行会停下
+                // let olis= document.getElementsByTagName("li");
+                // console.log(olis); 
+                
+            },
+            // 注入一些属性，让属性具有响应式；
+            created(){
+                console.log(1);
+                // this.fn();
+                //1 .能操作数据的，
+                //2. 也不能操作DOM；
+                //3. 一般在这里发送请求
+                // console.log(this.msg,"created");
+                // let olis= document.getElementsByTagName("li");
+                // console.log(olis); 
+            },
+            // 执行之前会进行el和template的判断，进行不同的操作
+            beforeMount(){
+                console.log(2);
+                // let olis= document.getElementsByTagName("li");
+                // console.log(olis); 
+            },
+            // 挂载之后
+            mounted(){
+                // console.log(3);
+                // 挂载：把vue实例生成的虚拟的DOM装成真实的DOM，并且插入el元素中这就是挂载；
+                // 钩子函数是同步执行的，但是DOM渲染是异步的；
+                // let olis= document.getElementsByTagName("li");
+                // console.log(olis); 
+            },
+            // 数据更新之前;数据改一次，执行一次；
+            beforeUpdate(){
+                // console.log("beforeUpdate")
+                // console.log(this.arr);
+                // debugger
+                // let olis= document.getElementsByTagName("li");
+                // console.log(olis);
+               
+            },
+            updated(){
+                // 把改变之后数据形成的虚拟的DOM和上一次的DOM进行对比，替换掉修改的那部分DOM；
+                // 尽量以性能最高的方式更新DOM
+            },
+            // 销毁之前
+            beforeDestroy(){
+                // 清除定时器
+                // 在这里面更新数据，DOM也不会更新
+                console.log("beforeDestroy"); 
+                // this.arr.push(4);
+            },
+            // 1. 销毁watcher 子组件  事件监听者；
+            // 销毁之后
+            destroyed(){
+                // 1.当更改数据不会再视图更新了;
+                // 2.给元素绑定事件是不受影响的，可以继续执行；
+                console.log("destroyed");
+            },
+            methods:{
+                fn(){
+                    console.log("执行了吗");
+                } 
+            },
+            directives:{
+            }
+        });
+        console.log(4);
+        
+    
+    
+    
+    
+    </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- <child></child> -->
+        <!-- <bro></bro> -->
+        <parent></parent>
+    </div>
+    
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+        let  child = {
+            data(){
+                return {a:"我是儿子"}
+            },
+            created(){
+                console.log("child-created"); 
+            },
+            beforeMount(){
+                console.log("child"); 
+            },
+            // mounted(){
+            //     console.log("child");
+            // },
+            methods:{
+                huishou(){
+                    this.$destroy();
+                }
+            },
+            beforeUpdate(){
+                console.log("child--beforeUpdate")
+            },
+            template:"<div @click='huishou'>{{a}}</div>"
+        }
+        // 兄弟组件
+        // let bro = {
+        //     data(){
+        //         return {name:"我是兄弟"}
+        //     },
+        //     template:"<p>{{name}}</p>"
+        // };
+        // child的父组件是parent组件；parent的父组件是
+        // 当vue实例解析html时,先遇到parent,所以先执行parent的生命周期，在解析过程中，编译parent的DOM模板时，遇到了child组件，马上去解析child组件，child是parent的子组件，child的DOM挂载到parent的DOM以后，才会执行parent的mounted；所以先执行child的mouted,然后再执行parent的mounted;
+        let parent = {
+            data(){
+                return {
+                    name:"我是父亲"
+                }
+            },
+            methods:{
+                fn(){
+                    this.name="i am a child"
+                }
+            },
+            created(){
+                // console.log("parent"); 
+            },
+            beforeUpdate(){
+                console.log("parent--beforeUpdate")
+            },
+            updated(){
+                console.log("parent-updated")
+            },
+            beforeMount(){
+                console.log("parent"); 
+            },
+            // mounted(){
+            //     console.log("parent");
+            // },
+            destroyed(){
+                console.log("父组件销毁");
+            },
+            components:{
+                child
+            },
+            // beforeCreated(父)--> created(父)--> beforeMount(父)--> beforeCreated(子)--> created(子)--> beforeMount(子)-->mounted(子)--> mounted(父)
+            // 当子组件更新数据时，不会更新父组件；父组件更新也不会影响儿子；
+            // 当父组件销毁时，也会先销毁子组件，再触发自己的销毁；子销毁，父组件不销毁；
+            template:"<div @click='fn'>{{name}}<child></child></div>"
+        }
+        // new Vue 的id 是0   parent的id是1   child的id是2；
+        new Vue({
+            el:"#app",
+            data:{
+            },
+            methods:{
+            },
+            components:{
+                // 这个地方可以注册多个组件；components
+                child,
+                // bro,
+                parent
+            },
+            mounted(){
+                
+            }
+        });
+        console.log(child);
+        
+
+        
+        
+    </script>
+</body>
+</html>

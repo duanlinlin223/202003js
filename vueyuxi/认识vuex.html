@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- {{count}}
+        <button @click="add">点击</button> -->
+        <first></first>
+        <second></second>
+        <!-- <div>{{this.$store.state.count}}</div> -->
+    </div>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script src="node_modules/vuex/dist/vuex.min.js"></script>
+    <script>
+        //vuex的数据存储是响应的；vue组件使用了vuex的数据时，当vuex中的数据更新时，那么使用数据的组件也会得到高效更新
+        let store = new Vuex.Store({
+            state:{
+                count:100//count就是公共的数据
+            },
+            mutations:{
+                increment(state){
+                    state.count++
+                }
+            }
+        })
+        let first={
+            data(){
+                return{
+
+                }
+            },
+            created(){
+                // this.$store.state.count=909090
+            },
+            methods:{
+                addCount(){
+                    this.$store.commit('increment')//通过commit这个动作来触发事件
+                }
+            },
+            template:`<div>{{this.$store.state.count}}<button @click="addCount">++</button></div>`
+        }
+        let second={
+            data(){
+                return{
+
+                }
+            },
+            created(){
+                console.log(this);
+                
+            },
+            template:`<div>{{this.$store.state.count}}</div>`
+        }
+
+       let vm =  new Vue({
+            el:"#app",
+            data:{
+                // count:0
+            },
+            methods:{
+                // add(){
+                //     this.count++
+                // }
+            },
+            components:{
+                first,
+                second,
+            },
+            created(){
+                // console.log(this);
+                
+            },
+            store//当前vue的实例就会新增一个$store的属性，属性值是一个对象；同时也会给当前的子组件新增一个$store属性
+            
+        })
+        console.log(vm);
+        
+    </script>
+</body>
+</html>

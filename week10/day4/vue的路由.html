@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue-router</title>
+</head>
+<body>
+    <div id="app">
+        <!-- router用来匹配路由；to属性：跳转的路径 router-link最重会被渲染成a标签 to会被渲染成href-->
+        <!-- tag="button" 给link标签改变样式 为button-->
+        <!-- router-link  router-view都是一个全局的组件 -->
+        <router-link to="/home" tag="button" class="a">首页</router-link>
+        <router-link to="/login" tag="button">登录页</router-link>
+        <!-- router-view:路由视图；路由匹配的组件显示在这里 ；一个router-view渲染一个组件 -->
+        <router-view></router-view>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vue-router/dist/vue-router.js"></script>
+<script>
+    //路由：一个路径会对应一个组件配合
+    //router-link将编译成a标签显示
+    //1.创建两个组件
+    /*1.创建组件2.配置路由映射表（路由映射表是个对象；里面有path：路径、component：对应的是组件）3.注册路由映射表4.把router挂载到vm实例上*/
+    let shouye={
+        data(){
+            return{
+                con:'京东首页'
+            }
+        },
+        template:`<div>{{con}}</div>`
+    }
+    let denglu={
+        data(){
+            return{
+                con:'京东登录'
+            }
+        },
+        template:`<div>{{con}}</div>`
+    }
+    //2.配置路由映射表;
+    //path：代表当前组件的路径，component：跟的是组件名
+    //router-link的to属性的属性值和改对象中的path要对应上
+    let routes=[{path:'/home',component:shouye},{path:'/login',component:denglu}];
+    //3.注册路由映射表；
+    let router = new VueRouter({
+        routes
+    })
+    //4.将router挂载到vm实例上
+    let vm = new Vue({
+        el:"#app",
+        data:{
+           
+        },
+        methods:{
+            
+        },
+        components:{
+           
+        },
+        router
+    })
+</script>
+</body>
+</html>

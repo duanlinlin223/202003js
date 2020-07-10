@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>computed和watch的区别</title>
+</head>
+<body>
+    <div id="app">
+        姓：<input type="text" v-model="firstName"></br>
+        名：<input type="text" v-model="lastName"></br>
+        姓名：<input type="text" v-model="fullName"></br>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //data methods computed 不能重名
+        //computed  watch区别
+        //computed 1.支持缓存；2.多对一  是依赖多个监听一个，只要有一个发生改变就会触发computed里面的方法3.不支持异步更新数据4.computed没一个属性都有set和get方法，如果是个函数，默认就走get方法
+        //watch 
+        //1.是一对多  一个属性变化引发多个属性变化
+        //2.不走缓存
+        //3.支持异步
+
+        //watch的特点  监听属性监听的data中的属性,要和data中的监听的属性名字一致
+        //1.没有缓存
+        //2.支持异步
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                firstName:'',
+                lastName:'',
+                fullName:''
+            },
+            methods:{
+                
+            },
+            computed:{
+                // fullName(){//监听了一个，依赖多个，只要多个中的一个发生变化，就能触发这个方法
+                //    return  this.firstName+this.lastName
+                // }
+            },
+            
+            watch:{//监听data中现有的属性
+                firstName(newVal){ 
+                    setTimeout(() => {
+                        //支持异步  this=》箭头函数 箭头函数不存在this会默认向上一级作用域查找  没有arguments  不能被new
+                        this.fullName= newVal+this.lastName;
+                    }, 2000);//一秒之后才执行 支持异步
+                    
+                },
+                lastName(newVal){
+                    this.fullName= this.firstName+newVal
+                }
+            }
+        })
+    </script>
+</body>
+</html>

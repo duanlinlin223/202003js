@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>珠峰培训-省市县级联菜单</title>
+    <link rel="stylesheet" href="css/reset.min.css">
+    <style>
+        .menu {
+            margin: 20px auto;
+            padding: 20px;
+            width: 360px;
+            border: 1px solid lightblue;
+        }
+
+        .menu select {
+            display: inline-block;
+            margin-right: 10px;
+            padding: 0 5px;
+            width: 100px;
+            height: 30px;
+            line-height: 30px;
+            border: 1px solid #DDD;
+        }
+
+        /*IE浏览器中使用SELECT标签,样式太难看:可以自己回去查一下样式如何兼容处理*/
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="menu">
+        <select name="region" id="province" v-model="selectVal" @change="changeFn">
+            <option>请选择</option>
+            <option :value="item.name" v-for="item in province">{{item.name}}</option>
+        </select>
+        <select name="region" id="city" v-model="citySelect" @change="cityFn">
+            <option>请选择</option>
+            <option :value="item.name" v-for="item in cityVal">{{item.name}}</option>
+        </select>
+        <select name="region" id="country" v-model="counVal">
+            <option>请选择</option>
+            <option value="" v-for="item in areaVal">{{item}}</option>
+        </select>
+    </div>
+</div>
+<!-- <script src="js/jquery-1.11.3.min.js"></script> -->
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script src="../node_modules/axios/dist/axios.js"></script>
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            province:[],
+            selectVal:'请选择',
+            cityVal:[],
+            citySelect:'请选择',
+            areaVal:[],
+            counVal:'请选择'
+        },
+        created(){
+            this.getData();
+            //console.log(this.selectVal);
+        },
+        methods:{
+            getData(){
+                axios.get('json/regionData.json').then(data=>{
+                    this.province=data.data;
+                   
+                })
+            },
+            changeFn(){
+                this.citySelect='请选择';
+                let place= [];
+                place = this.province.filter(item=>{
+                    if(item.name===this.selectVal){
+                        return item.city
+                    }
+                });
+                place.forEach(item =>{
+                    this.cityVal= item.city;
+                })
+            },
+            cityFn(){
+                this.counVal='请选择';
+                let areaPlace = [];
+                areaPlace = this.cityVal.filter(item=>{
+                    if(item.name === this.citySelect){
+                        return item.area;
+                    }
+                })  
+                areaPlace.forEach(item=>{
+                    this.areaVal = item.area
+                })
+                
+            }
+        }
+    })
+</script>
+</body>
+</html>

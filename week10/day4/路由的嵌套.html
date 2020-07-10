@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue-router</title>
+</head>
+<body>
+    <div id="app">
+        <router-link to="/home" class="a">首页</router-link>
+        <router-link to="/list">列表页</router-link>
+        <router-view></router-view>
+    </div>
+    <template id="list">
+        <div>列表页内容     <router-link to="/list/detail">详情页</router-link>
+        <router-link to="/list/login">登录页</router-link>
+        <router-view></router-view>
+        </div>
+    </template>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vue-router/dist/vue-router.js"></script>
+<script>
+    let home={
+        template:`<div>首页内容</div>`
+    }
+    let list={
+        template:"#list"
+    }
+    let detail={
+        template:`<div>详情页</div>`
+    }
+    let login={
+        template:`<div>登录注册页</div>`
+    }
+    //children：用来配置子路由的
+    //在组建路由配置时，对象中有children属性，children也是一个数组，里面配置该条路由的子路由，路由中不需要加父亲路由的地址，同时也不加'/';当子路由进行配置时，会自动添加上父亲路由的地址/放在子路由的path前面
+    //二级路由：需要配置到某个路由的children属性下，不能直接放在routes中
+    let routes=[
+        {path:'/home',component:home},
+        {path:'/list',component:list,children:[
+            {path:'detail',component:detail},
+            {path:'login',component:login}
+            //path里面的路径可以写全也可以只写一个子路径前面不能有/
+        ]}
+    ];
+    let router = new VueRouter({
+        routes
+    })
+    let vm = new Vue({
+        el:"#app",
+        data:{
+        },
+        components:{
+        },
+        router
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <add-btn></add-btn>
+        <viewnum></viewnum>
+        <parity></parity>
+        <reducebtn></reducebtn>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vuex/dist/vuex.min.js"></script>
+    <script>
+        let store = new Vuex.Store({
+            state:{
+                count:0
+            },
+            mutations:{
+                addCount(state){
+                    state.count++;
+                },
+                reduceCount(state){
+                    state.count--
+                }
+            },
+            actions:{
+                reduceFn({commit}){
+                    console.log({commit});
+                    setTimeout(() => {
+                        commit('reduceCount')
+                    }, 2000);
+                }
+            },
+            getters:{
+                result(state){
+                    return state.count%2===0?'偶数':'奇数'
+                }
+            }
+        })
+        let addBtn={
+            data(){
+                return {
+                }
+            },
+            methods:{
+                ...Vuex.mapMutations(['addCount'])
+            },
+            computed:{
+                
+            },
+            template:`<div><button @click="addCount">增加</button></div>`
+        }
+        let reducebtn={
+            data(){
+                return {
+                }
+            },
+            methods:{
+                ...Vuex.mapActions(['reduceFn'])
+            },
+            template:`<div><button @click="reduceFn">减少</button></div>`
+        }
+        let viewnum={
+            data(){
+                return {
+                }
+            },
+             // 不管是state中的数据还是getters的计算属性，通过mapState的方法都存在computed上；
+            computed:{
+                ...Vuex.mapState(['count'])
+            },
+            template:`<div>数字：{{count}}</div>`
+        }
+        let parity={
+            data(){
+                return {
+                }
+            },
+            computed:{
+                ...Vuex.mapGetters(['result'])
+            },
+            template:`<div>奇数还是偶数：{{result}}</div>`
+        }
+        let vm = new Vue({
+            el:'#app',
+            data:{},
+            components:{
+                addBtn,
+                reducebtn,
+                viewnum,
+                parity
+            },
+            store
+        })
+    </script>
+</body>
+</html>

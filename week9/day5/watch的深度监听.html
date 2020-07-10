@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>computed的特点</title>
+</head>
+<body>
+    <div id="app">
+        姓：<input type="text" v-model="person.firstName"></br>
+        名：<input type="text" v-model="person.lastName"></br>
+        姓名：<input type="text" v-model="person.fullName"></br>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/axios/dist/axios.js">
+    </script>
+    <script>
+        
+        let vm = new Vue({
+            el:'#app',
+            data:{//直接放在vm身上具有双向的特点
+               person:{
+                    firstName:'',
+                    lastName:'',
+                    fullName:'',
+                    // a:{
+                    //     bb:'22'
+                    // }深度监听可以监听对象里面所有的属性 包括子对象
+               }
+            },
+            methods:{
+                
+            },
+            watch:{
+                //watch如果监听的是个对象当这个对象中的属性名和属性值发生改变以后并不能触发watch监听的这个函数；因为这是个引用类型的空间地址，空间地址不变这个函数是不执行的
+                //只监听person中的一个  可以这样写'对象.属性名' 'person.firstName{} '
+                // 'person.firstName':{
+
+                // },
+                person:{//把person改成对象的形式，handler是一个函数，里面的键值对变化以后会让这个函数执行；deep：true 深度监听每一个键值对；对其每一个属性监听，变化之后出发handler的函数
+                    handler(){// 可以传参 newVal和oldVal代表最新的和上一次的值
+                        console.log(1);
+                    },
+                    immediate:true,//立即执行,这个属性能够让解析person默认先执行一遍handler，如果没有这个属性，当数据更新改变以后才会执行
+                    deep:true//深度监听
+                }
+                
+            }
+        })
+    </script>
+</body>
+</html>

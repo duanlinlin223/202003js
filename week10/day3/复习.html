@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+       
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //指令 v-for v-if v-bind v-model v-else-if v-else v-show v-once v-text v-html v-prev
+        //vue对象中的属性：el 
+        //data(可以是一个对象也可以是一个函数；在组件中data必须是一个函数并且要有return ；data不能和methods computed里面的不能重名
+        
+        //methods放一些方法 发送请求
+        //computed 多对一，依赖多个属性，其中一个属性变化 他也会变化；不支持异步； 只写一个函数默认走的get方法 有缓存
+        //watch一对多 监听data中的已有的属性 支持异步 没有缓存；可以深度监听 data中对象可以用深度监听 deep:true
+        //  ) methods computed watch 周期函数  filter  components  props[接受数据]  directives  
+        //template[模板]只有一个根元素 能把外界的内容替换掉
+        //vue中的组件：全局组件  局部组件
+        //Vue.component('组件名',{
+
+        //})
+        //组件  组件嵌套  组件传值 父传子props  子传父(儿子改变父亲的数据)发布订阅模式(自定义事件订阅到子组件上，然后通过$emit发布触发父组件的方法)  .sync  兄弟传值 eventBus事件车
+        new Vue({
+            el:"#app",
+            data:{
+                money:666
+            },
+            methods:{
+
+            }
+        })
+    </script>
+</body>
+</html>

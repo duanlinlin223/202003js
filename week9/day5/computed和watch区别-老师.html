@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+         姓：<input type="text" v-model="firstName">
+         名：<input type="text" v-model="lastName">
+         姓名：<input type="text" v-model="fullName">
+    </div>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+        // 姓名里面内容是由前面两个input组合到一起实现的；
+        // 使用watch来解决这个效果
+        let  vm = new Vue({
+            el:"#app",
+            data:{
+                firstName:"",
+                lastName:"",
+                fullName:""
+            },
+            methods:{
+                
+            },
+            // computed:{
+            //     1.监听了一个；但是这一个依赖多个；多个之中一个发生改变，就能出发这个方法
+            //     fullName(){
+            //         return  this.firstName + this.lastName;
+            //     }
+            // },
+            // computed和watch的区别
+            // 1. computed是多对一；监听一个属性，依赖多个属性，只要其中有一个发生改变，就对其更新
+            // 2. computed会走缓存；
+            // 3. computed不支持异步更新数据
+            // 4. 每一个属性都有get和set方法，如果写成函数形式，默认走get
+            // watch:
+            // 1. 一对多的；一个属性变化，引发多个属性变化；
+            // 2. 不走缓存；
+            // 3. 支持异步
+
+            watch:{
+                // 监听data中现有的属性；
+                firstName(a){
+                    console.log(a);// a代表最新的值； 
+                    // this ==> vm的这个实例
+                    setTimeout(()=>{
+                        // 支持异步 this=> 箭头函数；
+                        // 箭头函数不存在this；会默认向上一级作用域查找
+                        this.fullName = this.firstName+this.lastName;
+                    },2000)
+                },
+                lastName(){
+                    this.fullName = this.firstName+this.lastName;
+                }
+            }      
+        });
+    </script>
+</body>
+</html>

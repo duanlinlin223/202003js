@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <span>中国</span>
+        </div>
+        <handsome></handsome>
+        <handsome></handsome>
+        <son></son>
+    </div>
+    <template id="box">
+        <div>{{msg}}</div>
+    </template>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+        // 敲代码;
+        // 生命周期： 经历一系列的过程，数据监听 模板编译  DOM挂载过程；
+        // beforeCreate   created
+        // beforeMount    mounted 
+        // beforeUpdate   updated
+        // beforeDestroy  destroyed
+
+        // 虚拟DOM : 存在于内存中一个对象；{type:"div",children:[{type:"span",val:"中国"}]} ==> DOM-diff ==>更新那段真实的DOM；
+
+        // VUE中的DOM是异步渲染的
+
+        // 组件 : 组件就是一个vue实例，有自己独立的生命周期；每当组件使用一次，那么就会有一个独立的生命周期；
+        // 全局 ： 可以在各个vue实例使用
+
+        //局部组件
+        // 1. 创建组件
+        // 2. 注册组件
+        // 3. 使用组件
+
+        // 实现组件的复用；封装【js】;组件封装会把html，css，js所有的解构逻辑封装到一个组件中；
+        let  son ={
+            data(){
+            },
+            methods:{
+            },
+            computed:{
+            },
+            template:"<div></div>"
+        }
+        Vue.component("handsome",{
+            data(){
+                return {
+                    msg:"123"
+                }
+            },
+            created(){
+
+            },
+            methods:{
+
+            },
+            template:"#box"
+        })
+        new Vue({
+            el:"#app",
+            data:{
+                msg:"abc"
+            },
+            methods:{
+
+            },
+            components:{
+                son
+            },
+            mounted(){
+                this.msg ="";
+                // 数据改变以后，不能立即拿到最新的DOM；需要$nextTick
+            }
+        })
+
+        
+        
+    </script>
+</body>
+</html>

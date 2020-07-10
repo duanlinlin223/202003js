@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue的组件</title>
+</head>
+<body>
+    <div id="app">
+     
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //生命周期：经历一系列的过程，数据监听模板编译 dom挂载；
+        //虚拟dom：存在于内存中的一个对象；{}  更改数据之后要进行dom-deff-》更新那段真实的dom
+
+        //在mounted中更改数据不能立即拿到最新的数据，因为dom是异步的，要用$nextTick 来获取
+
+        //组件：实现组件的复用，组件封装会把htmlcss js 所有的结构逻辑封装到一个组件中；
+
+        //局部组件和全局组件
+        //组件就是一个vue实例，有自己独立的生命周期；每当使用一次，那么就会有一个独立的生命周期
+        //全局组件可以在各个vue实例中使用
+
+        //局部组件 let son={data(){return{}},template:"div标签"}
+        
+        //全局组件
+        Vue.component('temp',{
+            data(){
+                return{
+
+                }
+            },
+            template:'<div></div'
+        })
+        //局部组件
+        //1.声明组件2.注册组件3.调用组件
+        let  son={
+            data(){
+                return{
+
+                }
+            },
+            template:'<div></div>'
+        }
+        let  vm = new Vue({
+            el:"#app",
+            data:{
+                msg:'hello',
+                arr:[1,2,3],
+                book:"book.js"
+            },
+            //局部组件需要在vue实例中注册
+            components:{
+                son
+            }
+        })
+    </script>
+</body>
+</html>

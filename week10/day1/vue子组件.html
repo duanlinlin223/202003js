@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue的组件</title>
+</head>
+<body>
+    <div id="app">
+        <!-- <div @click="fn">{{msg}}</div> -->
+        <son></son> <!--在父组件中引用子组件-->
+    </div>
+    <!-- <div id="app1">
+        {{msg}}
+        <son></son>
+    </div> -->
+     <template id="tem"> 
+        <div @click="fn">
+            {{msg}}
+            <ul>
+                <li v-for="a in arr">{{a}}</li>
+            </ul>
+        </div>
+    </template>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //局部组建
+        let son={ //子组件身上有一个 $parent,指的是他的父组件
+            data(){
+                return{
+                    msg:"son",
+                    //组件使用时的数据，不能像作用域一样向父级查找；只能用自己组件内的数据
+                    arr:[1,2]
+                }
+            },
+            methods:{
+                fn(){
+                    console.log(this);//this指向当前子组件
+                }
+            },
+            //可以放html字符串不适合项目中运用，所以通过传入template的id也可以识别
+            template:`#tem`
+        }
+        //局部组建 只能在注册的vue实例上使用该组件，不能跨组件使用；但是可以被多个vue实例注册
+        //son组建是app的子组件
+        let  vm = new Vue({
+            el:"#app",
+            data:{
+                msg:'333',
+                arr:[1,2,3]
+            },
+            methods:{
+                fn(){
+                    console.log('aaa');
+                }
+            },
+            components:{
+                son
+            }
+        })
+        
+    </script>
+</body>
+</html>

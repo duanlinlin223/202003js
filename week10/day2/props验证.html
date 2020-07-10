@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <child :a="msg"></child>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //不管是数据还是方法都可以通过属性传给子组件；
+        let  child = {
+            data(){
+                return {
+                    // msg:"zfpx",  
+                }
+            },
+            props:{
+                a:{
+                    type:[Number,String],//对传递过来的数据类型进行校验，校验不满足则抛出警告；
+                    //required:true,//这是一个必须传递的值(用得少)
+                    default:200,//如果没有传递这是一个默认值,如果传了就走传过来的值
+                    validator(val){//200
+                        console.log(val);//val接收的是传过来的值，或者是默认(default)值
+                        //如果这个函数返回一个true，说明传值正确，如果返回false那么说明传过来的值有问题；如果不返回则是undefined-转布尔也是false，所以也会报错
+                        return val>0;
+                    }
+                }
+            },
+            template:"<div>{{a}}</div>"
+        }
+        // vm这个实例是child组件的父组件；组件在哪个组件注册，那么就是谁的子组件；
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                msg:'40'
+            },
+            methods:{
+            },
+            components:{
+                child 
+            },
+            mounted(){
+                
+            }
+        })
+
+        
+        
+    </script>
+</body>
+</html>

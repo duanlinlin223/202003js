@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue实例的属性</title>
+</head>
+<body>
+    <div id="app">
+        <span >{{msg}}</span>
+        <li ref="a" v-for="a in arr">{{a}}</li>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //钩子函数：vue初始化过程中的回调函数
+        //声明周期中的钩子函数指向函数执行vue的实例
+        //beforeCreate  created  beforeMount  mounted同步执行
+        //钩子函数是同步执行的，dom渲染是异步的
+
+        //beforeUpdate updated  
+        let  vm = new Vue({
+            el:"#app",
+            data:{
+                msg:'hello',
+                arr:[1,2,3,4]
+            },
+            methods:{
+                //created可以拿到methods里面的方法beforeCreate拿不到
+            },
+            //初始化一些事件和生命周期
+            beforeCreate(){
+                //这个钩子函数是不能获取到data中的数据的；
+                //这个函数中不能操作dom
+               // console.log(this.msg,'beforeCreate');
+            //    console.log(this.$refs.a);
+            //debugger// 当代码解析到这一行会停下
+            // let olis= document.getElementsByTagName("li");
+            //     console.log(olis); 
+               console.log(1);
+               
+            },
+            created(){//最合适在这里发请求
+                //注入一些属性，让属性具有响应式
+                //1.能操作数据的
+                //2.也不能操作dom
+                //3.一般也在这里发请求性能比较高
+                // let olis= document.getElementsByTagName("li");
+                // console.log(olis);
+                console.log(2);
+                
+            },
+            //执行之前会进行el和template的判断，进行不同的判断
+            beforeMount(){
+                //不能操作dom
+                // let olis= document.getElementsByTagName("li");
+                // console.log(olis);
+                console.log(3);
+                
+            },
+            //挂载之后；dom挂载完成了
+            mounted(){
+                //把vue实例生成的虚拟dom编译成真实的dom并插入页面中
+                //可以操作dom了
+                // let olis= document.getElementsByTagName("li");
+                // console.log(olis);
+                console.log(4);
+            },
+            //数据改一次执行一次
+            beforeUpdate(){//数据更新之前
+                //获取的是之前的旧的dom
+                //console.log('beforeUpdate');
+            },
+            updated(){
+                //把改变之后数据形成虚拟的dom和上次的dom进行对比，替换掉修改的那部分dom
+                //尽量以性能最高的方式更新DOM
+                //console.log('updated');
+            },
+            //销毁之前
+            beforeDestroy(){
+                //console.log('beforeDestroy');
+                this.arr.push(00) //数据更新视图不更新  dom渲染是异步的，钩子函数是同步执行，数据更新时已经销毁了vue实例，视图不更新了
+            },
+            //1.销毁watcher 子组件 事件监听者；
+            //销毁之后
+            destroyed(){
+                //当更改数据，不会再让视图更新了
+                //给元素绑定的事件是不受影响的，可以继续执行
+                console.log("destoryed");
+            }
+        })
+        //console.log(5);
+        // vm.$destroy();
+        
+    </script>
+</body>
+</html>

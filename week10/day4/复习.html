@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vuex</title>
+</head>
+<body>
+    <div id="app">
+       <!-- {{count}} -->
+       <button @click="addCount">++</button>
+       {{$store.state.count}}
+       <span>{{$store.getters.str}}</span>
+       <button @click="minCount">--</button>
+       <!-- <child></child> -->
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vuex/dist/vuex.min.js"></script>
+    <script>
+        //组件通信   父子props  子父 发布订阅自定义事件  兄弟通信是事件车eventBus  和vuex （公共数据放在vuex中，各个组件都可以使用和更改这些数据，当一个组件更改其中一个数据之后，所有依赖这个数据的组件都会更新）
+        const store = new Vuex.Store({
+            state:{
+                count:10
+            },
+            mutations:{//都是同步//改数据的一些方法//通过commit提交
+                add(state){
+                    state.count++;
+                },
+                min(state){
+                    state.count--
+                }
+            },
+            getters:{//依赖计算属性
+                str(state){//state就是store中的state
+                    return state.count%2===0?"偶数":"奇数"
+                }
+                
+            },
+            actions:{//支持异步；异步提交mutations，通过dispatch派发
+                fn({commit}){
+                    setTimeout(() => {
+                        commit('min')
+                    }, 2000);
+                }
+            }
+        })
+        let child={
+            data(){
+                return{
+
+                }
+            },
+            methods:{
+                fn(){
+                    this.$store.commit('increment')
+                }
+            },
+            template:`<div >{{this.$store.state.count}}<button  @click="fn">add</button></div>`
+        }
+        //commit提交的是mutations中的属性名；dispatch提交的是actions中的属性名
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                // count:0
+            },
+            methods:{
+                addCount(){
+                    //实参和mutations中的方法名保持一致
+                    this.$store.commit('add')
+                },
+                minCount(){
+                    this.$store.dispatch('fn')
+                }
+            },
+            components:{
+                child
+            },
+            store//把store注入到vm实例上；将$store注入到vm的每一个子孙组件上；
+        })
+        console.log(vm);
+        
+    </script>
+</body>
+</html>

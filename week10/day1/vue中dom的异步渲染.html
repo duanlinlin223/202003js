@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue中dom更新是异步的</title>
+</head>
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="a in arr">{{a}}</li>
+        </ul>
+        {{sum}}
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/axios/dist/axios.js"></script>
+    <script>
+        //debugger; 打断点
+        //vue中dom‘更新’是异步的(更新更新更新)，第一次挂载是同步的，更新数据的时候是异步的
+        let  vm = new Vue({
+            el:"#app",
+            data:{
+                arr:[1,2,3]
+            },
+            methods:{
+                
+            },
+            created(){
+                //最合适在这里发请求
+                //此时dom还没有被编译；
+                // axios('carts.json').then(data=>{
+                //     console.log(data.data);
+                    
+                // })
+                console.log("created");
+            },
+            computed:{
+                //第一次执行是在beforeMount之后mounted之前执行的computed计算属性
+                sum(){//会自己运行
+                    console.log("computed");
+                    return 1;
+                }
+            },
+            beforeMount(){
+                console.log("beforeMount");
+            },
+            //只在new vue时执行一次
+            mounted(){
+               //挂载之后；dom挂载完成了
+               //当数据变化以后，首先要更新数据，然后更新dom，在mounted中可以操作dom
+                //在mounted之前，dom由data中arr渲染三个li；并且插入到页面中；在mounted中改数据，那么需要再次进行dom-diff对比，然后在模板编译插入页面中
+               //console.log(100);
+               this.arr=[1,2,3,4]//当数据更改以后不能立即更改页面中的dom；更改数据导致的dom更新是异步的
+               //不能及时获取到最新的dom
+               //结论：vue中dom更新是异步的(在mounted中更新数据不能立即获取到元素的改变)
+               //debugger;
+            //    let eles = document.getElementsByTagName('li')
+            //    console.log(eles.length);//3个
+               
+               //如果想拿到最新数据 $nextTick
+               //当真实的dom更新完成会立即触发这个回调
+               this.$nextTick(()=>{
+                    let eles = document.getElementsByTagName('li')
+                    //console.log(eles.length);//3个
+               })
+               console.log("mounted");
+               
+            },
+            
+            updated(){
+                //如果在created中改变数据是不会调用updated方法的；在created中改变数据是监听不到数据变化的；
+                console.log(200);
+                
+            }
+            
+        })
+        
+        
+    </script>
+</body>
+</html>

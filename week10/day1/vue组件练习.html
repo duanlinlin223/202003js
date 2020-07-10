@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue的组件</title>
+</head>
+<body>
+    <div id="app">
+      <!-- <mycomponent></mycomponent>
+        <mycomponent></mycomponent>
+       <mycomponent></mycomponent>全局组件调用几次就生成几个vue实例 -->
+        <my-component></my-component>   <!--组件名字不支持驼峰写法，可以在使用时用-隔开 -->
+       <!-- <son></son>
+       <son1></son1> -->
+    </div>
+    <template id="glob">
+        <div>{{msg}}
+            <ul>
+                <li v-for="a in arr">{{a}}</li>
+            </ul>
+        </div>
+    </template>
+    <!-- <template id="glob1">
+        <div>{{msg}}
+            <ul>
+                <li v-for="a in arr">{{a}}</li>
+            </ul>
+        </div>
+    </template> -->
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //全局组件
+        Vue.component('myComponent',{
+            data:function(){
+                return {
+                    msg:'全局组件',
+                    arr:[1]
+                }
+            },
+            created(){
+                console.log(this);
+            },
+            template:"#glob"
+        })
+
+        //局部组件
+        // let son = {
+        //     data(){
+        //         return {
+        //             msg:'子组件',
+        //              arr:[1,2,3,4]
+        //         }
+        //     },
+        //     created(){
+        //         console.log(this);
+                
+        //     },
+        //     template:'#glob'
+        // }
+        // let son1 = {
+        //     data(){
+        //         return {
+        //             msg:'子组件1',
+        //              arr:['a','b','c']
+        //         }
+        //     },
+        //     created(){
+        //         console.log(this);
+                
+        //     },
+        //     template:'#glob1'
+        // }
+
+        let  vm = new Vue({
+            el:"#app",
+            data:{
+                msg:'组件练习',
+                arr:[1,2,3,4]
+            },
+            created(){
+                console.log(this);
+                
+            },
+            // components:{
+            //     son,
+            //     son1
+            // }
+        })
+        
+    </script>
+</body>
+</html>

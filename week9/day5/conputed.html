@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>computed的特点</title>
+</head>
+<body>
+    <div id="app">
+        <!-- {{fn()}} -->
+        <!-- {{ b}} -->
+         {{a}}  <!--a渲染了undefined 页面为空 -->
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/axios/dist/axios.js">
+    </script>
+    <script>
+        //computed的特点（当这个属性依赖多个数据计算而来，最好使用computed，依赖发生变化之后，会触发computed的get方法，重新计算结果）
+        //1.会根据依赖的数据更新而更新
+        //2.不支持异步
+        let vm = new Vue({
+            el:'#app',
+            data:{//直接放在vm身上具有双向的特点
+                arr:[]
+            },
+            methods:{
+                // fn(){
+                //     return 100
+                // }
+            },
+            computed:{
+                // b(){//默认是走get方法，在小胡子里不用加括号，他是一个属性
+                //     return 200;
+                // },
+                // c:{
+                //     get(){//根据get的返回值渲染页面
+                //     }
+                // }
+                //验证computed是否支持异步
+                a(){//如果a的依赖数据是通过异步来更新的，那么a是不能监听到最新的数据的变化的
+                    let b;
+                    axios.get('carts.json').then(data=>{
+                        b=data.data;
+                    })
+                    console.log(b);//undefined   异步中数据还没请求回来 b就是undefined；把b返回给a；那么a就是undefined ，页面渲染为空
+                    return b;//数据最后赋值给b，返回给a函数
+                }
+            }
+        })
+    </script>
+</body>
+</html>
