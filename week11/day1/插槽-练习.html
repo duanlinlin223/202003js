@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <child>
+            <div>菜单一</div>
+            <div>菜单二</div>
+            <div slot="aa">菜单三slot</div>
+        </child>
+    </div>
+    <template id="child">
+        <div>
+            <slot></slot>
+            <h2>子组件</h2>
+            <slot name="aa"></slot>
+
+        </div>
+    </template>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        let child={
+            data(){
+                return{
+                    msg:'儿子',
+                }
+            },
+            template:'#child'
+        }
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                msg:'父亲'
+            },
+            components:{
+                child
+            }
+        })
+    </script>
+</body>
+</html>

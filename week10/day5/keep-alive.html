@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <button @click="fn">点一点</button>
+        <!-- 凡是闭合标签就是一个组件 -->
+        <!-- 内置组件：有个is行间属性；这个属性的属性值和自定义组件的名字匹配，会渲染这个组件 -->
+        <!-- 让is的属性值根据点击发生改变 -->
+        <component :is="one"></component>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vue-router/dist/vue-router.js"></script>
+    <script>
+        //动态渲染组件：点一点按钮切换一下目前显示的组件
+        let first={
+            template:`<div>111</div>`
+        }
+        let second={
+            template:`<div>222</div>`
+        }
+        let third={
+            template:`<div>333</div>`
+        }
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                // num:0,
+                // show:''
+                one:'first'
+            },
+            methods:{
+                fn(){
+                    // if(this.num==0){
+                    //     this.show = first;
+                    //     this.num+=1
+                    // }else if(this.num==1){
+                    //     this.show = second;
+                    //     this.num+=1
+                    // }else if(this.num==2){
+                    //     this.show = third;
+                    //     this.num=0
+                    // }
+                    this.one=this.one==='first'?'second':(this.one==='second'?'third':'first')
+                }
+            },
+            components:{
+                
+            }
+        });
+    </script>
+</body>
+</html>

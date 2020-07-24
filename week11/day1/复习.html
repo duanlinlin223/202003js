@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width>, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- <router-link></router-link> -->
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        /*系统类（单页面应用）==>方便管理
+        组件  数据传递 路由
+        组件：有自己的独立的html css  js；可以复用
+        组件通信：父传子  子传父  兄弟通信
+        路由创建4步：
+        路由传参 ： :id query params
+        命名视图：给router-view起名字
+        路由守卫 :7个  
+        全局 beforeEach beforeResolve afterEach
+        独享守卫:beforeEnter
+        组件内守卫:beforeRouteEnter beforeRouteUpdate beforeRouteLeave
+        
+        component 动态渲染组件 根据is属性 渲染对应的组件
+        keep-alive 用于组件的缓存
+
+        三个生命周期函数 activated 当组件复用时触发  deactivated当组件消失是触发
+        errCaptured子组件出错是触发
+
+        */
+
+        let vm = new Vue({
+            el:"#app",
+            data:{
+
+            }
+        })
+    </script>
+</body>
+</html>

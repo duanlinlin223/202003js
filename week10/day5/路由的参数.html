@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <router-link to="/home">home</router-link>
+        <router-link to="/list">list</router-link>
+        <router-view></router-view>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vue-router/dist/vue-router.js"></script>
+    <script>
+        //vue路由传参的几种方式： 
+        //1.:id 通过params来获取参数
+        //2.query传参  -->对应的是path
+        //3.params传参 -->对应的是name
+        let home={
+            methods:{
+                goList(){
+                    // this.$router.push('/list')
+                    //query就是传过去的参数
+                    // this.$router.push({path:'/list',query:{id:'1'}})
+                    this.$router.push({name:'second',params:{id:'1'}})
+                }
+            },
+            template:`<div>首页<button @click="goList">去列表页</button></div>`
+        }
+        let list={
+            created(){
+                console.log(this.$route.params);
+            },
+            template:`<div>列表页<button>去首页</button></div>`
+        }
+        let routes = [
+            {path:'/home',component:home,name:'first'},
+            {path:'/list',component:list,name:'second'}
+        ]
+        let router = new VueRouter({
+            routes
+        })
+        let vm = new Vue({
+            el:'#app',
+            data:{
+            },
+            router
+        })
+    </script>
+</body>
+</html>

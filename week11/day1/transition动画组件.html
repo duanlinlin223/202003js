@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="animate.css">
+    <style>
+        /*  */
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity 1s;
+        }
+        .fade-enter, .fade-leave-to {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+       <button @click="fn">显示/隐藏</button>
+       <!-- name属性会自动转化为类名 -->
+       <!-- <transition name='fade'>
+           <div v-if="show">hellow 北京</div>
+       </transition> -->
+       
+       <!-- 定义进入和离开的状态 -->
+       <transition name='slide' enter-active-class="animated bounceInDown" leave-active-class="animated bounceOutDown">
+            <div v-if="show">hellow 北京</div>
+        </transition>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //v-enter:定义动画开始的状态，在插入之前生效
+        //v-enter-active:进入动画过度的状态
+        //v-enter-to：定义动画结束的状态
+        //v-leave:离开的开始状态
+        //v-active离开过程中的动画
+        //v-leave-to:离开过度的结束状态
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                show:true
+            },
+            methods:{
+                fn(){
+                    this.show=!this.show
+                }
+            }
+        });
+    </script>
+</body>
+</html>

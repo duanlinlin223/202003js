@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <child>
+           <!-- slot-scope：作用域插槽；可以在父组件中取到子组件的数据 -->
+            <div slot-scope="a">{{a.user}}</div>
+        </child>
+    </div>
+    <template id="child">
+        <div>
+            <!-- <slot></slot> -->
+            <slot :user="msg"></slot>
+            <h2>子组件</h2>
+        </div>
+    </template>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        let child={
+            data(){
+                return{
+                    msg:'子组件数据',
+                }
+            },
+            template:'#child'
+        }
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                msg:'父组件数据'
+            },
+            components:{
+                child
+            }
+        })
+    </script>
+</body>
+</html>

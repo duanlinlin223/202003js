@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <router-link to='/home/1'>首页</router-link>
+        <router-link to='/home/2'>首页</router-link>
+        <router-link to='/home/3'>首页</router-link>
+        <router-link to='/list'>列表页</router-link>
+        <router-view></router-view>
+        <!-- 用于缓存组件；如果该组件还会重新启动，那么可以使用keep-alive；进行组件缓存和优化，提高性能；缓存的组件不会被销毁，也不会重新创建 -->
+        <!-- <keep-alive>
+            <component></component>
+        </keep-alive> -->
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vue-router/dist/vue-router.js"></script>
+    <script>
+        //全局守卫：beforeEach afterEach beforeResolve 
+        //组件守卫：beforeRouteEnter beforeRouteUpdate beforeRouteLeave
+        //beforeEnter 独享守卫
+        let home = {
+            template:`<div>home</div>`
+        }
+        let list = {
+            created(){
+                console.log('li-created');
+            },
+            beforeRouteEnter(to,from,next){
+                console.log('beforeRouteEnter');
+                //console.log(this);//this不在指向组件实例，组件实例还没创建；此时this指向window
+                //这里不支持this 指向window
+                next(vm=>{
+                    //这个函数会等到list组件创建完成之后触发(异步)，并且会传给vm实例
+                    console.log(vm);
+                });
+            },
+            //当正常进入该组件时，不会调用该函数
+            beforeRouteUpdate(to,from,next){
+                //当前路由改变，并且组件复用时触发该函数
+                //路径传参数复用该组件 /home/:id
+                //可以访问该组件 this 指向组件实例
+                //执行顺序：beforeEach  beforeRouteUpdate beforeResolve atferEach
+                console.log('beforeRouteUpdate');
+                next();
+            },
+            beforeRouteLeave(to,from,next){
+                //当组件离开该守卫时，会触发该守卫，然后再触发全局守卫beforeEach beforeResolve afterEach
+                console.log('beforeRouteLeave');
+                next();
+            },
+            template:`<div>list</div>`
+        }
+        let routes=[
+            {path:'/home',component:home},
+            {path:'/list',component:list,beforeEnter:(to,from,next)=>{
+                //路由独享守卫
+                console.log('beforeEnter');
+                next();
+            }}
+        ]
+        let router=new VueRouter({
+            routes
+        })
+        //全局守卫
+        router.beforeEach((to,from,next)=>{//全局的前置钩子函数；只要切换路由就会触发这个函数
+            //to 要到哪个组件去   from  从哪个组件来  next继续执行下面的代码；
+            //console.log(to,from);
+            console.log('beforeEach');
+            next();
+        });
+        console.log('window全局');
+        //全局守卫的后置钩子函数
+        router.afterEach((to,from)=>{
+            //路由切换之后触发这个钩子函数
+            //console.log(to,from);
+            console.log('切换成功-afterEach');
+        })
+
+        //全局解析守卫
+        router.beforeResolve((to,from,next)=>{
+            console.log('beforeResolve');
+            next();
+        })
+        //路由的执行顺序 beforeEach-->beforeEnter(路由独享守卫)-->beforeRouteEnter(组件内守卫)-->beforeResolve-->afterEach    -->要显示组件的生命周期函数
+
+        //导航切换执行顺序 失活的beforeRouteLeave -->beforeEach-->beforeEnter(路由独享守卫)-->beforeRouteEnter(激活的组件内守卫)-->全局的beforeResolve-->全局的afterEach 【激活的声明周期四个钩子函数执行】-->dom更新   -->beforeRouterEnter的next回调
+
+        //组件重用时的执行顺序  beforeEach  beforeRouteUpdate beforeResolve atferEach
+        //在组件重用 声明周期的 updated 和beforeUpdate都不在执行了
+        let vm = new Vue({
+            el:'#app',
+            data:{
+            },
+            router
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <child :a='msg' name="北京" age='500' @hh="fn"></child>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //$attrs
+        let grandson={
+            data(){
+                return{
+                    msg:'grandson-bbb'
+                }
+            },
+            template:`<div>{{$attrs.a}}{{$attrs.age}}<button @click="$listeners.hh()">改一改</button></div>`
+        }
+        let child={
+            data(){
+                return{
+                    msg:'child-aa'
+                }
+            },
+            components:{
+                grandson
+            },
+            // props:['a'],
+            // 可以通过v-bind将child的行间属性以对象的形式传递给grandson组件
+            template:`<div><grandson v-bind="$attrs" v-on="$listeners"></grandson></div>`
+        }
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                msg:'father',
+                a:1
+            },
+            methods:{
+                fn(){
+                    this.msg="父组件"
+                }
+            },
+            components:{
+                child
+            }
+        })
+    </script>
+</body>
+</html>

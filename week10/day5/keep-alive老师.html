@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <button @click="fn">点一点</button>
+        <!-- 凡是闭合标签，就是一个组件 -->
+        <!-- 内置组件： 有个行间is属性，这个属性的属性值和自定义组件的名字匹配，会渲染这个组件 -->
+        <!-- 让is的属性值根据点击发生改变 -->
+        <!-- <first></first> -->
+        <keep-alive>
+            <!-- keep-alive : 用于缓存组件，如果该组件还会重新启动，那么可以使用keep-alive;进行组件的缓存和优化，提高性能，缓存的组件不需要销毁，也不会重新创建  内存-->
+            <component :is="one"></component>
+        </keep-alive>
+    </div>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script>
+        // 动态渲染组件： 按一下按钮切换一下目前显示的组件
+        // component : 一旦切换组件，组件就会销毁，下次重现显示时，需要重新创建；
+        // keep-alive : 内置组件 
+        // VUE的性能优化： keep-alive 
+        // 该组件如果被缓存起来以后，有时再次进来需要对一些数据进行校验；
+        // 
+        let  child = {
+            data(){
+                return {
+                    a:cc
+                }
+            },
+            template:"<div>{{a}}</div>"
+        }
+        let  first = {
+            created(){
+                console.log("first created"); 
+            },
+            components:{
+                child
+            },
+            // mounted(){
+            //     console.log("first mounted");
+            // },
+            // destroyed(){
+            //     console.log("first destroyed")
+            // },
+            activated(){
+                // 用于缓存组件再次显示会被调用
+                // 生命周期钩子函数
+                // 如果没有使用keep-alive,正常渲染组件，默认是不会执行这个钩子函数
+                console.log("first 再次显示");
+            },
+            // 当组件消失隐藏时，会执行这个钩子
+            deactivated(){
+                // 当缓存组件消失时，会调用这个钩子函数
+                console.log(this);// 组件实例
+                console.log("first 消失");
+            },
+            // 子组件出错时，会调用这个钩子函数；
+            errorCaptured(a,b,c){
+                console.log(a);// 具体错误信息
+                console.log(b);// 组件
+                console.log(c);// 组件data中出错
+                console.log("错误");
+            },
+            template:"<div>第一个<child></child></div>",
+        }
+        let second={
+            template:"<div>第二个</div>"
+        }
+        let third={
+            template:"<div>第三个</div>"
+        }
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                one:"first"
+            },
+            components:{
+                first,
+                second,
+                third
+            },
+            methods:{
+                fn(){
+                    this.one = this.one==="first"?"second":(this.one==="second"?"third":"first");
+                }
+            }
+        });
+    </script>
+</body>
+</html>

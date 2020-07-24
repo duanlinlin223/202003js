@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        {{name}}
+        {{msg}}
+        <my></my>
+        <!-- <my></my> -->
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //Vuex:每个组件都可以使用$store的数据
+        //全局混入 Vue.mixin :
+        //1.可以将对象的data中的数据合并到组件的data中;如果重名了那么以组件内部的数据为准；
+        //2.还可以给组件实例混入生命周期钩子函数；这个不会覆盖，有多少个组件这个函数就执行几次；并且mixin混入的函数是先执行的，在执行组件的钩子函数
+        // 全局混入 Vue.mixin
+        Vue.mixin({
+            data(){
+                return{
+                    name:'202003',
+                    msg:'hello'
+                }
+            },
+            created(){//组件使用一次，执行一次
+                console.log('mixin-created');
+            }
+        });
+        Vue.component('my',{
+            data(){
+                return{
+                    msg:'909090'
+                }
+            },
+            created(){
+                console.log(this);
+            },
+            template:'<div>{{msg}}</div>'
+        })
+        //let store = new Vuex.Store({})
+        let  vm = new Vue({
+            el:"#app",
+            data:{
+            },
+            //store,//给vm新增一个新的$store,同事子子孙孙都新增了
+            methods:{
+            },
+            created(){
+                console.log('vm-created');
+            }
+        })
+        //console.dir(Object);
+        //console.log(vm);
+        let arr = [];
+        console.log(arr);
+        console.dir(Array);
+        console.log(arr.__proto__=== Array.prototype);
+    </script>
+</body>
+</html>

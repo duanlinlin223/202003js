@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 实例.$store -->
+        {{$store.state.count}}
+        <child></child>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //严格模式下一个函数执行如果函数前面没有.的话 他就指向undefined
+        // Vuex是自执行函数的返回值
+        // Vuex : 组件是可以改变state的值，凡是依赖这个state的组件都会高效更新
+        let Vuex=(function(){
+            // 采用闭包保护里面的变量不受外界干扰
+            class Store{
+                constructor(options){
+                    // this  ===> store的实例
+                    // 把options的state赋值给Store的实例state；
+                    // 为了能让数据能够监听，当数据发生改变，依赖的视图也要更新的，给state属性进行监听
+                    // 给state进行新增了get和set方法；
+                    // 如果state没有传，给其一个默认值{};
+                    let vm = new Vue({
+                        data:{
+                            state:options.state||{}
+                        }
+                    })
+                    this.state =vm.state;// 数据改，视图也跟着更新
+
+                    //解决mumations
+                    //获取到mutations对象的属性名转成数组
+                    this.mutations={};
+                    // Object.keys(options.mutations).forEach(key=>{
+                    //     this.mutations[key]=()=>{
+                    //         options.mutations[key]();
+                    //     }
+                    // })
+                    //commit执行的时候，执行mutations中对应的方法
+                    //this==>指向Store的实例
+                    this.commit=(type,v)=>{
+                        //this==>指向了store的实例；mutations的方法中的this都指向了store的实例，需要用call改变方法中的this指向store的实例，通过this获取到了state传给了mutation的方法
+                        options.mutations[type].call(this,this.state,v)
+                    };
+                    this.dispatch=function(type,v){
+                        options.actions[type].call(this,this,v)
+                    };
+                    //把getters这个对象转成数组，然后循环
+                    this.getters={};//给实例新增getters这个对象
+                    Object.keys(options.getters).forEach(key=>{
+                        Object.defineProperty(this.getters,key,{
+                            // 给getters新增键值对；
+                            get:()=>{
+                                // 会进行缓存，当依赖的属性的属性发生改变就会执行
+                                return options.getters[key].call(this,this.state);
+                            }
+                        });
+                    })
+                }
+            }
+            function install(_Vue){
+                // 全局注入
+                // console.log(_Vue);// Vue的这个类
+                _Vue.mixin({
+                    beforeCreate(){
+                        // this ==> 给每一个组件混入了beforeCreate这个方法
+                        // this => 每一个组件实例
+                        // 当前有多少个组件，那么这个钩子函数就执行多少次；不影响组件足迹的生命周期beforeCreate;这个钩子函数要早于组件内部的beforeCreate执行
+                        // console.log(this);
+                        // 如何拿到store,
+                        // 针对vm是可以的，但是子组件是不可以的，因为子组件$options没有store属性
+                        // 将store生成的实例注入到了每一个市里的$store属性上；这样所有的组件都可以使用$store来获取store中state的值了；
+                        if(this.$options.store){
+                            // 如果能进来，说明是vm组件
+                            this.$store= this.$options.store;
+                        }else{
+                            // 如果进入这里，说明是vm的子孙组件
+                            // $parent : 是当前组件的父组件
+                            // 当前存在父组件，把父组件的$store属性赋值给子组件的$store属性
+                            this.$store = this.$parent&&this.$parent.$store;
+                        }
+                    }
+                })
+            }
+            function mapState(ary){
+                let obj={
+
+                };
+                //1.函数的this跟函数的执行有关系
+                //2.函数的上一级作用域跟函数的执行没有关系，跟函数定义有关系
+                //将store中的state对应的属性名获取到，放到obj中
+                ary.forEach(key=>{
+                    obj[key]=function(){
+                        //console.log(this);//指向组件实例;
+                        return this.$store.state[key]
+                    }
+                })
+                return obj;
+            }
+            function mapMutations(ary){
+                let obj={};
+                ary.forEach(key=>{
+                    obj[key]=function(options){
+                        return this.$store.commit(key,options)
+                    }
+                });
+                return obj
+            }
+            function mapGetters(ary){
+                let obj={};
+                ary.forEach(key=>{
+                    obj[key]=function(){
+                        return this.$store.getters[key]
+                    }
+                })
+                return obj;
+            }
+            function mapActions(ary){
+                let obj ={};
+                ary.forEach(key=>{
+                    //console.log(key);
+                    obj[key]=function(option){
+                        return this.$store.dispatch(key,option)
+                    }
+                })
+                return obj;
+            }
+            // return的对象就是Vuex
+            return {
+                Store,
+                install, 
+                mapState,
+                mapMutations,
+                mapGetters,
+                mapActions
+            }
+        })();
+        // Vue.use执行了里面的install；
+        Vue.use(Vuex);// 会调用这个对象中的install
+        let  store = new Vuex.Store({
+            state:{
+                count:12
+            },
+            mutations:{ 
+                add(state,a){
+                    //state接收到vuex中的state
+                    state.count+=a;
+                } , 
+                reduceFn(state,a){
+                    state.count-=a;
+                }   
+            },
+            getters:{
+                str(state){
+                    return state.count%2===0?"偶数":'奇数'
+                }
+            },
+            actions:{
+                //actions里面提交的是mutations里面的方法
+                addNum({commit},val){
+                    //当这个方法执行的时候，他的第一个实参传递的是store的实例，解构出里面的方法；
+                    commit('add',val)
+                },
+                reduce({commit},val){
+                    commit('reduceFn',val)
+                }
+            }
+        });
+        // child的$parent  ==> vm
+        let  child={
+            created(){
+                //console.log(this);
+            },
+            methods:{
+                // fn(val){
+                //     //this.$store ==>Store
+                //     //this.$store.commit("add",val)
+                //     this.$store.dispatch("addNum",val)
+                // }
+                ...Vuex.mapMutations(['add']),
+                ...Vuex.mapActions(['reduce'])
+            },
+            computed:{
+                ...Vuex.mapState(['count']),
+                ...Vuex.mapGetters(['str'])
+            },
+            template:"<div>{{count}}{{str}}<button @click='add(1)'>++</button><button @click='reduce(1)'>--</button></div>"
+        }
+        let  vm = new Vue({
+            el:"#app",
+            components:{
+                child
+            },
+            store// 每一个组件身上都会有一个$store属性;store是 Store的实例；Store实例是Store中constructor的this；
+            // 将这个store的属性值放到每一个组件的$store属性上
+        });
+        // console.log(vm);
+        // VUEX原理： VUEX是一个插件，所以需要Vue.use,vuex就是一个对象，当Vue.use时，会默认调用Vuex中的install方法；当里面install方法执行，利用了Vue.mixin 混入方法，将vm的$options上的store这个值注入到了当前所有的vue实例，给每一个组件实例新增了$store属性；$store属性是Store的实例；然后再Store的constructor中，把state通过newVue对state进行监听并且放到了store的实例；监听了state的所有数据；
+    </script>
+</body>
+</html>

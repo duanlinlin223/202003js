@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <router-link to="/home/1">第一本</router-link>
+        <router-link to="/home/2">第二本</router-link>
+        <router-link to="/home/3">第三本</router-link>
+        <router-link to="/list">list页</router-link>
+        <router-view></router-view>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vue-router/dist/vue-router.js"></script>
+    <script>
+        let home={
+            beforeRouteUpdate(to,from,next){
+                //当组件复用：:id时 全局的beforeEach beforeRouteUpdate beforeResolve
+                console.log('beforeRouteUpdate');
+                next();
+            },
+            template:`<div>这是home</div>`
+        }
+        
+        let list={
+            created(){
+                console.log("list-created");
+            },
+            //组件内部：组件内部路由独享
+            beforeRouteEnter(to,from,next){
+                //这个钩子函数内不可以获取组件的实例this；this指向实例的window
+                console.log('beforeRouterEnter');
+                console.log(this);//this指向window
+                //next();
+                //这里不支持this指向实例；next函数
+                next(vm=>{
+                    //这个函数会等到list创建完并且会传给这个vm
+                    console.log(vm)
+                })
+            },
+            //正常进入该组件时不会调用该方法，
+            beforeRouteUpdate(to,from,next){
+                //1.路由改变，组件复用才会触发该方法
+                //(1.路径传参数复用该组件 eg:/home/:id
+                //2.可以访问该组件this
+                console.log('list-beforeRouteUpdate');
+                next();
+            },
+            //需要学明白这个守卫在什么时候执行
+            //当离开该组件时，会触发该守卫；然后在触发全局的进入守卫beforeEach beforeResolve afterEach 
+            beforeRouteLeave(to,from,next){
+                console.log('list-beforeRouteLeave');
+                next();
+            },
+            template:`<div>这是list</div>`
+        }
+        let routes=[
+            {path:'/home/:id',component:home},
+            {path:'/list',component:list,beforeEnter:((to,form,next)=>{
+                console.log("beforeEnter");
+                next();
+            })
+            }
+        ]
+        let router= new VueRouter({
+            routes
+        })
+        //全局守卫:全局的前置钩子函数；只要切换组件都会执行;守卫执行是异步的
+        router.beforeEach((to,from,next)=>{
+            
+            console.log("beforeEach");
+            next();//只有执行next之后才会向下执行
+        })
+        //全局守卫的后置的钩子函数
+        router.afterEach((to,from)=>{
+            // 没有next 
+            // 当路由成功切换以后，执行的钩子函数
+            console.log("切换成功afterEach");
+        });
+        //在boforeEach之后;
+        router.beforeResolve((to,from,next)=>{
+            //to到哪去  from 从哪来 next 跳转路由
+            console.log("beforeResolve");next()
+        })
+        //执行顺序 ==》beforeEach-->beforeEnter-->beforeRouteEnter-->beforeResolve-->afterEach-->要显示组件的created
+        let vm = new Vue({
+            el:"#app",
+            router
+        });
+    </script>
+</body>
+</html>

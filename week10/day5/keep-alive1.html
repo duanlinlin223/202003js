@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <button @click="fn">点一点</button>
+        <!-- 凡是闭合标签就是一个组件 -->
+        <!-- 内置组件：有个is行间属性；这个属性的属性值和自定义组件的名字匹配，会渲染这个组件 -->
+        <!-- 让is的属性值根据点击发生改变 -->
+        
+        <keep-alive>
+            <!-- 用户缓存组件，如果该组件还会重新启动，那么可以使用keep-alive;进行组件的缓存和优化，提高性能，特点：不需要销毁，也不重新创建 -->
+            <!-- <component :is="one"></component> -->
+            <component :is="one"></component>
+        </keep-alive>
+        
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vue-router/dist/vue-router.js"></script>
+    <script>
+        //动态渲染组件：点一点按钮切换一下目前显示的组件
+        //component： 一旦切换组件，组件就会销毁;下次重新显示时，需要重新创建--性能不高；
+        //keep-alive:内置组件
+        //vue的性能优化：keep-alive
+        //该组件如果被缓存起来以后，有时再次进来需要对一些数据进行校验；
+        //第九个钩子函数 activated(){}
+        let child={
+            template:`<div></div>`
+        }
+        let first={
+            created(){
+                console.log('created');
+            },
+            activated(){
+                //用于缓存组件，再次显示会被调用
+                //生命周期钩子函数
+                //如果组件没有使用keep-alive，正常显示组件，默认是不会显示这个钩子函数的(组件放在keep-alive中是才会触发这个函数)
+                console.log('再次显示');
+            },
+            deactivated(){
+                //this依然指向组件实例
+                //当缓存组件消失时，会调用这个钩子函数
+                console.log('消失');
+            },
+            errCaptured(a,b,c){//针对子组件出错时，会调用这个钩子函数；
+                //接受三个参数，分别是：具体错误信息   组建信息  组建中data出错
+                console.log('cuo');
+            },
+            components:{
+                child
+            },
+            template:`<div>111<child></child></div>`
+        }
+        let second={
+            template:`<div>222</div>`
+        }
+        let third={
+            template:`<div>333</div>`
+        }
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                one:'first'
+            },
+            methods:{
+                fn(){
+                    this.one = this.one==="first"?"second":(this.one==="second"?"third":"first");
+                }
+            },
+            components:{
+                first,
+                second,
+                third
+            }
+        });
+    </script>
+</body>
+</html>

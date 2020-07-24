@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+       {{msg}}
+       <h2>父组件</h2>
+       <child>
+            <div  slot="first">菜单0</div>
+            <!-- 行间属性的slot和组件slot的name属性匹配 -->
+           <div >菜单一</div>
+           <div>菜单二</div>
+           <div>菜单三</div>
+           <!-- 这三个div还是属于父组件 ，取的数据msg还是父组件的数据-->
+       </child>
+    </div>
+    <template id="child">
+        <div>
+            <!-- 顺序以 子组件的结构顺序为准 <slot></slot>渲染父组件中没有slot属性的标签；默认渲染-->
+            <slot></slot>
+            <!-- 子组件的slot组件会根据其name属性，去父组件中的标签的slot属性进行匹配。把匹配到的元素显示出来-->
+            <slot name="first"></slot>
+            <h3>子组件</h3>
+        </div>
+    </template>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        
+        //给插槽取个名字
+        let child={
+            data(){
+                return{
+                    msg:'zfpx'
+                }
+            },
+            template:'#child'
+        }
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                msg:'hello'
+            },
+            components:{
+                child
+            }
+        });
+    
+    
+    
+    </script>
+</body>
+</html>

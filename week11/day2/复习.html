@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+                
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //component动态组件  keep-alive缓存组件  slot插槽    transition动画
+        //v-cloak小胡子未编译时隐藏掉小胡子   v-pre 预编译，原样输出 v-once只编译一次
+        //$attrs传递数据给孙子组件  $listener传递方法给孙子组件$parent每一个子组件都有一个$parent
+        //slot slot具名  slot-scope属性实现作用域插槽
+        //如果穿对象默认调用对象的install方法；如果穿函数，会默认把函数当做是install执行
+        //Vue.use(install(vue){})    Vue.use(function(vue){})
+        //Vue.mixin: 全局混入,一定要写在vm实例前面
+        //Vue.mixin({
+
+        //})
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                msg:'vue实例'
+            },
+        })
+    </script>
+</body>
+</html>

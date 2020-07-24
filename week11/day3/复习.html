@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>  
+        // 敲代码   学好当下
+        // Vuex 源码；VueRouter 源码
+        // Vue.use==> install==> Vue.mixin混入钩子函数==> 给每一个组件新增了$store属性===> $store 是Store生成的实例(原生JS能力)
+
+        // Vue.mixin : 混入;全局混入 局部混入
+        // 不仅可以给每一个组件混入data,还可以给每一个组件混入方法；先执行混入的钩子函数，然后再执行自己的；
+
+        // Object.defineProperty  
+
+        // 双向数据绑定原理  computed
+        let  obj = {};
+        // 第一个参数要处理的对象
+        // 第二个是属性名，
+        // 对象里面有get和set两个函数
+        Object.defineProperty(obj,"name",{
+            // get(){
+            //     // 一旦转成get和set,那么属性名的属性值就是get的返回值
+            //     // 当获取obj属性名name对象的属性值时，会触发这个函数
+            //     console.log(1);
+            //     return 100;
+            // },
+            // set(val){
+            //     // 当设置obj.name的属性值时，那么会触发这个函数
+            //     // val就是设置的值
+            //     console.log(val);
+            // }
+            // value:100,
+            // writable:true
+            value:"5566"
+        });
+        //  console.log(obj.age);
+        // var  f = obj.name;
+        // obj.name=99;
+        // console.log(obj.name);
+        // console.log(obj);
+        // obj.name.a=200;
+        // obj.name=200;
+        console.log(obj);
+        
+    </script>
+</body>
+</html>

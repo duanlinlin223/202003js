@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- {{word}}word值存在在child组件中，其他组件报错不可用； -->
+        <child></child>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //局部混入：
+        //指定某个组件可用
+        //局部混入：相当于把属性混入了局部的组件中，还可以混入钩子函数
+        let obj={
+            data(){
+                return{
+                    word:'word:我想去看看'
+                }
+            },
+            created(){//如果有方法混入到组件，先执行这个函数，在执行组件的钩子函数；
+            //有多少个组件实例，那么created就会执行多少次；并且每次执行都会指向不同的实例对象
+                console.log(100);
+                console.log(this);//谁使用这个局部混入，则this就指向谁
+            }
+        }
+        Vue.component('child',{
+            data(){
+                return{
+                    msg:'世界很大'
+                }
+            },
+            created(){
+                console.log(200);
+            },
+            mixins:[obj],//只能在该组件中使用obj的data数据
+            template:`<div>{{word}}</div>`
+        })
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                user:'世界这么大'
+            },
+            components:{
+                
+            }
+        })
+        console.log(vm);
+    </script>
+</body>
+</html>

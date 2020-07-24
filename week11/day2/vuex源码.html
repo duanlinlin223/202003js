@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- {{$store.state.count}} -->
+        <child></child>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <!-- <script src="../node_modules/vuex/dist/vuex.js"></script> -->
+    <script>
+        //vuex :各个组件之间的通信问题，适用于中大型的网站;把公共数据放在store的state中；各个组件可以获取到这个state，this.$store.state;而且还可以改这个数据，commit提交store中的mutation；如果是异步通过dispatch派发action，action是commit中的mutation
+        //VUEX原理：每一个组件都被注入了$store属性
+
+        //Vuex代表自执行函数的返回值
+        let Vuex = (function(){
+            //采用闭包保护里面的变量不受外界干扰
+            class Store{
+                constructor(){
+                    //this代表store实例
+                    this.state={count:1}
+                }
+            }
+            function install(_Vue){
+                //形参就是Vue这个类
+                //会默认调用install
+                _Vue.mixin({
+                    beforeCreate(){
+                        //this代表每一个组件实例
+                        //会把这个方法注入到每一个组件实例上，并且这个钩子函数的执行时间早于组件钩子函数
+                        
+                    }
+                })
+            }
+            return {
+                Store
+            }
+        })();
+
+        // Vue.use(vuex)vue的插件使用必须vue.use执行以下； 会默认检测是否是官方插件，vuex内部会执行调用一次vue.use，当vue.use执行时，发现是个对象，默认会调用里面的install
+        let store =new Vuex.Store({
+            state:{
+                count:1
+            },
+            mutations:{
+                fn(state){//默认会传递一个store的state
+
+                }
+            },
+            getters:{},
+            actions:{}
+        })
+        let child={
+            template:`<div></div>`
+        }
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                
+            },
+            components:{
+                child
+            },
+            //把store的实例给了store的属性
+            store//每一个组件和子孙身上都会有个$store属性
+        })
+    </script>
+</body>
+</html>

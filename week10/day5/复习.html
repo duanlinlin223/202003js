@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <router-link to="/home">首页</router-link>
+        <router-link to="/list">列表页</router-link>
+        <router-view></router-view>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vue-router/dist/vue-router.js"></script>
+    <script>
+        //vuex 解决组件之间的数据传递
+        //state mutations(通过commit) getters(相当于计算属性) actions(dispatch) modules
+        //vueRouter :一个路由--》对应一个组件
+        //$router 上的方法：push  go back
+        //路由嵌套children[{},{}]
+        //命名路由name:给路由起个名字，把to改成动态属性 :to='{name:'first'}'
+        //动态路由(传参) /:id  子组件中拿到参数 $route.params.id
+        let home = {
+            data(){
+                return{
+                    con:'首页'
+                }
+            },
+           
+            template:`<div>{{con}}</div>`
+        }
+        let list = {
+            data(){
+                return{
+                    con:'列表页'
+                }
+            },
+            methods:{
+               
+            },
+            template:`<div>{{con}}</div>`
+        }
+        
+        let routes = [
+            {path:'/home',component:home},
+            {path:'/list',component:list}
+        ]
+        let router = new VueRouter({
+            routes
+        })
+        let vm = new Vue({
+            el:'#app',
+            data:{
+
+            },
+            router
+        })
+    </script>
+</body>
+</html>

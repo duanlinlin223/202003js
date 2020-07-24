@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <router-link to='/home'></router-link>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //vueRouter：监听了页面的hash值；根据hash值的不同，渲染不同的组件
+        //vueRouter也是一个插件，也需要调用vue.use;会默认调用install；
+        class VueRouter{
+            constructor(){
+                //this.route是个对象
+            }
+        }
+        VueRouter.install=function(_Vue){
+            _Vue.mixin({
+                beforeCreate(){
+                    //将router挂载到每一个组件实例上,给每一个组件实例新增$router属性，这个属性值就是VueRouter的实例
+                    if(this.$options.router){
+                        this.$router=this.options.router
+                    }else{
+                        this.$router=this.$parent.$router
+                    };
+                    //监听了实例上$route这个属性值；route有当前页面的hash
+                    Object.defineProperty(this,'$route',{
+                        value:{
+                            route:this.$router.route
+                        }
+                    });
+                    //注册全局的组件router-link和router-view
+                    Vue.component('router-link',{
+                        props:{
+                            to:String
+                        },
+                        render(createElement){
+                            //render是个函数；执行的时候会传入一个参数
+                            //render返回什么，最后就将router-link替换成什么；
+                            return <a href={`#${this.to}`}>this.$slot.default</a>
+                        }
+                    })
+                }
+            })
+        }
+        // let router=new VueRouter({
+        //     routes
+        // })
+        let vm =new Vue({
+            el:'#app',
+            // router
+        })
+    </script>
+</body>
+</html>

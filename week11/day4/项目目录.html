@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // vue create  crm :生成一个项目；
+        // node_modules ：安装了该项目所有的模块，以及webpack等依赖的模块；
+        // 在node_modules中安装了好多上线不用的模块：less less-loader  webpack  bable-loader  v-loader;在开发时，需要将代码进行编译；需要用到这些loader,但是上线时，只需要webpack处理后的dist文件夹中的代码上线就可以了；
+        // 你们公司这个项目最后上线的时候有多大；
+        // 在公司项目上线时，只需要把生成的dist文件上线就可以；
+        // 5M左右;
+
+        // public :index.html ; 准备好了index.html ,并且里面有id=app的div元素；
+
+        // src: source资源；咱们写代码一般都在在src中写代码，
+        //   1. assets  : 静态资源，图片放在这里
+        //   2.components: 放的是组件
+        //   3. router : 放的是路由
+        //   4. store : 存储的公共的数据
+        //   5. views : 存储的是页面的视图
+        //   6. App.vue;做为挂载到app元素的入口文件
+        //   7. main.js : webpack打包的入口文件
+
+        // .gitignore : 忽略 使用git上传时，这个配置文件中的文件夹不进行上传
+        // babel.config.js : babel-loader的配置文件；把es6编译成es5;
+        // package.json : 配置文件； 记录模块的小本本；还可以配置cmd的命令;生产依赖和开发依赖；
+        // 当执行打包命令时，如果是生产依赖的js那么最后会打包到dist文件夹中的js中，如果是开发依赖，不需要打包；
+        //npm install vue --save;==> 生产依赖
+        //npm install less --save-dev==> 开发依赖
+
+        // yarn 的执行的命令
+
+
+        // yarn.lock ==> package.json ;这两个文件基本一样
+
+        // npm  run serve : yarn serve ==> 启动一个服务
+        // npm run build  yarn build ==> 把代码进行打包；生成线上的环境的代码；
+
+        // 
+        
+        //src结构：
+//assets:静态资源文件 一般放img 、css初始化文件
+//component:放的是组件；页面的一部分
+//router:配置的路由
+//store :vuex仓库
+//views:存储的是页面的视图
+//App.vue:是所有组件的入口文件，只有一个
+//main.js:是webpack打包的入口文件
+//可以在main.js配置一些全局的组件，filter过滤器，或指令，全局的路由钩子函数
+//引入第三方的插件 eg:element-ui
+
+//.gitignore :忽略；当时用git上传时，这个配置文件中的文件夹不进行上传
+//babel.config.js:babel-loader的配置文件；把es6编译成es5
+//package.json:记录模块的小本本；还可以配置cmd的命令
+// yarn serve ||npm run serve ：启动一个服务
+//yarn build || npm run build :把代码进行打包，生成线上的环境的代码
+
+// Vue.config.js :可以手动创建，可以更改里面的一些内容，来达到更改全局配置的目的；
+
+        
+    </script>
+</body>
+</html>

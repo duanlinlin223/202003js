@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        [v-cloak]{
+            display:none;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+       <div v-cloak>{{msg}}</div>
+       <div v-pre>{{word}}</div>
+       <div v-once >{{b}}</div>
+       <button @click="fn">点击</button>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //指令v- 开头 放在行间属性上，有特殊意义
+        //v-for v-bind v-on v-show v-model v-if v-esle-if v-html v-text
+        // v-cloak:可以隐藏未编译的小胡子语法标签;直到编译结束，才让该元素显示
+        //v-pre 让该元素不被解析；按照原样输出；(当该结构是写死的静态结构，可以直接加上v-pre，减少解析次数)
+        //v-once 只渲染一次，以后更改了数据，也不会再次渲染 
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                msg:'aaaaa',
+                word:'xxxxxxx',
+                b:123
+            },
+            methods:{
+                fn(){
+                    this.b=321
+                }
+            }
+        });
+    </script>
+</body>
+</html>

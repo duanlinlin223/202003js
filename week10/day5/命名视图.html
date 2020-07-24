@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <router-link to="/home">首页</router-link>
+        <router-link to="list">列表页</router-link>
+        <!-- 将组建替换掉 该router-view -->
+        <router-view></router-view>
+        <router-view name="a"></router-view>
+        <router-view name="b"></router-view>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vue-router/dist/vue-router.js"></script>
+    <script>
+        //命名视图
+        let home={
+            template:`<div>home视图</div>`
+        }
+        let list={
+            template:`<div>list视图</div>`
+        }
+        let foo={
+            template:`<div>foo视图</div>`
+        }
+        //components:对应一个对象
+        //当现实home组件时也需要显示foo组建；而且不是嵌套关系
+        let routes=[
+            {path:'/home',components:{
+                    default:home,//如果router-view没有name属性，默认显示组件是home组件
+                    //这个对象的属性名要和router-view的那么属性值对应
+                    a:foo
+                }
+            },
+            {path:'/list',component:list},
+        ]
+        let router= new VueRouter({
+            routes
+        })
+    
+        let vm = new Vue({
+            el:"#app",
+            router
+        });
+    
+    
+    
+    </script>
+</body>
+</html>

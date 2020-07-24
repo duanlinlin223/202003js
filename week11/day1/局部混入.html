@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <my></my>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        // let obj={
+        //     data(){
+        //         return{
+        //             msg:100
+        //         }
+        //     },
+        //     created(){
+        //         console.log(this);//this代表当前使用obj这个混入对象的vue实例
+        //     }
+        // }
+        Vue.mixin({
+            data(){
+                return{
+                    msg:100
+                }
+            },
+            created(){
+                console.log(this);//this代表当前使用obj这个混入对象的vue实例
+            }
+        })
+
+        Vue.component('my',{
+            data(){
+                return{
+                    a:100
+                }
+            },
+            template:`<div>{{a}}</div>`,
+            //mixins:[obj]
+        })
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                msg:'vue实例'
+            },
+            
+        })
+        //console.log(vm);
+    </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+       <h2>父组件</h2>
+       <child>
+          <div> aaa</div>
+          <div slot="bb">bbb</div>
+          <div slot="cc">33333</div>
+          <div slot-scope='k'>{{k.user}}</div>
+       </child>
+    </div>
+    <template id="child">
+        <div>
+            <!-- {{msg}} -->
+            <h3>子组件</h3>
+            <slot name="bb"></slot>
+            <slot name="cc"></slot>
+            <slot></slot>
+            <slot :user="msg"></slot>
+        </div>
+    </template>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //给插槽取个名字
+        let child={
+            data(){
+                return{
+                    msg:'child-data'
+                }
+            },
+            template:'#child'
+        }
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                msg:'vm-data'
+            },
+            components:{
+                child
+            }
+        });
+    </script>
+</body>
+</html>

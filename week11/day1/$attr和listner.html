@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        
+    </style>
+</head>
+<body>
+    <div id="app">
+        <child :val="a" user="白白" age="18" @h='fn'></child>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //父传子 props
+        //爷穿孙   传给儿子也可以用？？？课下试一试
+        //$attrs   传递属性v-bind='$attrs'
+        //$listeners 传递方法 v-on='$listeners'
+        let grandson={
+            template:`<div>{{$attrs.val}}<button @click="$listeners.h()">改一下</button></div>`
+        }
+        let child={
+            data(){
+                return{
+                }
+            },
+            components:{
+                grandson
+            },
+            // props:['val'],
+            // 可以通过v-bind 将child的行间属性以对象的形式传递给grandson组件
+            template:`<div><grandson v-bind='$attrs' v-on='$listeners'></grandson></div>`
+        }
+        let  vm = new Vue({
+            el:"#app",
+            data:{
+                a:'zfpx'
+            },
+            methods:{
+                fn(){
+                    this.a='北京北京'
+                }
+            },
+            components:{
+                child
+            }
+
+        })
+    
+    
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        {{msg}}
+        <my></my>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        //1.可以将对象的data中的数据合并到组件中，如果重名了，那么以组件的为准
+        //2.还可以给组件实例混入生命钩子函数；这个不会覆盖，有多少个组件这个钩子函数就执行几次；并且mixin混入的函数是先执行的，在执行组件的钩子函数
+        Vue.mixin({
+            data(){
+                return{
+                    aa:'aaa',
+                    bb:'bbb'
+                }
+            },
+            created(){
+                console.log('mixin-created');
+            }
+        })
+        Vue.component('my',{
+            data(){
+                return{
+                    com:'component-tt',
+                    aa:'3geaaa'
+                }
+            },
+            created(){
+                console.log('my-created');
+            },
+            template:`<div>{{com}}{{aa}}</div>`
+        })
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                msg:'father',
+                a:1
+            },
+            // created(){
+            //     console.log('vm-created');
+            // }
+        })
+        console.log(vm);
+    </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        {{user}}
+        <child></child>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        // component  keep-alive   slot  slot-scope  transition 
+        // 指令  ；v-cloak  v-pre   v-once 
+        // $attrs $listener $parent 
+        // Vue.use 方法
+        // 如果传对象，默认调用对象的install方法
+        // 如果传入函数，会默认把函数当做install执行
+        Vue.use({install(vue){}});
+        Vue.use(function(vue){});
+        let grandson = {
+            data(){
+                return {
+                    b:2
+                }
+            },
+            created(){
+                console.log(this);
+            },
+            template:"<div></div>"
+        }
+
+        //Vue.mixin:混入
+        Vue.component("child",{
+            data(){
+                return {a:1}
+            },
+            components:{
+                grandson
+            },
+            template:"<div>{{a}}{{user}}<grandson></grandson></div>"
+        })
+        Vue.mixin({
+            data(){
+                return {user:"202003"}
+            }
+        });
+        let vm =new Vue({
+            el:"#app",
+            data(){
+                return {msg:"hello"}
+            }
+        });
+        console.log(vm);
+        
+    </script>
+</body>
+</html>
