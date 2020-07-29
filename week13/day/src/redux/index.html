@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="title"></div>
+    <div id="content"></div>
+    <script>
+        //vuex：实现组件之间的数据通信和vue一起使用
+        /*
+            state mutations actions getters
+        */
+        //redux:解决组件之间数据通信的；准备一个公共的状态，各个组件都可以使用，而且也可以更改
+        let state = {
+            title: {
+                color: 'red',
+                text: '马上下课了'
+            },
+            content: {
+                color: 'green',
+                text: 'redux很重要'
+            }
+        }
+
+        function renderTitle() {
+            let title = document.getElementById('title');
+            title.style.color = state.title.color;
+            title.innerHTML = state.title.text;
+        }
+
+        function renderContent() {
+            let title = document.getElementById('content');
+            content.style.color = state.content.color;
+            title.innerHTML = state.content.text;
+        }
+
+        function renderApp() {
+            renderTitle()
+            renderContent()
+        }
+        renderApp()
+
+        //在redux中如果需要更改数据，必须调用dispatch这个方法来更改。dispatch这个方法来更改state；在更改数据时，dispatch会传一个action，action里面有个type属性来表示更改的类型；
+
+        const CHANGE_TITLE_TEXT = 'CHANGE_TITLE_TEXT'
+        const CHANGE_CONTENT_COLOR = 'CHANGE_CONTENT_COLOR'
+
+        function dispatch(action) {
+            switch (action.type) {
+                case CHANGE_TITLE_TEXT:
+                    //将全局的state进行覆盖，...展开运算符；不影响原有的数据，对原数据先进行解构；新写的title会将state中解构出来的title覆盖掉
+                    state = {
+                        ...state,
+                        title: {
+                            ...state.title,
+                            text: action.text
+                        }
+                    }
+                    break;
+                case CHANGE_CONTENT_COLOR:
+                    state = {
+                        ...state,
+
+                        content: {
+                            ...state.content,
+                            color: action.color
+                        }
+
+                    }
+                    break;
+            }
+        }
+        setTimeout(() => {
+            //type类型不同，说明要操作的数据不同;dispatch仅仅是让数据变了，需要再次执行renderApp来改变视图
+            //根据dispatch触发时，传递的type来区分这个动作究竟是要更改谁
+            dispatch({
+                type: CHANGE_TITLE_TEXT,
+                text: '好好学习'
+            })
+            dispatch({
+                type: CHANGE_CONTENT_COLOR,
+                color: 'blue'
+            })
+            renderApp()
+        }, 2000);
+    </script>
+</body>
+
+</html>

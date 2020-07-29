@@ -4,21 +4,22 @@ import Vue from 'vue'
 // App就是APP.vue导出的组件
 import App from './App.vue'
 // 如果文件名是index.js是可以省略的;
-import router from './router'
+import router from './router/index.js'
 import store from './store'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
+
 Vue.config.productionTip = false
 
 new Vue({
-  router,
-  store,
-  // render:function(h){
+    router,
+    store,
+    // render:function(h){
     // 1.h创建虚拟的DOM；h("div",{},点一点) h(组件)
-  //   return h(App)
-  // },
-  render: h => h(App)
+    //   return h(App)
+    // },
+    render: h => h(App)
 }).$mount('#app')
 
 // src ：
@@ -30,6 +31,4 @@ new Vue({
 // views : 页面级的组件
 // App.vue
 
-
-// main.js ==> App.vue ==> router-view (渲染路由对应的组件)==>页面hash值是login，根据路由映射表显示login.vue 
-
+//main.js==>App.vue==>router-view(渲染路由对应的组件)==>页面hash值是login，根据路由映射表显示login.vue

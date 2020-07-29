@@ -1,21 +1,22 @@
-import http from './http'
+import http from './http.js';
 
-//请求职务列表
-export function getJobList() {
-    return http.get('/job/list')
-}
-export function delJobList(id) {
-    return http.get('/job/delete', {
+export function deleteJob(jobId) {
+    return http.get("/job/delete", {
         params: {
-            jobId: id
+            jobId
         }
     })
 }
-//更改职务信息
-export function updateJob(option) {
-    return http.post("/job/update", option)
+
+export function getJobList() {
+    return http.get('/job/list')
 }
+
 //新增职务信息
-export function addJob(option) {
-    return http.post("/job/add", option)
+export function addJobList(option) {
+    return http.post('/job/add', option)
+}
+
+export function UpdateJobList(option) {
+    return http.post('/job/update', option)
 }
