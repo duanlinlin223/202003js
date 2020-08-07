@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="text"></div>
+    <div id="content"></div>
+    <script>
+        //state  getState dispatch subscribe 
+        let initState = {
+            title: {
+                color: 'red',
+                text: '好好学习'
+            },
+            content: {
+                color: 'blue',
+                text: 'content内容'
+            }
+        }
+        const CHANGE_TITLE_TEXT = 'CHANGE_TITLE_TEXT';
+        const CHANGE_CONTENT_COLOR = 'CHANGE_CONTENT_COLOR';
+
+        function createState(reducer) {
+            let state;
+            let getState = () => JSON.parse(JSON.stringify(state));
+            let listeners = []
+
+            function dispatch(action) {
+                state = reducer(state, action);
+                listeners.forEach(item => {
+                    if (typeof item === 'function') {
+                        item();
+                    }
+                })
+            }
+
+            function subscribe(fn) {
+                listeners.push(fn)
+                return () => {
+                    listeners = listeners.filter(item => item !== fn)
+                }
+            }
+            dispatch({})
+            return {
+                getState,
+                dispatch,
+                subscribe
+            }
+        }
+        let store = createState(reducer);
+
+        function renderApp() {
+            let text = document.getElementById('text');
+            let content = document.getElementById('content');
+            text.innerHTML = store.getState().title.text;
+            text.style.color = store.getState().title.color;
+            content.innerHTML = store.getState().content.text;
+            content.style.color = store.getState().content.color;
+        }
+        renderApp();
+
+        function reducer(state = initState, action) {
+            switch (action.type) {
+                case CHANGE_TITLE_TEXT:
+                    return {
+                        ...state,
+                        title: {
+                            ...state.title,
+                            text: action.text
+                        }
+                    }
+                    case CHANGE_CONTENT_COLOR:
+                        return {
+                            ...state,
+                            content: {
+                                ...state.content,
+                                color: action.color
+                            }
+                        }
+            }
+            return state;
+        }
+        setTimeout(() => {
+            store.dispatch({
+                type: CHANGE_TITLE_TEXT,
+                text: '天天向上'
+            })
+            store.dispatch({
+                type: CHANGE_CONTENT_COLOR,
+                color: 'black'
+            })
+            //renderApp();
+        }, 2000);
+        let f = store.subscribe(renderApp)
+        f();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="title"></div>
+    <div id="content"></div>
+    <script>
+        //state是公共数据，title和content抽象成两个不同的组件
+        let state = {
+            title: {
+                color: "red",
+                text: "下课了"
+            },
+            content: {
+                color: "yellow",
+                text: "redux很重要"
+            }
+        }
+
+        function renderTitle() {
+            let title = document.getElementById("title");
+            title.innerHTML = state.title.text;
+            title.style.color = state.title.color;
+        }
+
+        function renderConten() {
+            let content = document.getElementById("content");
+            content.innerHTML = state.content.text;
+            content.style.color = state.content.color;
+        }
+
+        function renderApp() {
+            renderTitle();
+            renderConten()
+        }
+        renderApp();
+        //通过dispatch去更改state的数据;dispatch去派发一个动作action，action中有个type属性来表示当前操作要更改什么数据；来更改state中的数据，
+        const CHANGE_TITLE_TEXT = 'CHANGE_TITLE_TEXT'
+        const CHANGE_CONTENT_COLOR = 'CHANGE_CONTENT_COLOR'
+
+        function dispatch(action) {
+            switch (action.type) {
+                case CHANGE_TITLE_TEXT:
+                    state = {
+                        ...state,
+                        title: {
+                            ...state.title,
+                            text: action.text
+                        }
+                    };
+                    break;
+                case CHANGE_CONTENT_COLOR:
+                    state = {
+                        ...state,
+                        content: {
+                            ...state.content,
+                            color: action.color
+                        }
+                    }
+            }
+        }
+        //改变数据，并且更新数据
+        setTimeout(() => {
+            dispatch({
+                type: CHANGE_TITLE_TEXT,
+                text: '开始学习redux'
+            })
+            dispatch({
+                type: CHANGE_CONTENT_COLOR,
+                color: 'blue'
+            })
+            renderApp();
+        }, 2000);
+    </script>
+</body>
+
+</html>

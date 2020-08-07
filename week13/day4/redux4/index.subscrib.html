@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="title"></div>
+    <div id="content"></div>
+    <script>
+        // createStore : state   getState  dispatch   subscribe[订阅]
+        const CHANGE_TITLE_TEXT = "CHANGE_TITLE_TEXT";
+        const CHANGE_CONTENT_COLOR = "CHANGE_CONTENT_COLOR";
+
+        function createStore(reducer) {
+            let state;
+            let getState = () => JSON.parse(JSON.stringify(state));
+            let listeners = []; // 准备的事件池
+            function dispatch(action) {
+
+                state = reducer(state, action);
+                // 执行dispatch时，遍历事件池listeners;让里面的方法挨个执行
+                listeners.forEach(item => {
+                    console.log('9');
+                    if (typeof item === "function") {
+                        item();
+                    }
+                });
+            };
+            dispatch({});
+            // 只要是订阅的函数，以后每次执行dispatch，都会让订阅的函数执行
+            function subscribe(fn) {
+                listeners.push(fn); // 把传进来的实参renderApp放到listeners的数组中
+                // 取消订阅
+                return () => {
+                    listeners = listeners.filter(item => item !== fn);
+                }
+            }
+            return {
+                getState,
+                dispatch,
+                subscribe
+            };
+        }
+        // // 初始化的state;
+        let initState = {
+            title: {
+                color: "red",
+                text: "下课了"
+            },
+            content: {
+                color: "yellow",
+                text: "redux很重要"
+            }
+        };
+        let store = createStore(reducer); // 把具体的reducer传递给redux中的createStore方法
+
+
+        function renderTitle() {
+            let title = document.getElementById("title");
+            title.innerHTML = store.getState().title.text;
+            title.style.color = store.getState().title.color;
+        }
+
+        function renderConten() {
+            let content = document.getElementById("content");
+            content.innerHTML = store.getState().content.text;
+            content.style.color = store.getState().content.color;
+        }
+
+        function renderApp() {
+            renderTitle();
+            renderConten()
+        }
+        renderApp();
+
+
+        function reducer(state = initState, action) {
+            switch (action.type) {
+                case CHANGE_TITLE_TEXT:
+                    // 需要改变之前的state
+                    return {
+                        ...state, title: {
+                            ...state.title,
+                            text: action.text
+                        }
+                    };
+                case CHANGE_CONTENT_COLOR:
+                    return {
+                        ...state, content: {
+                            ...state.content,
+                            color: action.color
+                        }
+                    }
+            }
+            return state; // 初始值initState;
+        }
+        setTimeout(() => {
+            store.dispatch({
+                type: CHANGE_TITLE_TEXT,
+                text: "好好听课"
+            });
+            store.dispatch({
+                type: CHANGE_CONTENT_COLOR,
+                color: "blue"
+            });
+            // 数据变化，视图应该也该跟着更新；dispatch一次，renderApp一次才能达到视图的更新；
+            // renderApp();
+        }, 2000);
+        store.subscribe(renderApp)
+        // 把renderApp方法订阅到事件池中；
+        // let f = store.subscribe(renderApp);
+        // f(); // subscribe返回值执行就是取消订阅的这个方法
+    </script>
+</body>
+
+</html>

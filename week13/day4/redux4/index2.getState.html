@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="title"></div>
+    <div id="content"></div>
+    <script>
+        // state是公共数据，title和content抽象成两个不同的组件；并且需要从state中获取数据并且渲染到视图中；
+        // createStore这个函数是redux给咱们好的；
+        // 在redux中，不允许外界直接修改state，必须通过redux中的dispatch来更改；更改的数据store中的state还会引发视图的更新；
+        // 目前封装redux源码中createStore;
+
+        // redux : 实现组件与组件之间数据传递；redux准备了一个全局的store，相当于一个容器，在这个容器中准备一个state,专门用来存储的公共数据，如果外界需要访问这个数据，必须通过store中提供的getState方法来获取一个和state一模一样深克隆的数据。为了防止外界直接更改store中的state;在redux中规定，更改store的唯一方法是dispatch,所以在store中也提供了一个dispatch方法；dispatch执行时，通过执行createStore传进来reducer来更改state;
+        const CHANGE_TITLE_TEXT = "CHANGE_TITLE_TEXT";
+        const CHANGE_CONTENT_COLOR = "CHANGE_CONTENT_COLOR";
+
+        function createStore(reducer) {
+            // 将state放到函数中
+            let state;
+            // 这个state是createStore存储公共的数据的state;store外面还需要state值，但是还不能直接获取到；
+            let getState = () => JSON.parse(JSON.stringify(state));
+
+            function dispatch(action) {
+                // reducer的返回值把上一级作用域的state覆盖；当前作用域不存在，默认会向上一级作用域查找
+                state = reducer(state, action);
+            };
+            dispatch({}) //默认调用一次dispatch 
+
+            // 把getState放到一个对象中； 该store返回不是这一个；
+            return {
+                getState,
+                dispatch
+            };
+        }
+        let initState = {
+            title: {
+                color: "red",
+                text: "下课了"
+            },
+            content: {
+                color: "yellow",
+                text: "redux很重要"
+            }
+        };
+        let store = createStore(reducer); // 把具体的reducer传递给redux中的createStore方法
+        // 初始化的state;
+
+
+        function renderTitle() {
+            let title = document.getElementById("title");
+            title.innerHTML = store.getState().title.text;
+            title.style.color = store.getState().title.color;
+        }
+
+        function renderConten() {
+            let content = document.getElementById("content");
+            content.innerHTML = store.getState().content.text;
+            content.style.color = store.getState().content.color;
+        }
+
+        function renderApp() {
+            renderTitle();
+            renderConten()
+        }
+        renderApp();
+
+        // 两秒之后，改变title的文本内容和content的字体颜色
+        // 必须dispatch去更改；dispatch去派发一个动作action，action中有个type属性，来表示当前操作要更改什么数据，来更改state中的数据
+
+        /// reducer : 是指具体更改state数据的方法；在真实项目中，这个方法是需要自己的；reducer是改数据的；
+        //当createStore内部第一次调用dispatch时
+        //es6的默认赋值，如果state是undefined，就把initState的初始值赋值给state
+        function reducer(state = initState, action) {
+            switch (action.type) {
+                case CHANGE_TITLE_TEXT:
+                    // 需要改变之前的state
+                    return {
+                        ...state, title: {
+                            ...state.title,
+                            text: action.text
+                        }
+                    };
+                case CHANGE_CONTENT_COLOR:
+                    return {
+                        ...state, content: {
+                            ...state.content,
+                            color: action.color
+                        }
+                    }
+            }
+            return state; //初始值的initState
+        }
+        // 改变数据，并且更新视图
+        // dispatch是在redux中封装好的，不用自己写，派发一个动作，最终目的是更改store中的数据
+        setTimeout(() => {
+            store.dispatch({
+                type: CHANGE_TITLE_TEXT,
+                text: "好好听课"
+            });
+            store.dispatch({
+                type: CHANGE_CONTENT_COLOR,
+                color: "blue"
+            });
+            renderApp();
+        }, 2000);
+
+        // let  obj = {a:100,b:300};
+        // let a = {a:200,...obj};// 后面会把前面的覆盖
+        // console.log(a);
+
+        // let  obj = {a:{fn:100}};
+        // //作业：  用递归的方式实现深度克隆；深度克隆；
+        // let newObj = JSON.parse(JSON.stringify(obj));
+        // newObj.a.fn=200;
+        // console.log(newObj);
+    </script>
+</body>
+
+</html>

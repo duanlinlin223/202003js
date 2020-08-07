@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="add">+</button>
+    <span id="text"></span>
+    <button id="min">-</button>
+    <script src="../redux.js"></script>
+    <script>
+        let add = document.getElementById('add')
+        let text = document.getElementById('text')
+        let min = document.getElementById('min')
+        const ADD_COUNT = 'ADD_COUNT';
+        const MIN_COUNT = 'MIN_COUNT'
+        //结合redux；点击按钮更改store中的数据并且视图更新
+        //createState:
+        /*
+        state:createState形成作用域的变量
+        getState:将state进行深克隆，并且返回；为了防止外界直接更改state
+        dispatch:[1.通过createStore传递进来的reducer的返回值来改变state;2.让订阅的事件池中的方法挨个循环执行]
+        subscribe:将订阅的方法放到事件池中，并且返回一个函数，用于订阅方法的取消订阅
+        */
+        let initState = {
+            num: 11
+        }
+
+        function reducer(state = initState, action) {
+            switch (action.type) {
+                case ADD_COUNT:
+                    return {
+                        ...state, num: state.num + 1
+                    }
+                    break;
+                case MIN_COUNT:
+                    return {
+                        ...state, num: state.num - 1
+                    }
+                    break;
+            }
+            return state; //把初始值赋值给store中的state
+        }
+        //执行createStore时，把reducer这个函数传递过去，当createStore执行的时候，默认会执行一次dispatch；
+        let store = createStore(reducer)
+
+        function renderSpan() {
+            text.innerHTML = store.getState().num
+        }
+        renderSpan()
+
+        add.onclick = function () {
+            store.dispatch({
+                type: ADD_COUNT
+            })
+        }
+        min.onclick = function () {
+            store.dispatch({
+                type: MIN_COUNT
+            })
+        }
+        store.subscribe(renderSpan)
+    </script>
+</body>
+
+</html>
